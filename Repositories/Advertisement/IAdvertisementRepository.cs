@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using XeniaTokenBackend.Dto;
-using XeniaTokenBackend.Models;
 
 namespace XeniaTokenBackend.Repositories.Advertisement
 {
@@ -8,7 +7,7 @@ namespace XeniaTokenBackend.Repositories.Advertisement
     {
         Task<object> CreateAdvertisementAsync(CreateAdvertisementDto dto);
         Task<List<AdvertisementDto>> GetCompanyAdvertisementsAsync(int companyId);
-        Task<List<AdvertisementDto>> GetAdvertisementsByUserAsync(int userId);
+        Task<AdvertisementResponseDto> GetAdvertisementsByUserAsync(int userId);
         Task<object> UpdateAdvertisementAsync(int advId, UpdateAdvertisementDto dto);
         Task<object> DeleteAdvertisementAsync(int advId);
 

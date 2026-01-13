@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XeniaTokenBackend.Repositories.Token;
 
 namespace XeniaTokenBackend.Models
 {
@@ -14,6 +13,7 @@ namespace XeniaTokenBackend.Models
         public DbSet<xtm_Counter> xtm_Counter { get; set; }
         public DbSet<xtm_Company> xtm_Company { get; set; }
         public DbSet<xtm_CompanySettings> xtm_CompanySettings { get; set; }
+        public DbSet<xtm_Customer> xtm_Customer { get; set; }
         public DbSet<xtm_Department> xtm_Department { get; set; }
         public DbSet<xtm_TokenMaster> xtm_TokenMaster { get; set; }
         public DbSet<xtm_Service> xtm_Service { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using XeniaCatalogueApi.Service.Common;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
 using XeniaTokenBackend.Repositories.Auth;

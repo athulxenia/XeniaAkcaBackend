@@ -13,7 +13,7 @@ namespace XeniaTokenBackend.Repositories.Department
         Task<object> UpdateDepartmentAsync(int depId, UpdateDepartmentRequestDto dto);
         Task<List<xtm_Department>> GetAllDepartmentsAsync(string? depNameSearch = null);
         Task<object> GetAllDepartmentsByCompanyAsync(int companyId);
-        Task<object> GetAllDepartmentsAppByUserIdAsync(int userId);
+        Task<DepartmentResponseDto> GetAllDepartmentsAppByUserIdAsync(int userId);
         Task<int> DeleteDepartmentAsync(int depId);
 
 

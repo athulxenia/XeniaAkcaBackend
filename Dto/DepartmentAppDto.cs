@@ -6,11 +6,14 @@
         public int CompanyID { get; set; }
         public string DepName { get; set; }
         public string? DepPrefix { get; set; }
-        public DateTime DepExpire { get; set; }
+        public string DepExpire { get; set; }
+        public int MaxToken { get; set; }
+        public int printTokenValue { get; set; }
         public bool Status { get; set; }
         public bool isService { get; set; }
         public List<ServiceDto> services { get; set; } = new();
     }
+
 
     public class ServiceDto
     {

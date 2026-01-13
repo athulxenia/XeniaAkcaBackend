@@ -619,6 +619,33 @@
           }
         }
       },
+      "Microsoft.Win32.Registry/4.7.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Security.AccessControl": "4.7.0",
+          "System.Security.Principal.Windows": "4.7.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "Microsoft.Win32.SystemEvents/6.0.0": {
         "type": "package",
         "compile": {
@@ -638,6 +665,124 @@
           "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "NAudio/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Asio": "2.2.1",
+          "NAudio.Core": "2.2.1",
+          "NAudio.Midi": "2.2.1",
+          "NAudio.Wasapi": "2.2.1",
+          "NAudio.WinMM": "2.2.1"
+        },
+        "compile": {
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Asio/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Registry": "4.7.0",
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Asio.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Core/2.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Lame/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.1.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Lame.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Lame.dll": {
+            "related": ".pdb"
+          }
+        },
+        "build": {
+          "build/NAudio.Lame.targets": {}
+        }
+      },
+      "NAudio.Midi/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Midi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.Wasapi/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.Wasapi.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NAudio.WinMM/2.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.Registry": "4.7.0",
+          "NAudio.Core": "2.2.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/NAudio.WinMM.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NAudio.WinMM.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -930,7 +1075,7 @@
       "System.Security.AccessControl/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Security.AccessControl.dll": {
             "related": ".xml"
           }
         },
@@ -1016,7 +1161,7 @@
       "System.Security.Principal.Windows/5.0.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/_._": {
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
             "related": ".xml"
           }
         },
@@ -1031,6 +1176,28 @@
             "rid": "unix"
           },
           "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "System.Speech/10.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/System.Speech.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/System.Speech.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net9.0/System.Speech.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -2248,6 +2415,53 @@
         "microsoft.sqlserver.server.nuspec"
       ]
     },
+    "Microsoft.Win32.Registry/4.7.0": {
+      "sha512": "KSrRMb5vNi0CWSGG1++id2ZOs/1QhRqROt+qgbEAdQuGjGrFcl4AOl4/exGPUYz2wUnU42nvJqon1T3U0kPXLA==",
+      "type": "package",
+      "path": "microsoft.win32.registry/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net46/Microsoft.Win32.Registry.dll",
+        "lib/net461/Microsoft.Win32.Registry.dll",
+        "lib/net461/Microsoft.Win32.Registry.xml",
+        "lib/netstandard1.3/Microsoft.Win32.Registry.dll",
+        "lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+        "lib/netstandard2.0/Microsoft.Win32.Registry.xml",
+        "microsoft.win32.registry.4.7.0.nupkg.sha512",
+        "microsoft.win32.registry.nuspec",
+        "ref/net46/Microsoft.Win32.Registry.dll",
+        "ref/net461/Microsoft.Win32.Registry.dll",
+        "ref/net461/Microsoft.Win32.Registry.xml",
+        "ref/net472/Microsoft.Win32.Registry.dll",
+        "ref/net472/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/Microsoft.Win32.Registry.dll",
+        "ref/netstandard1.3/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/de/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/es/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/fr/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/it/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/ja/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/ko/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/ru/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/zh-hans/Microsoft.Win32.Registry.xml",
+        "ref/netstandard1.3/zh-hant/Microsoft.Win32.Registry.xml",
+        "ref/netstandard2.0/Microsoft.Win32.Registry.dll",
+        "ref/netstandard2.0/Microsoft.Win32.Registry.xml",
+        "runtimes/unix/lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+        "runtimes/unix/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
+        "runtimes/win/lib/net46/Microsoft.Win32.Registry.dll",
+        "runtimes/win/lib/net461/Microsoft.Win32.Registry.dll",
+        "runtimes/win/lib/net461/Microsoft.Win32.Registry.xml",
+        "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll",
+        "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+        "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Microsoft.Win32.SystemEvents/6.0.0": {
       "sha512": "hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A==",
       "type": "package",
@@ -2275,6 +2489,117 @@
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.dll",
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "NAudio/2.2.1": {
+      "sha512": "c0DzwiyyklM0TP39Y7RObwO3QkWecgM6H60ikiEnsV/aEAJPbj5MFCLaD8BSfKuZe0HGuh9GRGWWlJmSxDc9MA==",
+      "type": "package",
+      "path": "naudio/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net472/NAudio.dll",
+        "lib/net472/NAudio.xml",
+        "lib/net6.0-windows7.0/NAudio.dll",
+        "lib/net6.0-windows7.0/NAudio.xml",
+        "lib/net6.0/NAudio.dll",
+        "lib/net6.0/NAudio.xml",
+        "lib/netcoreapp3.1/NAudio.dll",
+        "lib/netcoreapp3.1/NAudio.xml",
+        "license.txt",
+        "naudio-icon.png",
+        "naudio.2.2.1.nupkg.sha512",
+        "naudio.nuspec"
+      ]
+    },
+    "NAudio.Asio/2.2.1": {
+      "sha512": "hQglyOT5iT3XuGpBP8ZG0+aoqwRfidHjTNehpoWwX0g6KJEgtH2VaqM2nuJ2mheKZa/IBqB4YQTZVvrIapzfOA==",
+      "type": "package",
+      "path": "naudio.asio/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NAudio.Asio.dll",
+        "lib/netstandard2.0/NAudio.Asio.xml",
+        "naudio-icon.png",
+        "naudio.asio.2.2.1.nupkg.sha512",
+        "naudio.asio.nuspec"
+      ]
+    },
+    "NAudio.Core/2.2.1": {
+      "sha512": "GgkdP6K/7FqXFo7uHvoqGZTJvW4z8g2IffhOO4JHaLzKCdDOUEzVKtveoZkCuUX8eV2HAINqi7VFqlFndrnz/g==",
+      "type": "package",
+      "path": "naudio.core/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NAudio.Core.dll",
+        "lib/netstandard2.0/NAudio.Core.xml",
+        "naudio-icon.png",
+        "naudio.core.2.2.1.nupkg.sha512",
+        "naudio.core.nuspec"
+      ]
+    },
+    "NAudio.Lame/2.1.0": {
+      "sha512": "Y+FtVgvjT+bNpBFqDiAKcFGelix1UavpX66vLymzWalXOGvY+MsoLNKL6aNGA0INjvBxeI3qd1LlD+bg7Nv2Ww==",
+      "type": "package",
+      "path": "naudio.lame/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "build/NAudio.Lame.targets",
+        "build/libmp3lame.32.dll",
+        "build/libmp3lame.64.dll",
+        "lib/netstandard2.0/NAudio.Lame.dll",
+        "lib/netstandard2.0/NAudio.Lame.pdb",
+        "naudio.lame.2.1.0.nupkg.sha512",
+        "naudio.lame.nuspec"
+      ]
+    },
+    "NAudio.Midi/2.2.1": {
+      "sha512": "6r23ylGo5aeP02WFXsPquz0T0hFJWyh+7t++tz19tc3Kr38NHm+Z9j+FiAv+xkH8tZqXJqus9Q8p6u7bidIgbw==",
+      "type": "package",
+      "path": "naudio.midi/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NAudio.Midi.dll",
+        "lib/netstandard2.0/NAudio.Midi.xml",
+        "naudio-icon.png",
+        "naudio.midi.2.2.1.nupkg.sha512",
+        "naudio.midi.nuspec"
+      ]
+    },
+    "NAudio.Wasapi/2.2.1": {
+      "sha512": "lFfXoqacZZe0WqNChJgGYI+XV/n/61LzPHT3C1CJp4khoxeo2sziyX5wzNYWeCMNbsWxFvT3b3iXeY1UYjBhZw==",
+      "type": "package",
+      "path": "naudio.wasapi/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NAudio.Wasapi.dll",
+        "lib/netstandard2.0/NAudio.Wasapi.xml",
+        "lib/uap10.0.18362/NAudio.Wasapi.dll",
+        "lib/uap10.0.18362/NAudio.Wasapi.pri",
+        "lib/uap10.0.18362/NAudio.Wasapi.xml",
+        "naudio-icon.png",
+        "naudio.wasapi.2.2.1.nupkg.sha512",
+        "naudio.wasapi.nuspec"
+      ]
+    },
+    "NAudio.WinMM/2.2.1": {
+      "sha512": "xFHRFwH4x6aq3IxRbewvO33ugJRvZFEOfO62i7uQJRUNW2cnu6BeBTHUS0JD5KBucZbHZaYqxQG8dwZ47ezQuQ==",
+      "type": "package",
+      "path": "naudio.winmm/2.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NAudio.WinMM.dll",
+        "lib/netstandard2.0/NAudio.WinMM.xml",
+        "naudio-icon.png",
+        "naudio.winmm.2.2.1.nupkg.sha512",
+        "naudio.winmm.nuspec"
       ]
     },
     "Newtonsoft.Json/13.0.3": {
@@ -2968,6 +3293,38 @@
         "version.txt"
       ]
     },
+    "System.Speech/10.0.1": {
+      "sha512": "Sra5Gv7qcZzLuQW4alVglQpnDgJiqeGmbwz8WLZa1QdqmTo4bi7FYQP5CJAzlwLDcmHrBS2L7+W6HqFT14HBTA==",
+      "type": "package",
+      "path": "system.speech/10.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Speech.targets",
+        "lib/net10.0/System.Speech.dll",
+        "lib/net10.0/System.Speech.xml",
+        "lib/net462/_._",
+        "lib/net8.0/System.Speech.dll",
+        "lib/net8.0/System.Speech.xml",
+        "lib/net9.0/System.Speech.dll",
+        "lib/net9.0/System.Speech.xml",
+        "lib/netstandard2.0/System.Speech.dll",
+        "lib/netstandard2.0/System.Speech.xml",
+        "runtimes/win/lib/net10.0/System.Speech.dll",
+        "runtimes/win/lib/net10.0/System.Speech.xml",
+        "runtimes/win/lib/net8.0/System.Speech.dll",
+        "runtimes/win/lib/net8.0/System.Speech.xml",
+        "runtimes/win/lib/net9.0/System.Speech.dll",
+        "runtimes/win/lib/net9.0/System.Speech.xml",
+        "system.speech.10.0.1.nupkg.sha512",
+        "system.speech.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.Text.Encoding.CodePages/6.0.0": {
       "sha512": "ZFCILZuOvtKPauZ/j/swhvw68ZRi9ATCfvGbk1QfydmcXBkIWecWKn/250UH7rahZ5OoDBaiAudJtPvLwzw85A==",
       "type": "package",
@@ -3174,8 +3531,11 @@
       "Microsoft.EntityFrameworkCore >= 9.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.8",
       "Microsoft.IdentityModel.Tokens >= 8.14.0",
+      "NAudio >= 2.2.1",
+      "NAudio.Lame >= 2.1.0",
       "Swashbuckle.AspNetCore >= 6.6.2",
-      "System.IdentityModel.Tokens.Jwt >= 8.14.0"
+      "System.IdentityModel.Tokens.Jwt >= 8.14.0",
+      "System.Speech >= 10.0.1"
     ]
   },
   "packageFolders": {
@@ -3253,6 +3613,14 @@
             "target": "Package",
             "version": "[8.14.0, )"
           },
+          "NAudio": {
+            "target": "Package",
+            "version": "[2.2.1, )"
+          },
+          "NAudio.Lame": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.6.2, )"
@@ -3260,6 +3628,10 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[8.14.0, )"
+          },
+          "System.Speech": {
+            "target": "Package",
+            "version": "[10.0.1, )"
           }
         },
         "imports": [

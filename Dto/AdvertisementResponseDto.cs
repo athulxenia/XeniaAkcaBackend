@@ -1,5 +1,11 @@
-﻿namespace XeniaTokenBackend.Models
+﻿namespace XeniaTokenBackend.Dto
 {
+
+    public class AdvertisementResponseDto
+    {
+        public string Status { get; set; }
+        public List<AdvertisementDto> Advertisement { get; set; }
+    }
     public class AdvertisementDto
     {
         public int AdvID { get; set; }

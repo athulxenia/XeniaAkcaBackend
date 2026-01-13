@@ -1,4 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NAudio.Lame;
+using NAudio.Wave;
+using System.Globalization;
+using System.Speech.Synthesis;
+using System.Text;
+using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
 
 namespace XeniaTokenBackend.Repositories.Token
@@ -776,6 +782,164 @@ namespace XeniaTokenBackend.Repositories.Token
                 throw new Exception($"Error recalling token: {ex.Message}");
             }
         }
+
+        public async Task<object> UpsertTokenAsync(TokenUpsertDto tokenData)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                int newPrintValue = 0;
+                int? tokenId = null;
+                int? customerId = null;
+                if (!string.IsNullOrEmpty(tokenData.CustomerName) || !string.IsNullOrEmpty(tokenData.CustomerMobileNumber))
+                {
+                    var existingCustomer = await _context.xtm_Customer
+                        .Where(c =>
+                            c.CustomerName == tokenData.CustomerName ||
+                            c.CustomerMobileNumber == tokenData.CustomerMobileNumber)
+                        .FirstOrDefaultAsync();
+
+                    if (existingCustomer != null)
+                    {
+                        customerId = existingCustomer.CustomerID;
+                    }
+                    else
+                    {
+                        var newCustomer = new xtm_Customer
+                        {
+                            CustomerName = tokenData.CustomerName,
+                            CustomerMobileNumber = tokenData.CustomerMobileNumber,
+                            Status = true
+                        };
+                        _context.xtm_Customer.Add(newCustomer);
+                        await _context.SaveChangesAsync();
+                        customerId = newCustomer.CustomerID;
+                    }
+                }
+
+                var tokenMaster = await _context.xtm_TokenMaster
+                    .Where(t => t.CompanyID == tokenData.CompanyID && t.DepID == tokenData.DepID)
+                    .FirstOrDefaultAsync();
+
+                if (tokenMaster != null)
+                {
+                    newPrintValue = tokenMaster.PrintTokenValue + 1;
+                    tokenMaster.PrintTokenValue = newPrintValue;
+                    _context.xtm_TokenMaster.Update(tokenMaster);
+                }
+                else
+                {
+                    newPrintValue = 1;
+                    tokenMaster = new xtm_TokenMaster
+                    {
+                        CompanyID = tokenData.CompanyID,
+                        DepID = tokenData.DepID,
+                        PrintTokenValue = newPrintValue,
+                        TriggerValue = 0,
+                        MaximumToken = 999
+                    };
+                    _context.xtm_TokenMaster.Add(tokenMaster);
+                }
+
+                await _context.SaveChangesAsync();
+
+             
+                var ist = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                var nowIST = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, ist);
+
+                var newTokenRegister = new xtm_TokenRegister
+                {
+                    CompanyID = tokenData.CompanyID,
+                    DepID = tokenData.DepID,
+                    DepPrefix = tokenData.DepPrefix,
+                    ServiceID = tokenData.ServiceID,
+                    CounterID = tokenData.CounterID,
+                    CustomerID = customerId,
+                    CreatedUserID = tokenData.CreatedUserID,
+                    CreatedSource = tokenData.CreatedSource,
+                    CreatedDate = nowIST,
+                    TokenValue = newPrintValue,
+                    TokenStatus = tokenData.TokenStatus,
+                    StatusModifiedDate = nowIST,
+                    StatusModifiedUser = tokenData.StatusModifiedUser,
+                    IsAnnounced = false,
+                    TokenActive = true
+                };
+                _context.xtm_TokenRegister.Add(newTokenRegister);
+                await _context.SaveChangesAsync();
+
+                tokenId = newTokenRegister.TokenID;
+
+             
+                var newTokenHistory = new xtm_TokenHistory
+                {
+                    TokenID = tokenId.Value,
+                    TokenValue = newPrintValue,
+                    CompanyID = tokenData.CompanyID,
+                    DepPrefix = tokenData.DepPrefix,
+                    DepFrom = tokenData.DepID,
+                    DepTo = tokenData.DepID,
+                    ServiceID = tokenData.ServiceID,
+                    CustomerID = customerId,
+                    CounterID = tokenData.CounterID,
+                    CreatedSource = tokenData.CreatedSource,
+                    TokenStatus = tokenData.TokenStatus,
+                    StatusCreatedDate = nowIST,
+                    StatusCreatedUser = tokenData.StatusModifiedUser
+                };
+                _context.xtm_TokenHistory.Add(newTokenHistory);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return new
+                {
+                    status = "success",
+                    message = "Token register and history created successfully",
+                    token = newPrintValue
+                };
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+
+        public async Task<Stream> GetTokenAudioAsync(string tokenNumber, string counterName)
+        {
+            counterName = Uri.UnescapeDataString(counterName);
+            string text = $"TokenNumber {tokenNumber} on {counterName}";
+
+            var wavStream = new MemoryStream();
+
+            using (var synth = new SpeechSynthesizer())
+            {
+                // ✅ SAFE voice selection
+                synth.SelectVoice("Microsoft Zira Desktop");
+
+                synth.Rate = -2;      // speed (-10 to +10)
+                synth.Volume = 100;  // volume (0–100)
+
+                synth.SetOutputToWaveStream(wavStream);
+                synth.Speak(text);
+            }
+
+            wavStream.Position = 0;
+
+            var mp3Stream = new MemoryStream();
+            using (var reader = new WaveFileReader(wavStream))
+            using (var writer = new LameMP3FileWriter(mp3Stream, reader.WaveFormat, LAMEPreset.STANDARD))
+            {
+                reader.CopyTo(writer);
+            }
+
+            mp3Stream.Position = 0;
+            return mp3Stream;
+        }
+
+
     }
 }
 

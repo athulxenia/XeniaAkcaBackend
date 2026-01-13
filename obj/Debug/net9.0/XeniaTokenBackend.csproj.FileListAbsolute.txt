@@ -91,3 +91,14 @@ D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\obj\Debug\net9.0\XeniaToke
 D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\obj\Debug\net9.0\XeniaTokenBackend.genruntimeconfig.cache
 D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\obj\Debug\net9.0\ref\XeniaTokenBackend.dll
 D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\obj\Debug\net9.0\compressed\cy9iwdqz0b-i4ijwqvjav.gz
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\libmp3lame.32.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\libmp3lame.64.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.Asio.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.Core.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.Lame.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.Midi.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.Wasapi.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\NAudio.WinMM.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\System.Speech.dll
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\bin\Debug\net9.0\runtimes\win\lib\net9.0\System.Speech.dll

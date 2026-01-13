@@ -229,32 +229,41 @@ namespace XeniaTokenBackend.Repositories.Department
             return 0;
         }
 
-        public async Task<object> GetAllDepartmentsAppByUserIdAsync(int userId)
+        public async Task<DepartmentResponseDto> GetAllDepartmentsAppByUserIdAsync(int userId)
         {
             var now = DateTime.UtcNow;
-      
-            var departmentQuery = from d in _context.xtm_Department
-                                  join um in _context.xtm_UserMap
-                                      on d.DepID equals um.DepID
-                                  where um.UserID == userId
-                                        && um.Status == true
-                                        && d.DepExpire > now
-                                  select new
-                                  {
-                                      d.DepID,
-                                      d.CompanyID,
-                                      d.DepName,
-                                      d.DepPrefix,
-                                      d.DepExpire,
-                                      d.Status,
-                                      isService = _context.xtm_Service
-                                                     .Any(s => s.SerDepID == d.DepID && s.SerStatus == true)
-                                  };
 
-            var departmentList = await departmentQuery.ToListAsync();
+            var departmentList = await (
+                from d in _context.xtm_Department
+                join um in _context.xtm_UserMap on d.DepID equals um.DepID
+                join tm in _context.xtm_TokenMaster on d.DepID equals tm.DepID into tmj
+                from tm in tmj.DefaultIfEmpty()
+                where um.UserID == userId
+                      && um.Status == true
+                      && d.DepExpire > now
+                select new
+                {
+                    d.DepID,
+                    d.CompanyID,
+                    d.DepName,
+                    d.DepPrefix,
+                    d.DepExpire,
+                    d.Status,
+                    MaxToken = tm != null ? tm.MaximumToken : 0,
+                    printTokenValue = tm != null ? tm.PrintTokenValue : 0,
+                    isService = _context.xtm_Service
+                        .Any(s => s.SerDepID == d.DepID && s.SerStatus == true)
+                }
+            ).ToListAsync();
 
             if (!departmentList.Any())
-                return 0;
+            {
+                return new DepartmentResponseDto
+                {
+                    status = "success",
+                    department = new List<DepartmentAppDto>()
+                };
+            }
 
             var depIds = departmentList.Select(d => d.DepID).ToList();
 
@@ -279,23 +288,29 @@ namespace XeniaTokenBackend.Repositories.Department
                     }).ToList()
                 );
 
-     
-            var result = departmentList.Select(d => new DepartmentAppDto
+            var departments = departmentList.Select(d => new DepartmentAppDto
             {
                 DepID = d.DepID,
                 CompanyID = d.CompanyID,
                 DepName = d.DepName,
                 DepPrefix = d.DepPrefix,
-                DepExpire = d.DepExpire,
+                DepExpire = d.DepExpire.ToString("yyyy-MM-ddTHH:mm:ss"), 
+                MaxToken = d.MaxToken,
+                printTokenValue = d.printTokenValue,
                 Status = d.Status,
                 isService = d.isService,
                 services = servicesByDepartment.ContainsKey(d.DepID)
-                           ? servicesByDepartment[d.DepID]
-                           : new List<ServiceDto>()
+                    ? servicesByDepartment[d.DepID]
+                    : null
             }).ToList();
 
-            return result;
+            return new DepartmentResponseDto
+            {
+                status = "success",
+                department = departments
+            };
         }
+
 
 
         public async Task<int> DeleteDepartmentAsync(int depId)

@@ -75,6 +75,14 @@
               "target": "Package",
               "version": "[8.14.0, )"
             },
+            "NAudio": {
+              "target": "Package",
+              "version": "[2.2.1, )"
+            },
+            "NAudio.Lame": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
@@ -82,6 +90,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[8.14.0, )"
+            },
+            "System.Speech": {
+              "target": "Package",
+              "version": "[10.0.1, )"
             }
           },
           "imports": [

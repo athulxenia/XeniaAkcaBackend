@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace XeniaTokenBackend.Repositories.Token
+namespace XeniaTokenBackend.Models
 {
     public class xtm_TokenMaster
     {

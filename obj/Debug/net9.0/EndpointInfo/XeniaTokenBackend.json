@@ -5,6 +5,148 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Advertisement/create": {
+      "post": {
+        "tags": [
+          "Advertisement"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdvertisementDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdvertisementDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdvertisementDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Advertisement/company/{companyId}": {
+      "get": {
+        "tags": [
+          "Advertisement"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Advertisement/user/{userId}": {
+      "get": {
+        "tags": [
+          "Advertisement"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Advertisement/update/{advId}": {
+      "put": {
+        "tags": [
+          "Advertisement"
+        ],
+        "parameters": [
+          {
+            "name": "advId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdvertisementDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdvertisementDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdvertisementDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Advertisement/delete/{advId}": {
+      "delete": {
+        "tags": [
+          "Advertisement"
+        ],
+        "parameters": [
+          {
+            "name": "advId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Auth/login": {
       "post": {
         "tags": [
@@ -48,6 +190,442 @@
         }
       }
     },
+    "/api/Auth/create": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/xtm_Users"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/xtm_Users"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/xtm_Users"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/users/{companyId}": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/usermap/{userId}": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UserMapRequestDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UserMapRequestDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UserMapRequestDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/appversion/{appName}": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/update/{userId}": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/delete/{userId}": {
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/create": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompanyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompanyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCompanyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/update/{companyId}": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/all": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/{companyId}": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/companysettings/{companySettingId}": {
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "companySettingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanySettingsUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanySettingsUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanySettingsUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Company/companysettings": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Counter/create": {
+      "post": {
+        "tags": [
+          "Counter"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCounterRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCounterRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCounterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Counter/{companyId}": {
+      "get": {
+        "tags": [
+          "Counter"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Counter/dep/{depId}": {
       "get": {
         "tags": [
@@ -56,6 +634,94 @@
         "parameters": [
           {
             "name": "depId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Counter/update/{counterId}": {
+      "put": {
+        "tags": [
+          "Counter"
+        ],
+        "parameters": [
+          {
+            "name": "counterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCounterRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCounterRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCounterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Counter/delete/{counterId}": {
+      "delete": {
+        "tags": [
+          "Counter"
+        ],
+        "parameters": [
+          {
+            "name": "counterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Dashboard/dashboard/{companyId}": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
             "in": "path",
             "required": true,
             "schema": {
@@ -117,6 +783,138 @@
         }
       }
     },
+    "/api/Department/update/{depId}": {
+      "put": {
+        "tags": [
+          "Department"
+        ],
+        "parameters": [
+          {
+            "name": "depId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDepartmentRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDepartmentRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDepartmentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Department/departments": {
+      "get": {
+        "tags": [
+          "Department"
+        ],
+        "parameters": [
+          {
+            "name": "depNameSearch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Department/company/{companyId}": {
+      "get": {
+        "tags": [
+          "Department"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Department/app/{userId}": {
+      "get": {
+        "tags": [
+          "Department"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Department/delete/{depId}": {
+      "delete": {
+        "tags": [
+          "Department"
+        ],
+        "parameters": [
+          {
+            "name": "depId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Service/{companyId}": {
       "get": {
         "tags": [
@@ -125,6 +923,125 @@
         "parameters": [
           {
             "name": "companyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Service/create": {
+      "post": {
+        "tags": [
+          "Service"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Service/update/{serId}": {
+      "put": {
+        "tags": [
+          "Service"
+        ],
+        "parameters": [
+          {
+            "name": "serId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Service/department/{depId}": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "parameters": [
+          {
+            "name": "depId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Service/delete/{serId}": {
+      "delete": {
+        "tags": [
+          "Service"
+        ],
+        "parameters": [
+          {
+            "name": "serId",
             "in": "path",
             "required": true,
             "schema": {
@@ -703,10 +1620,216 @@
           }
         }
       }
+    },
+    "/api/Token/upsert": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenUpsertDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenUpsertDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenUpsertDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Token/{tokenNumber}/{counterName}": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
+        "parameters": [
+          {
+            "name": "tokenNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "counterName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CompanySettingsUpdateDto": {
+        "type": "object",
+        "properties": {
+          "CompanyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CollectCustomerName": {
+            "type": "boolean"
+          },
+          "PrintCustomerName": {
+            "type": "boolean"
+          },
+          "CollectCustomerMobileNumber": {
+            "type": "boolean"
+          },
+          "PrintCustomerMobileNumber": {
+            "type": "boolean"
+          },
+          "IsCustomCall": {
+            "type": "boolean"
+          },
+          "IsServiceEnable": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAdvertisementDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AdvName": {
+            "type": "string",
+            "nullable": true
+          },
+          "AdvOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AdvFileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "AdvModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "AdvModifiedUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCompanyDto": {
+        "type": "object",
+        "properties": {
+          "CompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "LicenseKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "nullable": true
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "DepPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "Username": {
+            "type": "string",
+            "nullable": true
+          },
+          "Password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCounterRequestDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CounterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateServiceRequestDto": {
+        "type": "object",
+        "properties": {
+          "SerCompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SerDepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "SerStatus": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginRequestDto": {
         "type": "object",
         "properties": {
@@ -869,6 +1992,182 @@
         },
         "additionalProperties": false
       },
+      "TokenUpsertDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "ServiceID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "CounterID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "CustomerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "CustomerMobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "CreatedUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreatedSource": {
+            "type": "string",
+            "nullable": true
+          },
+          "TokenStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "StatusModifiedUser": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAdvertisementDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AdvName": {
+            "type": "string",
+            "nullable": true
+          },
+          "AdvOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AdvFileUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "AdvModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "AdvModifiedUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCompanyDto": {
+        "type": "object",
+        "properties": {
+          "CompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "LicenseKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          },
+          "Country": {
+            "type": "string",
+            "nullable": true
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsExpired": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCounterRequestDto": {
+        "type": "object",
+        "properties": {
+          "CounterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateDepartmentRequestDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepName": {
+            "type": "string",
+            "nullable": true
+          },
+          "DepPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          },
+          "MaximumToken": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateServiceRequestDto": {
+        "type": "object",
+        "properties": {
+          "SerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "SerDepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SerStatus": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateTokenStatusRequest": {
         "type": "object",
         "properties": {
@@ -889,6 +2188,83 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserRequestDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Username": {
+            "type": "string",
+            "nullable": true
+          },
+          "TokenResetAllowed": {
+            "type": "boolean"
+          },
+          "UserType": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          },
+          "Password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserMapRequestDto": {
+        "type": "object",
+        "properties": {
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Status": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "xtm_Users": {
+        "required": [
+          "Password",
+          "Username"
+        ],
+        "type": "object",
+        "properties": {
+          "UserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Username": {
+            "type": "string",
+            "nullable": true
+          },
+          "Password": {
+            "type": "string",
+            "nullable": true
+          },
+          "TokenResetAllowed": {
+            "type": "boolean"
+          },
+          "UserType": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

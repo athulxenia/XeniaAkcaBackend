@@ -58,6 +58,7 @@ namespace XeniaTokenBackend.Repositories.Auth
             if (user == null) return null;
 
             int? companyId = _jwtHelperService.GetCompanyId(user);
+            int? userId = _jwtHelperService.GetUserId(user);
 
             var company = await _context.xtm_Company
                 .Where(c => c.CompanyID == companyId)
@@ -69,15 +70,19 @@ namespace XeniaTokenBackend.Repositories.Auth
                 })
                 .FirstOrDefaultAsync();
 
-
             var companySettings = await _context.xtm_CompanySettings
-               .Where(c => c.CompanyID == companyId)
-               .Select(c => new
-               {
-                   c.IsServiceEnable,
-                   c.IsCustomCall,
-               })
-               .FirstOrDefaultAsync();
+                .Where(c => c.CompanyID == companyId)
+                .Select(c => new
+                {
+                    c.IsServiceEnable,
+                    c.IsCustomCall,
+                })
+                .FirstOrDefaultAsync();
+
+            var userStatus = await _context.xtm_Users
+                .Where(u => u.UserID == userId)
+                .Select(u => u.Status)
+                .FirstOrDefaultAsync();
 
             return new
             {
@@ -86,7 +91,7 @@ namespace XeniaTokenBackend.Repositories.Auth
                 exp = user.FindFirst("exp")?.Value,
                 user = new
                 {
-                    UserID = _jwtHelperService.GetUserId(user),
+                    UserID = userId,
                     Username = user.FindFirst("Username")?.Value,
                     UserType = _jwtHelperService.GetUserType(user),
                     AdminPassword = _jwtHelperService.GetAdminPassword(user),
@@ -95,10 +100,12 @@ namespace XeniaTokenBackend.Repositories.Auth
                     CompanyAddress = company?.Address,
                     isCustomCall = companySettings?.IsCustomCall,
                     isServiceEnable = companySettings?.IsServiceEnable,
-                    TokenResetAllowed = _jwtHelperService.GetAllowReset(user)
+                    TokenResetAllowed = _jwtHelperService.GetAllowReset(user),
+                    Status = userStatus   
                 }
             };
         }
+
 
 
         public async Task<object> GetUsersByCompanyAsync(int companyId)

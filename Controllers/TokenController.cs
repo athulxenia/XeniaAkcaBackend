@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using XeniaCatalogueApi.Service.Common;
+using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Repositories.Token;
+using XeniaTokenBackend.Service;
 
 namespace XeniaTokenBackend.Controllers
 {
-    [Authorize]
+
     [Route("api/[controller]")]
     [ApiController]
     public class TokenController : ControllerBase
     {
         private readonly ITokenRepository _tokenRepository;
         private readonly JwtHelperService _jwtHelperService;
+        private readonly LiveTokenService _service;
 
-        public TokenController(ITokenRepository tokenRepository, JwtHelperService jwtHelperService)
+        public TokenController(ITokenRepository tokenRepository, JwtHelperService jwtHelperService, LiveTokenService service)
         {
             _tokenRepository = tokenRepository;
             _jwtHelperService = jwtHelperService;
+            _service = service;
         }
 
 
@@ -102,7 +106,7 @@ namespace XeniaTokenBackend.Controllers
         }
 
         [HttpPost("tokenStatusUpdate/{companyId}/{depId}/{depPrefix}/{tokenValue?}")]
-        public async Task<IActionResult> UpdateTokenStatus(int companyId,int depId,string depPrefix,int tokenValue,[FromBody] UpdateTokenStatusRequest request)
+        public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request)
         {
             var result = await _tokenRepository.UpdateTokenStatusAsync(
                 companyId, depId, depPrefix, tokenValue,
@@ -148,16 +152,16 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
-      /*  [HttpGet("report/tokenDetail/{companyId}")]
-        public async Task<IActionResult> GetTokenHistoryReport(int companyId,[FromQuery] DateTime startDate,[FromQuery] DateTime endDate,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10,[FromQuery] string searchParam = "")
-        {
-            if (startDate == default || endDate == default)
-                return BadRequest(new { status = "failed", message = "Start date and end date are required." });
+        /*  [HttpGet("report/tokenDetail/{companyId}")]
+          public async Task<IActionResult> GetTokenHistoryReport(int companyId,[FromQuery] DateTime startDate,[FromQuery] DateTime endDate,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10,[FromQuery] string searchParam = "")
+          {
+              if (startDate == default || endDate == default)
+                  return BadRequest(new { status = "failed", message = "Start date and end date are required." });
 
-            var result = await _tokenRepository.GetTokenHistoryReportAsync(companyId, startDate, endDate, pageNumber, pageSize, searchParam);
+              var result = await _tokenRepository.GetTokenHistoryReportAsync(companyId, startDate, endDate, pageNumber, pageSize, searchParam);
 
-            return Ok(new { status = "success", tokenDetails = result });
-        }*/
+              return Ok(new { status = "success", tokenDetails = result });
+          }*/
 
         [HttpGet("timeline/{companyId}/{depId}/{depPrefix}/{tokenValue}")]
         public async Task<IActionResult> GetTokenTimeline(int companyId, int depId, string depPrefix, int tokenValue)
@@ -250,7 +254,37 @@ namespace XeniaTokenBackend.Controllers
                 return StatusCode(500, new { message = "Error recalling token", error = ex.Message });
             }
         }
-    }
 
+        [HttpPost("upsert")]
+        public async Task<IActionResult> UpsertToken([FromBody] TokenUpsertDto tokenData)
+        {
+            if (tokenData == null)
+                return BadRequest(new { status = "error", message = "Token data is required" });
+
+            try
+            {
+                var result = await _tokenRepository.UpsertTokenAsync(tokenData);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = "error", message = ex.Message });
+            }
+        }
+
+        [HttpGet("{tokenNumber}/{counterName}")]
+        public async Task<IActionResult> GetTokenAudio(string tokenNumber, string counterName)
+        {
+            var mp3Stream = await _tokenRepository.GetTokenAudioAsync(tokenNumber, counterName);
+
+            Response.Headers.Append("Accept-Ranges", "bytes");
+            Response.Headers.Append("Cache-Control", "no-store");
+
+            return File(mp3Stream, "audio/mpeg", enableRangeProcessing: true);
+        }
+
+
+
+    }
 
 }

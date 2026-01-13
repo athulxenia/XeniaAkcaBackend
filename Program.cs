@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 using XeniaCatalogueApi.Service.Common;
+using XeniaTokenBackend.Hubs;
 using XeniaTokenBackend.Models;
 using XeniaTokenBackend.Repositories.Advertisement;
 using XeniaTokenBackend.Repositories.Auth;
@@ -15,7 +16,9 @@ using XeniaTokenBackend.Repositories.Dashboard;
 using XeniaTokenBackend.Repositories.Department;
 using XeniaTokenBackend.Repositories.Service;
 using XeniaTokenBackend.Repositories.Token;
+using XeniaTokenBackend.Service;
 using XeniaTokenBackend.Service.Common;
+using XeniaTokenBackend.Service.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +43,8 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<JwtHelperService>();
 builder.Services.AddScoped<CommonService>();
+builder.Services.AddScoped<LiveTokenService>();
+builder.Services.AddHostedService<LiveTokenWorker>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -128,11 +133,10 @@ builder.Services.AddSignalR();
 builder.Services.AddWebSockets(options => { });
 
 var app = builder.Build();
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 app.UseRouting();
 
@@ -140,6 +144,11 @@ app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseWebSockets();
+
+app.MapHub<TokenHub>("/tokenHub")
+   .RequireCors("AllowSpecificOrigin");
 
 app.MapControllers();
 app.MapFallbackToFile("index.html");

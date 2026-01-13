@@ -165,5 +165,127 @@ namespace XeniaTokenBackend.Repositories.Company
             return company; 
         }
 
+        public async Task<int> UpdateCompanySettingsAsync(int companySettingId, CompanySettingsUpdateDto dto)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var settings = await _context.xtm_CompanySettings
+                    .FirstOrDefaultAsync(x => x.CompSettingID == companySettingId);
+
+                if (settings == null)
+                    throw new Exception("Company settings not found");
+
+                settings.CompanyID = dto.CompanyId;
+                settings.CollectCustomerName = dto.CollectCustomerName;
+                settings.PrintCustomerName = dto.PrintCustomerName;
+                settings.CollectCustomerMobileNumber = dto.CollectCustomerMobileNumber;
+                settings.PrintCustomerMobileNumber = dto.PrintCustomerMobileNumber;
+                settings.IsCustomCall = dto.IsCustomCall;
+                settings.IsServiceEnable = dto.IsServiceEnable;
+
+                var rows = await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return rows;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<object> GetAllCompanySettingsAsync(int companyId, int userId)
+        {
+            var now = DateTime.UtcNow;
+
+            var companySettings = await _context.xtm_CompanySettings
+                .Where(c => c.CompanyID == companyId)
+                .Select(c => new CompanySettingsDto
+                {
+                    CompSettingID = c.CompSettingID,
+                    CompanyID = c.CompanyID,
+                    CollectCustomerName = c.CollectCustomerName,
+                    PrintCustomerName = c.PrintCustomerName,
+                    CollectCustomerMobileNumber = c.CollectCustomerMobileNumber,
+                    PrintCustomerMobileNumber = c.PrintCustomerMobileNumber,
+                    IsCustomCall = c.IsCustomCall,
+                    IsServiceEnable = c.IsServiceEnable,
+                    hasExpiredDepartments = false 
+                })
+                .FirstOrDefaultAsync();
+
+  
+            var departmentData =
+                from tm in _context.xtm_TokenMaster
+                join um in _context.xtm_UserMap on tm.DepID equals um.DepID
+                join d in _context.xtm_Department on tm.DepID equals d.DepID
+                where um.UserID == userId
+                      && um.Status == true
+                      && d.CompanyID == companyId
+                select new
+                {
+                    d.DepID,
+                    d.DepName,
+                    d.DepPrefix,
+                    d.DepExpire,
+                    tm.MaximumToken,
+                    tm.PrintTokenValue,
+                    isService = _context.xtm_Service.Any(s =>
+                        s.SerDepID == d.DepID && s.SerStatus == true)
+                };
+
+            var departments = await departmentData.ToListAsync();
+
+            bool hasExpiredDepartments = departments.Any(d => d.DepExpire <= now);
+
+     
+            var services = await _context.xtm_Service
+                .Where(s => s.SerStatus == true)
+                .Select(s => new
+                {
+                    s.SerDepID,
+                    s.SerID,
+                    s.SerName
+                })
+                .ToListAsync();
+
+            var servicesByDepartment = services
+                .GroupBy(s => s.SerDepID)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(s => new ServiceSettingsDto
+                    {
+                        ServiceID = s.SerID,
+                        ServiceName = s.SerName
+                    }).ToList()
+                );
+
+            var departmentSettings = departments.Select(d => new DepartmentSettingsDto
+            {
+                DepID = d.DepID,
+                DepName = d.DepName,
+                DepPrefix = d.DepPrefix,
+                DepExpire = d.DepExpire.ToString("yyyy-MM-dd"), 
+                maxToken = d.MaximumToken,
+                printToken = d.PrintTokenValue,
+                isService = d.isService,
+                services = servicesByDepartment.ContainsKey(d.DepID)
+                    ? servicesByDepartment[d.DepID]
+                    : new List<ServiceSettingsDto>()
+            }).ToList();
+
+            if (companySettings != null)
+                companySettings.hasExpiredDepartments = hasExpiredDepartments;
+
+            return new CompanySettingsResponseDto
+            {
+                status = "success",
+                DepartmentSettings = departmentSettings,
+                companySettings = companySettings
+            };
+        }
+
     }
 }

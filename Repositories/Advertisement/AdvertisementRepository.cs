@@ -65,27 +65,33 @@ namespace XeniaTokenBackend.Repositories.Advertisement
             return ads;
         }
 
-        public async Task<List<AdvertisementDto>> GetAdvertisementsByUserAsync(int userId)
+        public async Task<AdvertisementResponseDto> GetAdvertisementsByUserAsync(int userId)
         {
-            var ads = await (from a in _context.xtm_Advertisement
-                             join um in _context.xtm_UserMap on a.DepID equals um.DepID
-                             join d in _context.xtm_Department on a.DepID equals d.DepID
-                             where um.UserID == userId && a.Status == true
-                             select new AdvertisementDto
-                             {
-                                 AdvID = a.AdvID,
-                                 CompanyID = a.CompanyID,
-                                 DepID = a.DepID,
-                                 AdvName = a.AdvName,
-                                 AdvOrder = a.AdvOrder,
-                                 AdvFileUrl = a.AdvFileUrl,
-                                 AdvModifiedDate = a.AdvModifiedDate,
-                                 AdvModifiedUserID = a.AdvModifiedUserID,
-                                 Status = a.Status,
-                                 DepName = d.DepName
-                             }).ToListAsync();
+            var ads = await (
+                from a in _context.xtm_Advertisement
+                join um in _context.xtm_UserMap on a.DepID equals um.DepID
+                join d in _context.xtm_Department on a.DepID equals d.DepID
+                where um.UserID == userId && a.Status == true
+                select new AdvertisementDto
+                {
+                    AdvID = a.AdvID,
+                    CompanyID = a.CompanyID,
+                    DepID = a.DepID,
+                    AdvName = a.AdvName,
+                    AdvOrder = a.AdvOrder,
+                    AdvFileUrl = a.AdvFileUrl,
+                    AdvModifiedDate = a.AdvModifiedDate,
+                    AdvModifiedUserID = a.AdvModifiedUserID,
+                    Status = a.Status,
+                    DepName = d.DepName
+                }
+            ).ToListAsync();
 
-            return ads;
+            return new AdvertisementResponseDto
+            {
+                Status = "success",
+                Advertisement = ads
+            };
         }
 
         public async Task<object> UpdateAdvertisementAsync(int advId, UpdateAdvertisementDto dto)

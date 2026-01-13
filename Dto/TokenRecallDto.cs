@@ -1,4 +1,4 @@
-﻿namespace XeniaTokenBackend.Repositories.Token
+﻿namespace XeniaTokenBackend.Dto
 {
     public class TokenRecallDto
     {

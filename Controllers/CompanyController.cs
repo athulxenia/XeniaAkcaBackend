@@ -96,5 +96,41 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+        [HttpPut("companysettings/{companySettingId}")]
+        public async Task<IActionResult> UpdateCompanySettings(int companySettingId,[FromBody] CompanySettingsUpdateDto dto)
+        {
+            try
+            {
+                var rows = await _companyRepository
+                    .UpdateCompanySettingsAsync(companySettingId, dto);
+
+                if (rows == 0)
+                    return NotFound(new { status = "error", message = "No record updated" });
+
+                return Ok(new
+                {
+                    status = "success",
+                    message = "Company settings updated successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    status = "error",
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("companysettings")]
+        public async Task<IActionResult> GetAllCompanySettings( [FromQuery] int companyId,[FromQuery] int userId)
+        {
+            var result = await _companyRepository
+                .GetAllCompanySettingsAsync(companyId, userId);
+
+            return Ok(result);
+        }
+
     }
 }
