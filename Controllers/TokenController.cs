@@ -106,10 +106,10 @@ namespace XeniaTokenBackend.Controllers
         }
 
         [HttpPost("tokenStatusUpdate/{companyId}/{depId}/{depPrefix}/{tokenValue?}")]
-        public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request)
+        public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request, bool iscomplete = true)
         {
             var result = await _tokenRepository.UpdateTokenStatusAsync(
-                companyId, depId, depPrefix, tokenValue,
+                companyId, depId, depPrefix, tokenValue, iscomplete,
                 request.UserId, request.ServiceId, request.CustomerId, request.CounterId);
 
             if (result.Success)
@@ -152,21 +152,45 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
-        /*  [HttpGet("report/tokenDetail/{companyId}")]
+        [HttpGet("summary/{companyId}")]
+        public async Task<IActionResult> GetTokenHistorySummary( int companyId, [FromQuery] DateTime date)
+        {
+            if (date == default)
+                return BadRequest(new { status = "failed", message = "Date is required" });
+
+            var result = await _tokenRepository.GetTokenHistorySummaryAsync(companyId, date);
+
+            return Ok(new
+            {
+                status = "success",
+                summaryReport = result
+            });
+        }
+
+
+        [HttpGet("report/tokenDetail/{companyId}")]
           public async Task<IActionResult> GetTokenHistoryReport(int companyId,[FromQuery] DateTime startDate,[FromQuery] DateTime endDate,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10,[FromQuery] string searchParam = "")
           {
-              if (startDate == default || endDate == default)
-                  return BadRequest(new { status = "failed", message = "Start date and end date are required." });
+            if (startDate == default || endDate == default)
+                return BadRequest(new { status = "failed", message = "Start date and end date are required." });
 
-              var result = await _tokenRepository.GetTokenHistoryReportAsync(companyId, startDate, endDate, pageNumber, pageSize, searchParam);
+            var (data, totalCount) =
+                await _tokenRepository.GetTokenHistoryDetailsAsync(
+                    companyId, startDate, endDate, pageNumber, pageSize, searchParam);
 
-              return Ok(new { status = "success", tokenDetails = result });
-          }*/
+                return Ok(new
+                {
+                    status = "success",
+                    data,
+                    totalCount
+                });
+        }
 
-        [HttpGet("timeline/{companyId}/{depId}/{depPrefix}/{tokenValue}")]
-        public async Task<IActionResult> GetTokenTimeline(int companyId, int depId, string depPrefix, int tokenValue)
+
+        [HttpGet("timeline/{tokenId}")]
+        public async Task<IActionResult> GetTokenTimeline(int tokenId)
         {
-            var data = await _tokenRepository.GetTokenTimelineAsync(companyId, depId, depPrefix, tokenValue);
+            var data = await _tokenRepository.GetTokenTimelineAsync(tokenId);
 
             if (!data.Any())
                 return Ok(new { status = "success", message = "No timeline data found", data });

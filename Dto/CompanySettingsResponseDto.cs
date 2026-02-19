@@ -5,6 +5,7 @@ namespace XeniaTokenBackend.Dto
     public class CompanySettingsResponseDto
     {
         public string status { get; set; }
+        public int RemainingDays { get; set; }
         public List<DepartmentSettingsDto> DepartmentSettings { get; set; }
         public CompanySettingsDto companySettings { get; set; }
     }
@@ -14,7 +15,6 @@ namespace XeniaTokenBackend.Dto
         public int DepID { get; set; }
         public string DepName { get; set; }
         public string DepPrefix { get; set; }
-        public string DepExpire { get; set; }   // STRING (ISO)
         public int maxToken { get; set; }
         public int printToken { get; set; }
         public bool isService { get; set; }
@@ -37,7 +37,6 @@ namespace XeniaTokenBackend.Dto
         public bool PrintCustomerMobileNumber { get; set; }
         public bool IsCustomCall { get; set; }
         public bool IsServiceEnable { get; set; }
-        public bool hasExpiredDepartments { get; set; }
     }
 
 

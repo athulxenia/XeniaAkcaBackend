@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using XeniaCatalogueApi.Service.Common;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
-using XeniaTokenBackend.Repositories.Token;
 
 namespace XeniaTokenBackend.Repositories.Company
 {
@@ -18,106 +16,7 @@ namespace XeniaTokenBackend.Repositories.Company
             _jwtHelperService = jwtHelperService;
         }
 
-        public async Task<int> CreateCompanyAsync(CreateCompanyDto dto)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
-            {
-        
-                if (await _context.xtm_Company.AnyAsync(c => c.CompanyName == dto.CompanyName))
-                    throw new Exception("Company already exists");
-
-          
-                if (await _context.xtm_Users.AnyAsync(u => u.Username == dto.Username))
-                    throw new Exception("Username already exists");
-
-          
-                var company = new xtm_Company
-                {
-                    CompanyName = dto.CompanyName,
-                    LicenseKey = dto.LicenseKey,
-                    Status = true,
-                    Country = dto.Country,
-                    Address = dto.Address,
-                    Email = dto.Email,
-                    Validity = DateTime.UtcNow.AddDays(14),
-                    IsExpired = false
-                };
-                _context.xtm_Company.Add(company);
-                await _context.SaveChangesAsync();
-
-      
-                var settings = new xtm_CompanySettings
-                {
-                    CompanyID = company.CompanyID,
-                    CollectCustomerName = false,
-                    PrintCustomerName = false,
-                    CollectCustomerMobileNumber = false,
-                    PrintCustomerMobileNumber = false,
-                    IsCustomCall = false
-                };
-                _context.xtm_CompanySettings.Add(settings);
-                await _context.SaveChangesAsync();
-
-     
-                var department = new xtm_Department
-                {
-                    CompanyID = company.CompanyID,
-                    DepName = dto.CompanyName,
-                    DepExpire = DateTime.UtcNow.AddDays(14),
-                    DepPrefix = dto.DepPrefix,
-                    Status = true
-                };
-                _context.xtm_Department.Add(department);
-                await _context.SaveChangesAsync();
-
-
-                var user = new xtm_Users
-                {
-                    CompanyID = company.CompanyID,
-                    Username = dto.Username,
-                    Password = dto.Password,
-                    TokenResetAllowed = true,
-                    UserType = "Administrator",
-                    Status = true
-                };
-                _context.xtm_Users.Add(user);
-                await _context.SaveChangesAsync();
-
-         
-                var userMap = new xtm_UserMap
-                {
-                    UserID = user.UserID,
-                    DepID = department.DepID,
-                    Status = true
-                };
-                _context.xtm_UserMap.Add(userMap);
-                await _context.SaveChangesAsync();
-
-           
-                var tokenMaster = new xtm_TokenMaster
-                {
-                    CompanyID = company.CompanyID,
-                    DepID = department.DepID,
-                    PrintTokenValue = 0,
-                    TriggerValue = 0,
-                    MaximumToken = 999
-                };
-                _context.xtm_TokenMaster.Add(tokenMaster);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return company.CompanyID;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
-
+    
         public async Task<int> UpdateCompanyAsync(int companyId, UpdateCompanyDto dto)
         {
             var company = await _context.xtm_Company
@@ -139,31 +38,71 @@ namespace XeniaTokenBackend.Repositories.Company
             return rowsAffected;
         }
 
-        public async Task<List<xtm_Company>> GetAllCompanyAsync(string search = "")
-        {
-            IQueryable<xtm_Company> query = _context.xtm_Company;
 
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                search = search.ToLower();
-                query = query.Where(c =>
-                    c.CompanyName.ToLower().Contains(search) ||
-                    c.LicenseKey.ToLower().Contains(search) ||
-                    c.Address.ToLower().Contains(search) ||
-                    c.Country.ToLower().Contains(search) ||
-                    c.Email.ToLower().Contains(search));
-            }
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<xtm_Company?> GetCompanyByIdAsync(int companyId)
+        public async Task<CompanyTokenDetailDto?> GetCompanyByIdAsync(int companyId)
         {
             var company = await _context.xtm_Company
                 .FirstOrDefaultAsync(c => c.CompanyID == companyId);
 
-            return company; 
+            if (company == null)
+                return null;
+
+
+            var subscription = await _context.CompanySubscription
+                .Where(s => s.CompanyId == companyId && s.Status != "PENDING")
+                .OrderByDescending(s => s.SubscriptionEndDate)
+                .FirstOrDefaultAsync();
+
+            SubscriptionTokenSummaryDto? subDto = null;
+
+            if (subscription != null)
+            {
+                subDto = new SubscriptionTokenSummaryDto
+                {
+                    SubId = subscription.SubId,
+                    Status = subscription.Status,
+                    StartDate = subscription.SubscriptionStartDate,
+                    EndDate = subscription.SubscriptionEndDate,
+                    Amount = subscription.SubscriptionAmount,
+                    DepCount = subscription.SubscriptionDepCount
+                };
+            }
+
+
+            var settingEntity = await _context.xtm_CompanySettings
+                .FirstOrDefaultAsync(s => s.CompanyID == companyId);
+
+            CompanyTokenSettingsDto settingsDto = new CompanyTokenSettingsDto();
+
+            if (settingEntity != null)
+            {
+                settingsDto = new CompanyTokenSettingsDto
+                {
+                    CollectCustomerName = settingEntity.CollectCustomerName,
+                    PrintCustomerName = settingEntity.PrintCustomerName,
+                    CollectCustomerMobileNumber = settingEntity.CollectCustomerMobileNumber,
+                    PrintCustomerMobileNumber = settingEntity.PrintCustomerMobileNumber,
+                    IsCustomCall = settingEntity.IsCustomCall,
+                    IsServiceEnable = settingEntity.IsServiceEnable
+                };
+            }
+
+            return new CompanyTokenDetailDto
+            {
+                Company = new CompanyTokenListDto
+                {
+                    CompanyId = company.CompanyID,
+                    CompanyName = company.CompanyName,
+                    Status = company.Status,
+                    Country = company.Country,
+                    Address = company.Address,
+                    Email = company.Email,
+                    Subscription = subDto
+                },
+                Settings = settingsDto
+            };        
         }
+
 
         public async Task<int> UpdateCompanySettingsAsync(int companySettingId, CompanySettingsUpdateDto dto)
         {
@@ -200,6 +139,27 @@ namespace XeniaTokenBackend.Repositories.Company
         {
             var now = DateTime.UtcNow;
 
+            var subscription = await _context.CompanySubscription
+                .Where(s => s.CompanyId == companyId && s.Status != "PENDING")
+                .OrderByDescending(s => s.SubscriptionEndDate)
+                .FirstOrDefaultAsync();
+
+            int remainingDays = 0;
+            bool isExpired = true;
+
+            if (subscription != null)
+            {
+                remainingDays = (int)Math.Ceiling(
+                    (subscription.SubscriptionEndDate - now).TotalDays
+                );
+
+                if (remainingDays < 0)
+                    remainingDays = 0;
+
+                isExpired = remainingDays == 0;
+            }
+
+ 
             var companySettings = await _context.xtm_CompanySettings
                 .Where(c => c.CompanyID == companyId)
                 .Select(c => new CompanySettingsDto
@@ -211,36 +171,32 @@ namespace XeniaTokenBackend.Repositories.Company
                     CollectCustomerMobileNumber = c.CollectCustomerMobileNumber,
                     PrintCustomerMobileNumber = c.PrintCustomerMobileNumber,
                     IsCustomCall = c.IsCustomCall,
-                    IsServiceEnable = c.IsServiceEnable,
-                    hasExpiredDepartments = false 
+                    IsServiceEnable = c.IsServiceEnable
                 })
                 .FirstOrDefaultAsync();
 
-  
-            var departmentData =
-                from tm in _context.xtm_TokenMaster
-                join um in _context.xtm_UserMap on tm.DepID equals um.DepID
-                join d in _context.xtm_Department on tm.DepID equals d.DepID
-                where um.UserID == userId
-                      && um.Status == true
-                      && d.CompanyID == companyId
-                select new
-                {
-                    d.DepID,
-                    d.DepName,
-                    d.DepPrefix,
-                    d.DepExpire,
-                    tm.MaximumToken,
-                    tm.PrintTokenValue,
-                    isService = _context.xtm_Service.Any(s =>
-                        s.SerDepID == d.DepID && s.SerStatus == true)
-                };
+        
+            var departments =
+                await (
+                    from tm in _context.xtm_TokenMaster
+                    join um in _context.xtm_UserMap on tm.DepID equals um.DepID
+                    join d in _context.xtm_Department on tm.DepID equals d.DepID
+                    where um.UserID == userId
+                          && um.Status == true
+                          && d.CompanyID == companyId
+                    select new
+                    {
+                        d.DepID,
+                        d.DepName,
+                        d.DepPrefix,
+                        tm.MaximumToken,
+                        tm.PrintTokenValue,
+                        isService = _context.xtm_Service.Any(s =>
+                            s.SerDepID == d.DepID && s.SerStatus == true)
+                    }
+                ).ToListAsync();
 
-            var departments = await departmentData.ToListAsync();
-
-            bool hasExpiredDepartments = departments.Any(d => d.DepExpire <= now);
-
-     
+   
             var services = await _context.xtm_Service
                 .Where(s => s.SerStatus == true)
                 .Select(s => new
@@ -267,7 +223,6 @@ namespace XeniaTokenBackend.Repositories.Company
                 DepID = d.DepID,
                 DepName = d.DepName,
                 DepPrefix = d.DepPrefix,
-                DepExpire = d.DepExpire.ToString("yyyy-MM-dd"), 
                 maxToken = d.MaximumToken,
                 printToken = d.PrintTokenValue,
                 isService = d.isService,
@@ -276,16 +231,14 @@ namespace XeniaTokenBackend.Repositories.Company
                     : new List<ServiceSettingsDto>()
             }).ToList();
 
-            if (companySettings != null)
-                companySettings.hasExpiredDepartments = hasExpiredDepartments;
-
+      
             return new CompanySettingsResponseDto
             {
                 status = "success",
+                RemainingDays = remainingDays,
                 DepartmentSettings = departmentSettings,
                 companySettings = companySettings
             };
         }
-
     }
 }

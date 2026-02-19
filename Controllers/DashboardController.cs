@@ -15,18 +15,17 @@ namespace XeniaTokenBackend.Controllers
         }
 
 
-        [HttpGet("dashboard/{companyId}")]
+        /*[HttpGet("dashboard/{companyId}")]
         public async Task<IActionResult> GetTokenCounts(int companyId)
         {
             try
             {
-                var (pendingCount, completedCount) = await _dashboardRepository.GetTokenCountsAsync(companyId);
+                var result = await _dashboardRepository.GetTokenCountsAsync(companyId);
 
                 return Ok(new
                 {
                     status = "success",
-                    pendingCount,
-                    completedCount
+                    data = result
                 });
             }
             catch (Exception ex)
@@ -37,7 +36,7 @@ namespace XeniaTokenBackend.Controllers
                     message = ex.Message
                 });
             }
-        }
+        }*/
 
     }
 }

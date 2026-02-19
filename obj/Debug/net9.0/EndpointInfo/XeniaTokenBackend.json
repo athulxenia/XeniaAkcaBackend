@@ -382,37 +382,6 @@
         }
       }
     },
-    "/api/Company/create": {
-      "post": {
-        "tags": [
-          "Company"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCompanyDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCompanyDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCompanyDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Company/update/{companyId}": {
       "put": {
         "tags": [
@@ -448,28 +417,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Company/all": {
-      "get": {
-        "tags": [
-          "Company"
-        ],
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": ""
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -714,22 +661,30 @@
         }
       }
     },
-    "/api/Dashboard/dashboard/{companyId}": {
-      "get": {
+    "/api/Department/create": {
+      "post": {
         "tags": [
-          "Dashboard"
+          "Department"
         ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1267,6 +1222,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "iscomplete",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
           }
         ],
         "requestBody": {
@@ -1368,7 +1331,7 @@
         }
       }
     },
-    "/api/Token/timeline/{companyId}/{depId}/{depPrefix}/{tokenValue}": {
+    "/api/Token/summary/{companyId}": {
       "get": {
         "tags": [
           "Token"
@@ -1384,7 +1347,29 @@
             }
           },
           {
-            "name": "depId",
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Token/report/tokenDetail/{companyId}": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1393,15 +1378,63 @@
             }
           },
           {
-            "name": "depPrefix",
-            "in": "path",
-            "required": true,
+            "name": "startDate",
+            "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           {
-            "name": "tokenValue",
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "searchParam",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Token/timeline/{tokenId}": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
+        "parameters": [
+          {
+            "name": "tokenId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1750,44 +1783,6 @@
         },
         "additionalProperties": false
       },
-      "CreateCompanyDto": {
-        "type": "object",
-        "properties": {
-          "CompanyName": {
-            "type": "string",
-            "nullable": true
-          },
-          "LicenseKey": {
-            "type": "string",
-            "nullable": true
-          },
-          "Country": {
-            "type": "string",
-            "nullable": true
-          },
-          "Address": {
-            "type": "string",
-            "nullable": true
-          },
-          "Email": {
-            "type": "string",
-            "nullable": true
-          },
-          "DepPrefix": {
-            "type": "string",
-            "nullable": true
-          },
-          "Username": {
-            "type": "string",
-            "nullable": true
-          },
-          "Password": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "CreateCounterRequestDto": {
         "type": "object",
         "properties": {
@@ -1805,6 +1800,31 @@
           },
           "Status": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDepartmentDto": {
+        "type": "object",
+        "properties": {
+          "CompanyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DepName": {
+            "type": "string",
+            "nullable": true
+          },
+          "DepPrefix": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "boolean"
+          },
+          "MaximumToken": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -2119,6 +2139,10 @@
           "CounterName": {
             "type": "string",
             "nullable": true
+          },
+          "DepID": {
+            "type": "integer",
+            "format": "int32"
           },
           "Status": {
             "type": "boolean"

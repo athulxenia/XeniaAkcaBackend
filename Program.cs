@@ -19,6 +19,7 @@ using XeniaTokenBackend.Repositories.Token;
 using XeniaTokenBackend.Service;
 using XeniaTokenBackend.Service.Common;
 using XeniaTokenBackend.Service.Token;
+;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +45,7 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<JwtHelperService>();
 builder.Services.AddScoped<CommonService>();
 builder.Services.AddScoped<LiveTokenService>();
-builder.Services.AddHostedService<LiveTokenWorker>();
+builder.Services.AddHostedService<TokenLiveWorker>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -55,7 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"],

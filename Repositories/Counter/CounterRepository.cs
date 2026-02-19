@@ -89,17 +89,38 @@ namespace XeniaTokenBackend.Repositories.Counter
         }
 
         public async Task<object> UpdateCounterAsync(int counterId, UpdateCounterRequestDto dto)
-        {
+        { 
             var counter = await _context.xtm_Counter
                 .FirstOrDefaultAsync(c => c.CounterID == counterId);
 
             if (counter == null)
             {
-                throw new Exception("Failed to update counter. No rows affected.");
+                return new
+                {
+                    status = "error",
+                    message = "Counter not found"
+                };
             }
 
+            bool counterExists = await _context.xtm_Counter.AnyAsync(c =>
+                c.DepID == dto.DepID &&                                   
+                c.CounterID != counterId &&                              
+                c.CounterName.ToLower() == dto.CounterName.ToLower()     
+            );
+
+            if (counterExists)
+            {
+                return new
+                {
+                    status = "error",
+                    message = $"Counter name '{dto.CounterName}' already exists in this department"
+                };
+            }
+
+          
             counter.CounterName = dto.CounterName;
             counter.Status = dto.Status;
+            counter.DepID = dto.DepID; 
 
             await _context.SaveChangesAsync();
 
@@ -109,6 +130,7 @@ namespace XeniaTokenBackend.Repositories.Counter
                 message = "Counter updated successfully"
             };
         }
+
 
         public async Task<object> DeleteCounterAsync(int counterId)
         {

@@ -21,14 +21,14 @@ namespace XeniaCatalogueApi.Service.Common
         {
             var claims = new[]
             {
-        new Claim(ClaimTypes.Name, user.Username),
-        new Claim("UserId", user.UserID.ToString()),
-        new Claim("CompanyId", user.CompanyID.ToString()),
-        new Claim("UserType", user.UserType ?? string.Empty),
-        new Claim("AdminPassword", adminPassword ?? string.Empty),
-        new Claim("Username", adminPassword ?? string.Empty),
-        new Claim("TokenResetAllowed", user.TokenResetAllowed.ToString())
-        };
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim("UserId", user.UserID.ToString()),
+                new Claim("CompanyId", user.CompanyID.ToString()),
+                new Claim("UserType", user.UserType ?? string.Empty),
+                new Claim("AdminPassword", adminPassword ?? string.Empty),
+                new Claim("Username", user.Username ?? string.Empty),
+                new Claim("TokenResetAllowed", user.TokenResetAllowed.ToString())
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -37,7 +37,7 @@ namespace XeniaCatalogueApi.Service.Common
                 issuer: _config["JwtSettings:Issuer"],
                 audience: _config["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddMonths(12),
                 signingCredentials: creds
             );
 

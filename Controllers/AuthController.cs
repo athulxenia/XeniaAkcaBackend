@@ -58,7 +58,8 @@ namespace XeniaTokenBackend.Controllers
                 return Ok(new
                 {
                     status = "success",
-                    message = "User created successfully"
+                    message = "User created successfully",
+                    Data = result
                 });
             }
             catch (Exception ex)

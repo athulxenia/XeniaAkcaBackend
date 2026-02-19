@@ -51,8 +51,6 @@ namespace XeniaTokenBackend.Repositories.Auth
             await _context.SaveChangesAsync();
             return user;
         }
-
-
         public async Task<object?> GetUserByTokenAsync(ClaimsPrincipal user)
         {
             if (user == null) return null;
@@ -60,13 +58,16 @@ namespace XeniaTokenBackend.Repositories.Auth
             int? companyId = _jwtHelperService.GetCompanyId(user);
             int? userId = _jwtHelperService.GetUserId(user);
 
+            if (companyId == null || userId == null)
+                return null;
+
             var company = await _context.xtm_Company
                 .Where(c => c.CompanyID == companyId)
                 .Select(c => new
                 {
                     c.CompanyID,
                     c.CompanyName,
-                    c.Address,
+                    c.Address
                 })
                 .FirstOrDefaultAsync();
 
@@ -75,20 +76,116 @@ namespace XeniaTokenBackend.Repositories.Auth
                 .Select(c => new
                 {
                     c.IsServiceEnable,
-                    c.IsCustomCall,
+                    c.IsCustomCall
                 })
                 .FirstOrDefaultAsync();
-
+          
             var userStatus = await _context.xtm_Users
                 .Where(u => u.UserID == userId)
                 .Select(u => u.Status)
                 .FirstOrDefaultAsync();
 
+            var rawSubscription = await _context.CompanySubscription
+                .Where(s => s.CompanyId == companyId)
+                .OrderByDescending(s => s.SubscriptionStartDate)
+                .FirstOrDefaultAsync();
+
+            bool isTrial = rawSubscription == null ||
+                           rawSubscription.Status == "TRIAL" ||
+                           rawSubscription.PlanId == 0;
+
+  
+            int remainingDays = 0;
+            if (rawSubscription != null)
+            {
+                remainingDays = (int)Math.Ceiling(
+                    (rawSubscription.SubscriptionEndDate - DateTime.UtcNow).TotalDays
+                );
+
+                if (remainingDays < 0)
+                    remainingDays = 0;
+            }
+
+            object? subscription = null;
+            IEnumerable<object> addons = Enumerable.Empty<object>();
+
+
+            if (!isTrial)
+            {
+                addons = await (
+                    from sa in _context.CompanySubscriptionAddon
+                    join sp in _context.SubscribePlan
+                        on sa.PlanId equals sp.PlanId
+                    where sa.CompanyId == companyId
+                          && sa.Status == "Active"
+                    select (object)new
+                    {
+                        sa.SubAddonId,
+                        sa.PlanId,
+                        sp.PlanName,
+                        sa.Amount,
+                        sa.DepCount,
+                        sa.Status
+                    }
+                ).ToListAsync();
+
+                subscription = await (
+                    from cs in _context.CompanySubscription
+                    join sp in _context.SubscribePlan
+                        on cs.PlanId equals sp.PlanId
+                    join pd in _context.SubscribePlanDuration
+                        on cs.PlanId equals pd.PlanId
+                    where cs.CompanyId == companyId
+                          && cs.Status == "Active"
+                          && pd.IsActive
+                    select new
+                    {
+                        cs.SubId,
+                        cs.PlanId,
+                        sp.PlanName,
+                        sp.PlanDescription,
+                        cs.SubscriptionDate,
+                        cs.SubscriptionStartDate,
+                        cs.SubscriptionEndDate,
+                        cs.SubscriptionAmount,
+                        cs.SubscriptionDays,
+                        cs.SubscriptionDepCount,
+                        cs.Status,
+                        DurationDays = pd.DurationDays,
+                        Price = pd.Price,
+                        RemainingDays = remainingDays,
+                        AddOns = addons
+                    }
+                ).FirstOrDefaultAsync();
+            }
+
+            else if (rawSubscription != null)
+            {
+                subscription = new
+                {
+                    rawSubscription.SubId,
+                    PlanId = 0,
+                    PlanName = "Trial",
+                    PlanDescription = "Trial subscription",
+                    rawSubscription.SubscriptionDate,
+                    rawSubscription.SubscriptionStartDate,
+                    rawSubscription.SubscriptionEndDate,
+                    rawSubscription.SubscriptionAmount,
+                    rawSubscription.SubscriptionDays,
+                    rawSubscription.SubscriptionDepCount,
+                    rawSubscription.Status,
+                    RemainingDays = remainingDays,
+                    AddOns = addons
+                };
+            }
+
+   
             return new
             {
                 status = "success",
                 iat = user.FindFirst("iat")?.Value,
                 exp = user.FindFirst("exp")?.Value,
+
                 user = new
                 {
                     UserID = userId,
@@ -101,24 +198,31 @@ namespace XeniaTokenBackend.Repositories.Auth
                     isCustomCall = companySettings?.IsCustomCall,
                     isServiceEnable = companySettings?.IsServiceEnable,
                     TokenResetAllowed = _jwtHelperService.GetAllowReset(user),
-                    Status = userStatus   
-                }
+                    Status = userStatus
+                },
+
+                IsTrial = isTrial,
+                subscription
             };
         }
-
-
 
         public async Task<object> GetUsersByCompanyAsync(int companyId)
         {
             var query = await (
                 from u in _context.xtm_Users
-                join um in _context.xtm_UserMap on u.UserID equals um.UserID into umg
-                from um in umg.DefaultIfEmpty()
-                join d in _context.xtm_Department on um.DepID equals d.DepID into dg
-                from d in dg.DefaultIfEmpty()
+
+                join um in _context.xtm_UserMap
+                    on u.UserID equals um.UserID into umg
+                from um in umg.DefaultIfEmpty()   
+
+                join d in _context.xtm_Department
+                    on um.DepID equals d.DepID into dg
+                from d in dg.DefaultIfEmpty()     
+
                 where u.CompanyID == companyId
                       && u.UserType != "PlatformAdmin"
                       && u.UserType != "Administrator"
+
                 select new
                 {
                     u.UserID,
@@ -126,9 +230,10 @@ namespace XeniaTokenBackend.Repositories.Auth
                     u.UserType,
                     u.TokenResetAllowed,
                     UserStatus = u.Status,
-                    DepID = um.DepID,
-                    DepName = d.DepName,
-                    DepStatus = um.Status
+
+                    DepID = um != null ? (int?)um.DepID : null,
+                    DepName = d != null ? d.DepName : null,
+                    DepStatus = um != null ? (bool?)um.Status : null
                 }
             ).ToListAsync();
 
@@ -148,13 +253,14 @@ namespace XeniaTokenBackend.Repositories.Auth
                     UserType = g.Key.UserType,
                     TokenResetAllowed = g.Key.TokenResetAllowed,
                     Status = g.Key.UserStatus,
+
                     Departments = g
-                        .Where(d => d.DepID != null)
+                        .Where(d => d.DepID.HasValue)
                         .Select(d => new UserDepartmentDto
                         {
-                            DepID = d.DepID,
-                            DepName = d.DepName!,
-                            Status = d.DepStatus!
+                            DepID = d.DepID!.Value,
+                            DepName = d.DepName ?? "N/A",
+                            Status = d.DepStatus ?? false
                         })
                         .ToList()
                 })
@@ -246,7 +352,7 @@ namespace XeniaTokenBackend.Repositories.Auth
 
             if (!string.IsNullOrWhiteSpace(dto.Password))
             {
-                user.Password = dto.Password; // 🔐 hash in real apps
+                user.Password = dto.Password; 
             }
 
             await _context.SaveChangesAsync();

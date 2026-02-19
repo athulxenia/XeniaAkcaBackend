@@ -25,7 +25,6 @@ namespace XeniaTokenBackend.Hubs
 
             ActiveGroups.AddOrUpdate(groupName, 1, (_, c) => c + 1);
 
-            // 🔥 THIS WAS MISSING — NOW DB DATA IS SENT
             await _tokenService.EmitChangesAsync(userId, isCall);
         }
 

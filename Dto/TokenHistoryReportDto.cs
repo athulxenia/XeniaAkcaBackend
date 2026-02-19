@@ -6,7 +6,7 @@
         public int TokenID { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string StatusCreatedTime { get; set; }
-        public string StatusCreatedUser { get; set; }
+        public int StatusCreatedUser { get; set; }
         public int TokenValue { get; set; }
         public string DepFromPrefix { get; set; }
         public string DepFromName { get; set; }

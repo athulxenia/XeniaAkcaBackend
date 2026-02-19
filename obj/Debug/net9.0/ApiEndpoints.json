@@ -234,22 +234,6 @@
   },
   {
     "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "GetAllCompany",
-    "RelativePath": "api/Company/all",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
     "Method": "GetAllCompanySettings",
     "RelativePath": "api/Company/companysettings",
     "HttpMethod": "GET",
@@ -285,22 +269,6 @@
       {
         "Name": "dto",
         "Type": "XeniaTokenBackend.Dto.CompanySettingsUpdateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "CreateCompany",
-    "RelativePath": "api/Company/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CreateCompanyDto",
         "IsRequired": true
       }
     ],
@@ -413,22 +381,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
-    "Method": "GetTokenCounts",
-    "RelativePath": "api/Dashboard/dashboard/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
     "Method": "GetAllDepartmentsAppByUser",
     "RelativePath": "api/Department/app/{userId}",
@@ -455,6 +407,22 @@
       {
         "Name": "companyId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
+    "Method": "CreateDepartment",
+    "RelativePath": "api/Department/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "XeniaTokenBackend.Dto.CreateDepartmentDto",
         "IsRequired": true
       }
     ],
@@ -815,6 +783,47 @@
   },
   {
     "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
+    "Method": "GetTokenHistoryReport",
+    "RelativePath": "api/Token/report/tokenDetail/{companyId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "companyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchParam",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
     "Method": "ResetToken",
     "RelativePath": "api/Token/resetToken/{companyId}/{depId}",
     "HttpMethod": "PUT",
@@ -836,8 +845,8 @@
   },
   {
     "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenTimeline",
-    "RelativePath": "api/Token/timeline/{companyId}/{depId}/{depPrefix}/{tokenValue}",
+    "Method": "GetTokenHistorySummary",
+    "RelativePath": "api/Token/summary/{companyId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -848,17 +857,23 @@
         "IsRequired": true
       },
       {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
+    "Method": "GetTokenTimeline",
+    "RelativePath": "api/Token/timeline/{tokenId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "depPrefix",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokenValue",
+        "Name": "tokenId",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -897,6 +912,11 @@
         "Name": "request",
         "Type": "XeniaTokenBackend.Dto.UpdateTokenStatusRequest",
         "IsRequired": true
+      },
+      {
+        "Name": "iscomplete",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

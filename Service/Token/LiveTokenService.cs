@@ -30,8 +30,10 @@ namespace XeniaTokenBackend.Service
                     join m in _context.xtm_UserMap on t.DepID equals m.DepID
                     join s in _context.xtm_Service on t.ServiceID equals s.SerID into ss
                     from s in ss.DefaultIfEmpty()
-                    where t.TokenActive && t.TokenStatus == "onHold"
-                          && m.UserID == userId && m.Status
+                    where t.TokenActive
+                          && t.TokenStatus == "onCall"
+                          && m.UserID == userId
+                          && m.Status
                     orderby d.CounterName
                     select new TokenLiveDto
                     {
@@ -53,9 +55,10 @@ namespace XeniaTokenBackend.Service
                     join m in _context.xtm_UserMap on t.DepID equals m.DepID
                     join s in _context.xtm_Service on t.ServiceID equals s.SerID into ss
                     from s in ss.DefaultIfEmpty()
-                    where t.TokenActive &&
-                          (t.TokenStatus == "onCall" || t.TokenStatus == "onHold")
-                          && m.UserID == userId && m.Status
+                    where t.TokenActive
+                          && (t.TokenStatus == "onCall" || t.TokenStatus == "onHold")
+                          && m.UserID == userId
+                          && m.Status
                     orderby d.CounterName
                     select new TokenLiveDto
                     {
@@ -71,16 +74,10 @@ namespace XeniaTokenBackend.Service
 
             var tokens = await query.ToListAsync();
 
-            var counterCount =
-                await _context.xtm_Counter.CountAsync(c =>
-                    c.Status &&
-                    _context.xtm_UserMap.Any(m => m.UserID == userId && m.DepID == c.DepID));
-
             await _hub.Clients.Group($"{userId}-{isCall}")
                 .SendAsync("databaseChanges", new
                 {
-                    CounterCount = counterCount,
-                    Result = tokens
+                    result = tokens
                 });
         }
     }

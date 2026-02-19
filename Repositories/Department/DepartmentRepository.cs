@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
-using XeniaTokenBackend.Repositories.Token;
 using XeniaTokenBackend.Service.Common;
 
 
@@ -20,6 +19,52 @@ namespace XeniaTokenBackend.Repositories.Department
             _commonService = commonService;
         }
 
+        public async Task<int> CreateDepartmentAsync(CreateDepartmentDto dto)
+        {
+            bool exists = await _context.xtm_Department
+                .AnyAsync(d => d.DepName == dto.DepName);
+
+            if (exists)
+                throw new Exception("Department already exists");
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var department = new xtm_Department
+                {
+                    CompanyID = dto.CompanyID,
+                    DepName = dto.DepName,
+                    DepPrefix = dto.DepPrefix,
+                    Status = dto.Status
+                };
+
+                _context.xtm_Department.Add(department);
+                await _context.SaveChangesAsync();
+
+                var tokenMaster = new xtm_TokenMaster
+                {
+                    CompanyID = dto.CompanyID,
+                    DepID = department.DepID,
+                    PrintTokenValue = 0,
+                    TriggerValue = 0,
+                    MaximumToken = dto.MaximumToken
+                };
+
+                _context.xtm_TokenMaster.Add(tokenMaster);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return department.DepID;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+      
 
         public async Task<List<DepartmentDto>> GetDepartmentWebByIdAsync(int userId)
         {
@@ -32,7 +77,6 @@ namespace XeniaTokenBackend.Repositories.Department
                                        d.DepName,
                                        d.CompanyID,
                                        d.DepPrefix,
-                                       d.DepExpire,
                                        d.Status
                                    }).ToListAsync();
 
@@ -56,7 +100,6 @@ namespace XeniaTokenBackend.Repositories.Department
                     DepName = d.DepName,
                     CompanyID = d.CompanyID,
                     DepPrefix = d.DepPrefix,
-                    DepExpire = d.DepExpire,
                     Status = d.Status,
                     Counters = counters
                         .Where(c => c.DepID == d.DepID)
@@ -64,6 +107,8 @@ namespace XeniaTokenBackend.Repositories.Department
                         {
                             CounterID = c.CounterID,
                             CounterName = c.CounterName,
+                            CompanyID = d.CompanyID,
+                            DepID = c.DepID,
                             Status = c.Status
                         })
                         .ToList()
@@ -74,15 +119,28 @@ namespace XeniaTokenBackend.Repositories.Department
             return departments;
         }
 
-        public async Task<List<xtm_Department>> GetDepartmentWebAll(int companyId)
+        public async Task<List<DepartmentWithTokenDto>> GetDepartmentWebAll(int companyId)
         {
-            var departments = await _context.xtm_Department
-                                            .Where(d => d.CompanyID == companyId && d.Status == true)
-                                            .AsNoTracking() 
-                                            .ToListAsync();
+            var departments = await (
+                from d in _context.xtm_Department
+                join tm in _context.xtm_TokenMaster on d.DepID equals tm.DepID
+                where d.CompanyID == companyId
+                select new DepartmentWithTokenDto
+                {
+                    DepID = d.DepID,
+                    CompanyID = d.CompanyID,
+                    DepName = d.DepName,
+                    DepPrefix = d.DepPrefix,
+                    Status = d.Status,
+                    MaximumToken = tm.MaximumToken
+                }
+            )
+            .AsNoTracking()
+            .ToListAsync();
 
             return departments;
         }
+
 
         public async Task<object> CreateDepartmentAsync(CreateDepartmentRequestDto dto)
         {
@@ -100,8 +158,7 @@ namespace XeniaTokenBackend.Repositories.Department
                 {
                     CompanyID = dto.CompanyID,
                     DepName = dto.DepName,
-                    DepPrefix = dto.DepPrefix,
-                    DepExpire = _commonService.CalculateValidityDate(),
+                    DepPrefix = dto.DepPrefix,       
                     Status = dto.Status
                 };
 
@@ -216,8 +273,7 @@ namespace XeniaTokenBackend.Repositories.Department
                     DepID = d.DepID,
                     CompanyID = d.CompanyID,
                     DepName = d.DepName,
-                    DepPrefix = d.DepPrefix,
-                    DepExpire = d.DepExpire,
+                    DepPrefix = d.DepPrefix,   
                     Status = d.Status,
                     MaximumToken = t != null ? t.MaximumToken : null
                 }
@@ -239,15 +295,13 @@ namespace XeniaTokenBackend.Repositories.Department
                 join tm in _context.xtm_TokenMaster on d.DepID equals tm.DepID into tmj
                 from tm in tmj.DefaultIfEmpty()
                 where um.UserID == userId
-                      && um.Status == true
-                      && d.DepExpire > now
+                      && um.Status == true                  
                 select new
                 {
                     d.DepID,
                     d.CompanyID,
                     d.DepName,
                     d.DepPrefix,
-                    d.DepExpire,
                     d.Status,
                     MaxToken = tm != null ? tm.MaximumToken : 0,
                     printTokenValue = tm != null ? tm.PrintTokenValue : 0,
@@ -294,7 +348,6 @@ namespace XeniaTokenBackend.Repositories.Department
                 CompanyID = d.CompanyID,
                 DepName = d.DepName,
                 DepPrefix = d.DepPrefix,
-                DepExpire = d.DepExpire.ToString("yyyy-MM-ddTHH:mm:ss"), 
                 MaxToken = d.MaxToken,
                 printTokenValue = d.printTokenValue,
                 Status = d.Status,
@@ -310,8 +363,6 @@ namespace XeniaTokenBackend.Repositories.Department
                 department = departments
             };
         }
-
-
 
         public async Task<int> DeleteDepartmentAsync(int depId)
         {

@@ -6,7 +6,7 @@ namespace XeniaTokenBackend.Repositories.Dashboard
 {
     public interface IDashboardRepository
     {
-        Task<(int PendingCount, int CompletedCount)> GetTokenCountsAsync(int companyId);
+      //  Task<TokenCountWithSubscriptionDto> GetTokenCountsAsync(int companyId);
 
 
     }

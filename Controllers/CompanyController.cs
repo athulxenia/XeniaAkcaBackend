@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XeniaTokenBackend.Dto;
-using XeniaTokenBackend.Repositories.Advertisement;
 using XeniaTokenBackend.Repositories.Company;
 
 namespace XeniaTokenBackend.Controllers
@@ -16,28 +15,7 @@ namespace XeniaTokenBackend.Controllers
             _companyRepository = companyRepository;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDto dto)
-        {
-            try
-            {
-                var companyId = await _companyRepository.CreateCompanyAsync(dto);
-                return Ok(new
-                {
-                    status = "success",
-                    companyId
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    status = "error",
-                    message = ex.Message
-                });
-            }
-        }
-
+    
         [HttpPut("update/{companyId}")]
         public async Task<IActionResult> UpdateCompany(int companyId, [FromBody] UpdateCompanyDto dto)
         {
@@ -56,28 +34,7 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllCompany([FromQuery] string search = "")
-        {
-            try
-            {
-                var companies = await _companyRepository.GetAllCompanyAsync(search);
-                return Ok(new
-                {
-                    status = "success",
-                    companies
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    status = "error",
-                    message = ex.Message
-                });
-            }
-        }
-
+     
         [HttpGet("{companyId}")]
         public async Task<IActionResult> GetCompanyById(int companyId)
         {
@@ -95,6 +52,7 @@ namespace XeniaTokenBackend.Controllers
                 return BadRequest(new { status = "error", message = ex.Message });
             }
         }
+
 
         [HttpPut("companysettings/{companySettingId}")]
         public async Task<IActionResult> UpdateCompanySettings(int companySettingId,[FromBody] CompanySettingsUpdateDto dto)
@@ -122,6 +80,7 @@ namespace XeniaTokenBackend.Controllers
                 });
             }
         }
+
 
         [HttpGet("companysettings")]
         public async Task<IActionResult> GetAllCompanySettings( [FromQuery] int companyId,[FromQuery] int userId)

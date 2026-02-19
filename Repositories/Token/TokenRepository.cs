@@ -401,7 +401,8 @@ namespace XeniaTokenBackend.Repositories.Token
             await _context.SaveChangesAsync();
             return response;
         }
-        public async Task<(bool Success, string Message)> UpdateTokenStatusAsync(int companyId, int depId, string depPrefix, int tokenValue, int userId, int serviceId, int? customerId, int? counterId)
+
+        public async Task<(bool Success, string Message)> UpdateTokenStatusAsync( int companyId, int depId,  string depPrefix,  int tokenValue,  bool iscomplete, int userId, int serviceId, int? customerId,  int? counterId)
         {
             var token = await _context.xtm_TokenRegister
                 .FirstOrDefaultAsync(t =>
@@ -413,11 +414,16 @@ namespace XeniaTokenBackend.Repositories.Token
             if (token == null)
                 return (false, "Token not found");
 
-            token.TokenStatus = "completed";
-            token.IsAnnounced = true;
+        
+            string status = iscomplete ? "completed" : "onhold";
+            bool announced = iscomplete ? true : false;
+
+            token.TokenStatus = status;
+            token.IsAnnounced = announced;
+
             await _context.SaveChangesAsync();
 
-
+       
             var history = new xtm_TokenHistory
             {
                 TokenID = token.TokenID,
@@ -430,16 +436,17 @@ namespace XeniaTokenBackend.Repositories.Token
                 CustomerID = customerId,
                 CounterID = counterId,
                 CreatedSource = "web",
-                TokenStatus = "completed",
-                StatusCreatedDate = DateTime.Now, 
+                TokenStatus = status,
+                StatusCreatedDate = DateTime.Now,
                 StatusCreatedUser = userId
             };
 
             _context.xtm_TokenHistory.Add(history);
             await _context.SaveChangesAsync();
 
-            return (true, "Token status updated and history saved");
+            return (true, $"Token status updated as {status}");
         }
+
         public async Task<int> GetPendingTokenAsync(int companyId, int userId)
         {
             var token = await (from t in _context.xtm_TokenRegister
@@ -464,97 +471,189 @@ namespace XeniaTokenBackend.Repositories.Token
                 .OrderBy(t => t.TokenValue)
                 .ToListAsync();
         }
-      /*  public async Task<(List<TokenHistoryReportDto> data, int totalCount)>GetTokenHistoryDetailsAsync( int companyId, DateTime startDate, DateTime endDate,int pageNumber, int pageSize, string searchParam)
+
+        public async Task<TokenHistorySummaryDto> GetTokenHistorySummaryAsync( int companyId, DateTime date)
         {
-            var query = from th in _context.xtm_TokenHistory
-                        join df in _context.xtm_Department on th.DepFrom equals df.DepID into dfj
-                        from depFrom in dfj.DefaultIfEmpty()
+            var fromDate = date.Date;
+            var toDate = fromDate.AddDays(1);
 
-                        join dt in _context.xtm_Department on th.DepTo equals dt.DepID into dtj
-                        from depTo in dtj.DefaultIfEmpty()
+            var tokenHistory = _context.xtm_TokenHistory
+                .AsNoTracking()
+                .Where(x =>
+                    x.CompanyID == companyId &&
+                    x.StatusCreatedDate >= fromDate &&
+                    x.StatusCreatedDate < toDate);
+   
+            var totalTokensIssued = await tokenHistory
+                .Where(x => x.TokenStatus == "pending")
+                .CountAsync();
 
-                        join s in _context.xtm_Service on th.ServiceID equals s.SerID into sj
-                        from service in sj.DefaultIfEmpty()
+            var tokenTimes = await tokenHistory
+                .Where(x => x.TokenStatus == "pending" || x.TokenStatus == "completed")
+                .GroupBy(x => x.TokenID)
+                .Select(g => new
+                {
+                    PendingTime = g
+                        .Where(x => x.TokenStatus == "pending")
+                        .Min(x => (DateTime?)x.StatusCreatedDate),
 
-                        join c in _context.MS_Customer on th.CustomerID equals c.CustomerID into cj
-                        from customer in cj.DefaultIfEmpty()
+                    CompletedTime = g
+                        .Where(x => x.TokenStatus == "completed")
+                        .Max(x => (DateTime?)x.StatusCreatedDate)
+                })
+                .Where(x => x.PendingTime != null && x.CompletedTime != null)
+                .ToListAsync();
 
-                        join co in _context.xtm_Counter on th.CounterID equals co.CounterID into coj
-                        from counter in coj.DefaultIfEmpty()
+            var averageWaitTimeMinutes = tokenTimes.Any()
+                ? (int)Math.Round(
+                    tokenTimes.Average(x =>
+                        (x.CompletedTime.Value - x.PendingTime.Value).TotalMinutes))
+                : 0;
 
-                        where th.CompanyID == companyId
-                           && th.StatusCreatedDate.Date >= startDate.Date
-                           && th.StatusCreatedDate.Date <= endDate.Date
-                           && (
-                                string.IsNullOrEmpty(searchParam)
-                                || (th.DepPrefix + th.TokenValue).Contains(searchParam)
-                                || th.TokenID.ToString() == searchParam
-                              )
+            var peakHourData = await tokenHistory
+                .Where(x => x.TokenStatus == "onCall")
+                .GroupBy(x => x.StatusCreatedDate.Hour)
+                .Select(g => new
+                {
+                    Hour = g.Key,
+                    TokensIssued = g.Count()
+                })
+                .OrderByDescending(x => x.TokensIssued)
+                .FirstOrDefaultAsync();
 
-                        select new TokenHistoryReportDto
-                        {
-                            TokenHistoryID = th.TokenHistoryID,
-                            TokenID = th.TokenID,
-                            TokenValue = th.TokenValue,
-                            CreatedDate = th.StatusCreatedDate,
-                            StatusCreatedTime = th.StatusCreatedDate.ToString("hh:mm tt"),
-                            StatusCreatedUser = th.StatusCreatedUser,
+            var peakHour = peakHourData != null
+                ? new PeakHourDto
+                {
+                    Hour = DateTime.Today
+                        .AddHours(peakHourData.Hour)
+                        .ToString("hh tt"),
+                    TokensIssued = peakHourData.TokensIssued
+                }
+                : new PeakHourDto { Hour = null, TokensIssued = 0 };
 
-                            DepFromPrefix = th.DepPrefix,
-                            DepFromName = depFrom != null ? depFrom.DepartmentName : "N/A",
-                            DepToName = depTo != null ? depTo.DepartmentName : "N/A",
+            var counterPerformanceData = await tokenHistory
+                .Where(x => x.CounterID != null)
+                .Join(
+                    _context.xtm_Counter,
+                    th => th.CounterID,
+                    c => c.CounterID,
+                    (th, c) => new { th.TokenID, c.CounterName }
+                )
+                .GroupBy(x => x.CounterName)
+                .Select(g => new CounterPerformanceDto
+                {
+                    CounterName = g.Key,
+                    TokensServed = g.Select(x => x.TokenID).Distinct().Count()
+                })
+                .ToListAsync();
 
-                            CounterName = counter != null ? counter.CounterName : "N/A",
-                            ServiceName = service != null ? service.ServiceName : "N/A",
-                            CustomerName = customer != null ? customer.CustomerName : "N/A",
-                            CustomerMobileNumber = customer != null ? customer.MobileNumber : "N/A",
 
-                            OnCallTime = th.TokenStatus == "onCall"
-                                            ? th.StatusCreatedDate.ToString("hh:mm tt")
-                                            : "N/A",
+            var tokensOnHold = await tokenHistory
+                .GroupBy(x => x.TokenID)
+                .Select(g => g
+                    .OrderByDescending(x => x.StatusCreatedDate)
+                    .First())
+                .CountAsync(x => x.TokenStatus == "onHold");
 
-                            CurrentTokenStatus = th.TokenStatus
-                        };
+  
+            var tokensPending = await tokenHistory
+                .GroupBy(x => x.TokenID)
+                .Where(g =>
+                    !g.Any(x => x.TokenStatus == "completed") &&
+                    !g.Any(x => x.TokenStatus == "onCall"))
+                .CountAsync();
+
+            return new TokenHistorySummaryDto
+            {
+                TotalTokensIssued = totalTokensIssued,
+                AverageWaitTimeMinutes = averageWaitTimeMinutes,
+                PeakHour = peakHour,
+                CounterPerformanceData = counterPerformanceData,
+                TokensOnHold = tokensOnHold,
+                TokensPending = tokensPending
+            };
+        }
+
+
+        public async Task<(List<TokenHistoryReportDto> data, int totalCount)> GetTokenHistoryDetailsAsync( int companyId, DateTime startDate, DateTime endDate, int pageNumber, int pageSize, string searchParam)
+        {
+            var fromDate = startDate.Date;
+            var toDate = endDate.Date.AddDays(1);
+
+            var query =
+                from th in _context.xtm_TokenHistory.AsNoTracking()
+
+                join df in _context.xtm_Department on th.DepFrom equals df.DepID into dfj
+                from depFrom in dfj.DefaultIfEmpty()
+
+                join dt in _context.xtm_Department on th.DepTo equals dt.DepID into dtj
+                from depTo in dtj.DefaultIfEmpty()
+
+                join s in _context.xtm_Service on th.ServiceID equals s.SerID into sj
+                from service in sj.DefaultIfEmpty()
+
+                join c in _context.xtm_Customer on th.CustomerID equals c.CustomerID into cj
+                from customer in cj.DefaultIfEmpty()
+
+                join co in _context.xtm_Counter on th.CounterID equals co.CounterID into coj
+                from counter in coj.DefaultIfEmpty()
+
+                where th.CompanyID == companyId
+                   && th.StatusCreatedDate >= fromDate
+                   && th.StatusCreatedDate < toDate
+                   && (
+                        string.IsNullOrWhiteSpace(searchParam)
+                        || (th.DepPrefix + th.TokenValue).Contains(searchParam)
+                        || th.TokenID.ToString() == searchParam
+                      )
+
+                select new TokenHistoryReportDto
+                {
+                    TokenHistoryID = th.TokenHistoryID,
+                    TokenID = th.TokenID,
+                    TokenValue = th.TokenValue,
+                    CreatedDate = th.StatusCreatedDate,
+                    StatusCreatedTime = th.StatusCreatedDate.ToString("hh:mm tt"),
+                    StatusCreatedUser = th.StatusCreatedUser,
+
+                    DepFromPrefix = th.DepPrefix,
+                    DepFromName = depFrom != null ? depFrom.DepName : "N/A",
+                    DepToName = depTo != null ? depTo.DepName : "N/A",
+
+                    CounterName = counter != null ? counter.CounterName : "N/A",
+                    ServiceName = service != null ? service.SerName : "N/A",
+                    CustomerName = customer != null ? customer.CustomerName : "N/A",
+                    CustomerMobileNumber = customer != null ? customer.CustomerMobileNumber : "N/A",
+
+                    OnCallTime = th.TokenStatus == "onCall"
+                                    ? th.StatusCreatedDate.ToString("hh:mm tt")
+                                    : "N/A",
+
+                    CurrentTokenStatus = th.TokenStatus
+                };
 
             var totalCount = await query.CountAsync();
 
             var data = await query
-                .OrderBy(x => x.CreatedDate)   // ✅ keep lifecycle order
+                .OrderBy(x => x.CreatedDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return (data, totalCount);
         }
-*/
-        public async Task<IEnumerable<TokenTimelineDto>> GetTokenTimelineAsync(int companyId, int depId, string depPrefix, int tokenValue)
+
+
+        public async Task<IEnumerable<TokenTimelineDto>> GetTokenTimelineAsync(int tokenId)
         {
-            var latestPending = await (from th in _context.xtm_TokenHistory
-                                       join dep in _context.xtm_Department on th.DepFrom equals dep.DepID
-                                       where th.CompanyID == companyId
-                                             && th.TokenValue == tokenValue
-                                             && dep.DepPrefix.Contains(depPrefix)
-                                             && th.TokenStatus == "Pending"
-                                             && th.StatusCreatedDate.Date == DateTime.Today
-                                       orderby th.StatusCreatedDate descending
-                                       select new { th.TokenID, th.StatusCreatedDate })
-                                      .FirstOrDefaultAsync();
-
-            if (latestPending == null)
-                return new List<TokenTimelineDto>();
-
             var timeline = await (from th in _context.xtm_TokenHistory
                                   join depFrom in _context.xtm_Department on th.DepFrom equals depFrom.DepID into depFromJoin
                                   from depFrom in depFromJoin.DefaultIfEmpty()
-
                                   join depTo in _context.xtm_Department on th.DepTo equals depTo.DepID into depToJoin
                                   from depTo in depToJoin.DefaultIfEmpty()
-
                                   join c in _context.xtm_Counter on th.CounterID equals c.CounterID into counterJoin
                                   from c in counterJoin.DefaultIfEmpty()
-
-                                  where th.TokenID == latestPending.TokenID &&
-                                        th.StatusCreatedDate >= latestPending.StatusCreatedDate
+                                  where th.TokenID == tokenId
                                   orderby th.StatusCreatedDate
                                   select new TokenTimelineDto
                                   {
@@ -567,6 +666,9 @@ namespace XeniaTokenBackend.Repositories.Token
 
             return timeline;
         }
+
+
+
         public async Task<bool> ResetTokenAsync(int companyId, int depId)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();

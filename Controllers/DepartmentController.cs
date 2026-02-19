@@ -22,6 +22,25 @@ namespace XeniaTokenBackend.Controllers
         }
 
 
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentDto dto)
+        {
+            try
+            {
+                var depId = await _departmentRepository.CreateDepartmentAsync(dto);
+                return Ok(new
+                {
+                    status = "success",
+                    message = "Departments created successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
         [HttpGet("web/{userId}")]   
         public async Task<IActionResult> GetDepartmentWebById(int userId)
         {
