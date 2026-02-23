@@ -46,7 +46,7 @@ builder.Services.AddScoped<JwtHelperService>();
 builder.Services.AddScoped<CommonService>();
 builder.Services.AddScoped<LiveTokenService>();
 builder.Services.AddHostedService<TokenLiveWorker>();
-
+builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using XeniaCatalogueApi.Service.Common;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Repositories.Token;
@@ -38,18 +37,17 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpGet("onHold")]
         public async Task<IActionResult> GetTokensOnHold()
         {
             try
             {
-                var companyId = _jwtHelperService.GetCompanyId(User);
-                var userId = _jwtHelperService.GetUserId(User);
+                var companyId = _jwtHelperService.GetCompanyId();
+                var userId = _jwtHelperService.GetUserId();
 
-                if (companyId == null || userId == null)
-                    return Unauthorized(new { status = "failed", error = "Invalid token claims" });
-
-                var tokens = await _tokenRepository.GetTokensOnHold(companyId.Value, userId.Value);
+  
+                var tokens = await _tokenRepository.GetTokensOnHold(companyId, userId);
                 return Ok(new { status = "success", tokensOnHold = tokens });
             }
             catch (Exception ex)
@@ -73,12 +71,14 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpGet("onCompleted/{companyId}/{userId}")]
         public async Task<IActionResult> GetTokensOnCompleted(int companyId, int userId)
         {
             var tokens = await _tokenRepository.GetTokensByStatus(companyId, userId, "completed");
             return Ok(new { status = "success", tokensOnCompleted = tokens });
         }
+
 
         [HttpGet("tokenValue/{companyId}/{depId}")]
         public async Task<IActionResult> GetTokenValues(int companyId, int depId)
@@ -94,6 +94,7 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpPost("updateTokenStatus")]
         public async Task<IActionResult> UpdateToken([FromBody] TokenUpdateRequest request)
         {
@@ -104,6 +105,7 @@ namespace XeniaTokenBackend.Controllers
 
             return Ok(new { success = true, result.UpdatedCurrentToken, result.OnCallToken });
         }
+
 
         [HttpPost("tokenStatusUpdate/{companyId}/{depId}/{depPrefix}/{tokenValue?}")]
         public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request, bool iscomplete = true)
@@ -118,6 +120,7 @@ namespace XeniaTokenBackend.Controllers
             return NotFound(new { success = false, message = result.Message });
         }
 
+
         [HttpGet("pendingToken/{companyId}/{userId}")]
         public async Task<IActionResult> GetPendingTokenValues(int companyId, int userId)
         {
@@ -129,6 +132,7 @@ namespace XeniaTokenBackend.Controllers
                 PendingToken = pendingToken
             });
         }
+
 
         [HttpGet("checkToken/{companyId}/{depId}/{tokenValue}")]
         public async Task<IActionResult> CheckTokenValues(int companyId, int depId, int tokenValue)
@@ -151,6 +155,7 @@ namespace XeniaTokenBackend.Controllers
                 return StatusCode(500, new { status = "failed", error = ex.Message });
             }
         }
+
 
         [HttpGet("summary/{companyId}")]
         public async Task<IActionResult> GetTokenHistorySummary( int companyId, [FromQuery] DateTime date)
@@ -203,6 +208,7 @@ namespace XeniaTokenBackend.Controllers
             });
         }
 
+
         [HttpPut("resetToken/{companyId}/{depId}")]
         public async Task<IActionResult> ResetToken(int companyId, int depId)
         {
@@ -217,6 +223,7 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpPut("IsAnnounced/{companyId}/{depId}/{tokenValue}")]
         public async Task<IActionResult> UpdateIsAnnounced(int companyId, int depId, int tokenValue)
         {
@@ -228,6 +235,7 @@ namespace XeniaTokenBackend.Controllers
             return Ok(new { status = "success", message = "IsAnnounced updated successfully" });
         }
 
+
         [HttpPut("updateDepartment/{companyId}/{depId}/{depPrefix}/{tokenValue}")]
         public async Task<IActionResult> UpdateDepartment(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] TokenUpdateDto tokenData)
         {
@@ -238,6 +246,7 @@ namespace XeniaTokenBackend.Controllers
 
             return Ok(new { status = "success", message = result.Message });
         }
+
 
         [HttpGet("onHold/{companyId}/{userId}")]
         public async Task<IActionResult> GetTokensOnHold(int companyId, int userId)
@@ -262,6 +271,7 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpPut("recall")]
         public async Task<IActionResult> RecallToken([FromBody] TokenRecallDto tokenData)
         {
@@ -278,6 +288,7 @@ namespace XeniaTokenBackend.Controllers
                 return StatusCode(500, new { message = "Error recalling token", error = ex.Message });
             }
         }
+
 
         [HttpPost("upsert")]
         public async Task<IActionResult> UpsertToken([FromBody] TokenUpsertDto tokenData)
@@ -296,17 +307,29 @@ namespace XeniaTokenBackend.Controllers
             }
         }
 
+
         [HttpGet("{tokenNumber}/{counterName}")]
-        public async Task<IActionResult> GetTokenAudio(string tokenNumber, string counterName)
+        public async Task<IActionResult> GetTokenAudio(string tokenNumber,string counterName)
         {
-            var mp3Stream = await _tokenRepository.GetTokenAudioAsync(tokenNumber, counterName);
+            try
+            {
+                var mp3Bytes = await _tokenRepository
+                    .GetTokenAudioAsync(tokenNumber, counterName);
 
-            Response.Headers.Append("Accept-Ranges", "bytes");
-            Response.Headers.Append("Cache-Control", "no-store");
+                Response.Headers.Append("Accept-Ranges", "bytes");
+                Response.Headers.Append("Cache-Control", "no-store");
 
-            return File(mp3Stream, "audio/mpeg", enableRangeProcessing: true);
+                return File(mp3Bytes, "audio/mpeg", enableRangeProcessing: true);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    status = "failed",
+                    error = ex.Message
+                });
+            }
         }
-
 
 
     }

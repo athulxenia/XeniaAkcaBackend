@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\repositories\\department\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:repositories\\department\\departmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\repositories\\dashboard\\dashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:repositories\\dashboard\\dashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\dto\\departmentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:dto\\departmentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\controllers\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:controllers\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\repositories\\dashboard\\idashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:repositories\\dashboard\\idashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\controllers\\tokencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:controllers\\tokencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\repositories\\company\\companyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:repositories\\company\\companyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|d:\\xenia\\github\\webapi\\asp.net\\core\\xeniatokenbackend\\repositories\\company\\icompanyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6603368E-10B8-4C1A-8C35-A3B640C57F4F}|XeniaTokenBackend.csproj|solutionrelative:repositories\\company\\icompanyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +46,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DepartmentDto.cs",
-              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Dto\\DepartmentDto.cs",
-              "RelativeDocumentMoniker": "Dto\\DepartmentDto.cs",
-              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Dto\\DepartmentDto.cs",
-              "RelativeToolTip": "Dto\\DepartmentDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAtAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "ICompanyRepository.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Company\\ICompanyRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Company\\ICompanyRepository.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Company\\ICompanyRepository.cs",
+              "RelativeToolTip": "Repositories\\Company\\ICompanyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T12:40:33.889Z",
+              "WhenOpened": "2026-02-23T07:19:06.004Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\DepartmentController.cs",
-              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\DepartmentController.cs",
-              "RelativeToolTip": "Controllers\\DepartmentController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwDAAAABKAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "CompanyRepository.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Company\\CompanyRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Company\\CompanyRepository.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Company\\CompanyRepository.cs",
+              "RelativeToolTip": "Repositories\\Company\\CompanyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T12:36:56.664Z",
+              "WhenOpened": "2026-02-23T07:01:17.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CompanyController.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\CompanyController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CompanyController.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\CompanyController.cs",
+              "RelativeToolTip": "Controllers\\CompanyController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T07:00:03.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TokenController.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\TokenController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TokenController.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\TokenController.cs",
+              "RelativeToolTip": "Controllers\\TokenController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T06:57:42.195Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DepartmentRepository.cs",
-              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Department\\DepartmentRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\Department\\DepartmentRepository.cs",
-              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Department\\DepartmentRepository.cs",
-              "RelativeToolTip": "Repositories\\Department\\DepartmentRepository.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAgwGQAAAAdAAAAAAAAAA==",
+              "Title": "DashboardRepository.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Dashboard\\DashboardRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Dashboard\\DashboardRepository.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Dashboard\\DashboardRepository.cs",
+              "RelativeToolTip": "Repositories\\Dashboard\\DashboardRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB4AAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T12:36:44.322Z",
+              "WhenOpened": "2026-02-23T06:49:47.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IDashboardRepository.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Dashboard\\IDashboardRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Dashboard\\IDashboardRepository.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Dashboard\\IDashboardRepository.cs",
+              "RelativeToolTip": "Repositories\\Dashboard\\IDashboardRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T06:49:21.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DashboardController.cs",
+              "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T06:49:03.603Z",
               "EditorCaption": ""
             }
           ]

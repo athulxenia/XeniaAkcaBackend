@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using XeniaCatalogueApi.Service.Common;
+using XeniaTempleBackend.Dtos;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
 
@@ -8,12 +9,10 @@ namespace XeniaTokenBackend.Repositories.Company
     public class CompanyRepository : ICompanyRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly JwtHelperService _jwtHelperService;
 
-        public CompanyRepository(ApplicationDbContext context, IConfiguration configuration, JwtHelperService jwtHelperService)
+        public CompanyRepository(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _jwtHelperService = jwtHelperService;
         }
 
     
@@ -39,70 +38,115 @@ namespace XeniaTokenBackend.Repositories.Company
         }
 
 
-        public async Task<CompanyTokenDetailDto?> GetCompanyByIdAsync(int companyId)
+        public async Task<CompanyTokenDetailDto?> GetCompanyWithSubscriptionAsync(int companyId)
         {
+            var currentDate = DateTime.UtcNow;
+
             var company = await _context.xtm_Company
-                .FirstOrDefaultAsync(c => c.CompanyID == companyId);
+                .Where(c => c.CompanyID == companyId)
+                .Select(c => new CompanyTokenListDto
+                {
+                    CompanyId = c.CompanyID,
+                    CompanyName = c.CompanyName,
+                    Status = c.Status,
+                    Country = c.Country,
+                    Address = c.Address,
+                    Email = c.Email
+                })
+                .FirstOrDefaultAsync();
 
             if (company == null)
                 return null;
 
+            var settings = await _context.xtm_CompanySettings
+                .Where(s => s.CompanyID == companyId)
+                .Select(s => new CompanyTokenSettingsDto
+                {
+                    CollectCustomerName = s.CollectCustomerName,
+                    PrintCustomerName = s.PrintCustomerName,
+                    CollectCustomerMobileNumber = s.CollectCustomerMobileNumber,
+                    PrintCustomerMobileNumber = s.PrintCustomerMobileNumber,
+                    IsCustomCall = s.IsCustomCall,
+                    IsServiceEnable = s.IsServiceEnable
+                })
+                .FirstOrDefaultAsync()
+                ?? new CompanyTokenSettingsDto();
 
-            var subscription = await _context.CompanySubscription
+            var activeDepCount = await _context.xtm_Department
+                .CountAsync(d => d.CompanyID == companyId && d.Status);
+
+            var subscriptionEntity = await _context.CompanySubscription
                 .Where(s => s.CompanyId == companyId && s.Status != "PENDING")
-                .OrderByDescending(s => s.SubscriptionEndDate)
+                .OrderByDescending(s => s.SubscriptionDate)
                 .FirstOrDefaultAsync();
 
-            SubscriptionTokenSummaryDto? subDto = null;
+            SubscriptionDto? subscription = null;
+            PlanDto? plan = null;
+            List<SubscriptionAddonDto> addons = new();
 
-            if (subscription != null)
+            if (subscriptionEntity != null)
             {
-                subDto = new SubscriptionTokenSummaryDto
+                var status = subscriptionEntity.Status.Trim().ToUpper();
+
+                if (subscriptionEntity.SubscriptionEndDate < currentDate)
                 {
-                    SubId = subscription.SubId,
-                    Status = subscription.Status,
-                    StartDate = subscription.SubscriptionStartDate,
-                    EndDate = subscription.SubscriptionEndDate,
-                    Amount = subscription.SubscriptionAmount,
-                    DepCount = subscription.SubscriptionDepCount
-                };
-            }
+                    status = status == "TRIAL" ? "TRIAL_EXPIRED" : "EXPIRED";
+                }
 
-
-            var settingEntity = await _context.xtm_CompanySettings
-                .FirstOrDefaultAsync(s => s.CompanyID == companyId);
-
-            CompanyTokenSettingsDto settingsDto = new CompanyTokenSettingsDto();
-
-            if (settingEntity != null)
-            {
-                settingsDto = new CompanyTokenSettingsDto
+                subscription = new SubscriptionDto
                 {
-                    CollectCustomerName = settingEntity.CollectCustomerName,
-                    PrintCustomerName = settingEntity.PrintCustomerName,
-                    CollectCustomerMobileNumber = settingEntity.CollectCustomerMobileNumber,
-                    PrintCustomerMobileNumber = settingEntity.PrintCustomerMobileNumber,
-                    IsCustomCall = settingEntity.IsCustomCall,
-                    IsServiceEnable = settingEntity.IsServiceEnable
+                    SubId = subscriptionEntity.SubId,
+                    PlanId = subscriptionEntity.PlanId,
+                    SubscriptionStartDate = subscriptionEntity.SubscriptionStartDate,
+                    SubscriptionEndDate = subscriptionEntity.SubscriptionEndDate,
+                    SubscriptionAmount = subscriptionEntity.SubscriptionAmount,
+                    SubscriptionDays = subscriptionEntity.SubscriptionDays,
+                    SubscriptionDepCount = subscriptionEntity.SubscriptionDepCount,
+                    SubscriptionExpireDays = Math.Max(
+                        (subscriptionEntity.SubscriptionEndDate!.Date - currentDate.Date).Days, 0),
+                    Status = status
                 };
+
+                if (status is "ACTIVE" or "TRIAL")
+                {
+                    addons = await _context.CompanySubscriptionAddon
+                        .Where(a => a.CompanyId == companyId
+                                 && a.MainPlanId == subscriptionEntity.PlanId
+                                 && a.Status == "ACTIVE")
+                        .Select(a => new SubscriptionAddonDto
+                        {
+                            SubAddonId = a.SubAddonId,
+                            Amount = a.Amount,
+                            DepCount = a.DepCount
+                        })
+                        .ToListAsync();
+                }
+
+                plan = await _context.SubscribePlan
+                    .Where(p => p.PlanId == subscriptionEntity.PlanId && p.PlanActive)
+                    .Select(p => new PlanDto
+                    {
+                        PlanId = p.PlanId,
+                        PlanName = p.PlanName,
+                        PlanDescription = p.PlanDescription,
+                        PlanPrice = subscriptionEntity.SubscriptionAmount,
+                        PlanDurationDays = subscriptionEntity.SubscriptionDays,
+                        PlanDep = p.PlanDep,
+                        PlanActive = p.PlanActive,                     
+                    })
+                    .FirstOrDefaultAsync();
             }
 
             return new CompanyTokenDetailDto
             {
-                Company = new CompanyTokenListDto
-                {
-                    CompanyId = company.CompanyID,
-                    CompanyName = company.CompanyName,
-                    Status = company.Status,
-                    Country = company.Country,
-                    Address = company.Address,
-                    Email = company.Email,
-                    Subscription = subDto
-                },
-                Settings = settingsDto
-            };        
+                ActiveDepCount = activeDepCount,
+                Company = company,
+                Settings = settings,
+                Subscription = subscription,
+                Plan = plan,
+                Addons = addons
+            };
         }
-
 
         public async Task<int> UpdateCompanySettingsAsync(int companySettingId, CompanySettingsUpdateDto dto)
         {

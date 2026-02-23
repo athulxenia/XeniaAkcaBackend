@@ -219,17 +219,11 @@
   {
     "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
     "Method": "GetCompanyById",
-    "RelativePath": "api/Company/{companyId}",
+    "RelativePath": "api/Company",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -277,16 +271,11 @@
   {
     "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
     "Method": "UpdateCompany",
-    "RelativePath": "api/Company/update/{companyId}",
+    "RelativePath": "api/Company/update",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "dto",
         "Type": "XeniaTokenBackend.Dto.UpdateCompanyDto",
@@ -378,6 +367,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetTokenValues",
+    "RelativePath": "api/Dashboard/dashboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

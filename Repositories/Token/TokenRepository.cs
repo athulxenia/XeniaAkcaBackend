@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using NAudio.Lame;
 using NAudio.Wave;
 using System.Globalization;
+using System.Net.Http;
 using System.Speech.Synthesis;
 using System.Text;
 using XeniaTokenBackend.Dto;
@@ -12,11 +14,14 @@ namespace XeniaTokenBackend.Repositories.Token
     public class TokenRepository : ITokenRepository
     {
         private readonly ApplicationDbContext _context;
-   
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public TokenRepository(ApplicationDbContext context, IConfiguration configuration)
+
+
+        public TokenRepository(ApplicationDbContext context, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
-            _context = context;      
+            _context = context;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<string> GetAndUpdateCustomToken(TokenRequestDto tokenData)
@@ -1009,36 +1014,35 @@ namespace XeniaTokenBackend.Repositories.Token
         }
 
 
-        public async Task<Stream> GetTokenAudioAsync(string tokenNumber, string counterName)
+        public async Task<byte[]> GetTokenAudioAsync(string tokenNumber, string counterName)
         {
             counterName = Uri.UnescapeDataString(counterName);
+
             string text = $"TokenNumber {tokenNumber} on {counterName}";
 
-            var wavStream = new MemoryStream();
+            const string baseUrl = "https://translate.google.com/translate_tts";
 
-            using (var synth = new SpeechSynthesizer())
+            var queryParams = new Dictionary<string, string>
             {
-                // ✅ SAFE voice selection
-                synth.SelectVoice("Microsoft Zira Desktop");
+                ["ie"] = "UTF-8",
+                ["client"] = "tw-ob",
+                ["tl"] = "en-IN",
+                ["q"] = text
+            };
 
-                synth.Rate = -2;      // speed (-10 to +10)
-                synth.Volume = 100;  // volume (0–100)
+            var url = QueryHelpers.AddQueryString(baseUrl, queryParams);
 
-                synth.SetOutputToWaveStream(wavStream);
-                synth.Speak(text);
-            }
+            var client = _httpClientFactory.CreateClient();
 
-            wavStream.Position = 0;
+            client.DefaultRequestHeaders.Add(
+                "User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            );
 
-            var mp3Stream = new MemoryStream();
-            using (var reader = new WaveFileReader(wavStream))
-            using (var writer = new LameMP3FileWriter(mp3Stream, reader.WaveFormat, LAMEPreset.STANDARD))
-            {
-                reader.CopyTo(writer);
-            }
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
 
-            mp3Stream.Position = 0;
-            return mp3Stream;
+            return await response.Content.ReadAsByteArrayAsync();
         }
 
 

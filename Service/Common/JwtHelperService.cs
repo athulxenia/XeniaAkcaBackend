@@ -43,19 +43,60 @@ namespace XeniaCatalogueApi.Service.Common
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public int? GetUserId(ClaimsPrincipal user) =>
-          int.TryParse(user.FindFirst("UserId")?.Value, out var userId) ? userId : (int?)null;
+        public int GetUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserId");
 
-        public int? GetCompanyId(ClaimsPrincipal user) =>
-            int.TryParse(user.FindFirst("CompanyId")?.Value, out var companyId) ? companyId : (int?)null;
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
 
-        public string GetUserType(ClaimsPrincipal user) =>
-            user.FindFirst("UserType")?.Value ?? string.Empty;
+            return 0;
+        }
+        public int GetCompanyId()
+        {
+            var companyIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "CompanyId");
 
-        public string GetAdminPassword(ClaimsPrincipal user) =>
-            user.FindFirst("AdminPassword")?.Value ?? string.Empty;
-        public string GetAllowReset(ClaimsPrincipal user) =>
-        user.FindFirst("TokenResetAllowed")?.Value ?? string.Empty;
+            if (companyIdClaim != null && int.TryParse(companyIdClaim.Value, out int companyId))
+            {
+                return companyId;
+            }
+
+            return 0;
+        }
+
+        public string GetUserType()
+        {
+            var userTypeClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserType");
+
+            return userTypeClaim?.Value ?? string.Empty;
+        }
+
+        public string GetAdminPassword()
+        {
+            var adminPasswordClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "AdminPassword");
+
+            return adminPasswordClaim?.Value ?? string.Empty;
+        }
+
+        public bool GetAllowReset()
+        {
+            var allowResetClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "TokenResetAllowed");
+
+            if (allowResetClaim != null &&
+                bool.TryParse(allowResetClaim.Value, out bool allowReset))
+            {
+                return allowReset;
+            }
+
+            return false;
+        }
 
 
     }

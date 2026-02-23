@@ -25,6 +25,6 @@ namespace XeniaTokenBackend.Repositories.Token
         Task<IEnumerable<object>> GetTokensOnHoldAsync(int companyId, int userId);
         Task<string> RecallTokenAsync(TokenRecallDto tokenData);
         Task<object> UpsertTokenAsync(TokenUpsertDto tokenData);
-        Task<Stream> GetTokenAudioAsync(string tokenNumber, string counterName);
+        Task<byte[]>  GetTokenAudioAsync(string tokenNumber, string counterName);
     }
 }

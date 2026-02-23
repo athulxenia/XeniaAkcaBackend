@@ -382,21 +382,10 @@
         }
       }
     },
-    "/api/Company/update/{companyId}": {
+    "/api/Company/update": {
       "put": {
         "tags": [
           "Company"
-        ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
         ],
         "requestBody": {
           "content": {
@@ -424,21 +413,10 @@
         }
       }
     },
-    "/api/Company/{companyId}": {
+    "/api/Company": {
       "get": {
         "tags": [
           "Company"
-        ],
-        "parameters": [
-          {
-            "name": "companyId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
         ],
         "responses": {
           "200": {
@@ -653,6 +631,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Dashboard/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
         ],
         "responses": {
           "200": {

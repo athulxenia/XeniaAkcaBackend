@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XeniaCatalogueApi.Service.Common;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Repositories.Company;
 
@@ -9,18 +10,22 @@ namespace XeniaTokenBackend.Controllers
     public class CompanyController : Controller
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly JwtHelperService _jwtHelperService;
 
-        public CompanyController(ICompanyRepository companyRepository)
+        public CompanyController(ICompanyRepository companyRepository, JwtHelperService jwtHelperService)
         {
             _companyRepository = companyRepository;
+            _jwtHelperService = jwtHelperService;
         }
 
     
-        [HttpPut("update/{companyId}")]
-        public async Task<IActionResult> UpdateCompany(int companyId, [FromBody] UpdateCompanyDto dto)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateCompany([FromBody] UpdateCompanyDto dto)
         {
             try
             {
+                int companyId = _jwtHelperService.GetCompanyId();
+
                 var rowsAffected = await _companyRepository.UpdateCompanyAsync(companyId, dto);
 
                 if (rowsAffected > 0)
@@ -35,12 +40,14 @@ namespace XeniaTokenBackend.Controllers
         }
 
      
-        [HttpGet("{companyId}")]
-        public async Task<IActionResult> GetCompanyById(int companyId)
+        [HttpGet("")]
+        public async Task<IActionResult> GetCompanyById()
         {
             try
             {
-                var company = await _companyRepository.GetCompanyByIdAsync(companyId);
+                int companyId = _jwtHelperService.GetCompanyId();
+
+                var company = await _companyRepository.GetCompanyWithSubscriptionAsync(companyId);
 
                 if (company == null)
                     return NotFound(new { status = "error", message = "Company not found" });

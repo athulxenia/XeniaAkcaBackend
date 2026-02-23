@@ -55,8 +55,8 @@ namespace XeniaTokenBackend.Repositories.Auth
         {
             if (user == null) return null;
 
-            int? companyId = _jwtHelperService.GetCompanyId(user);
-            int? userId = _jwtHelperService.GetUserId(user);
+            int? companyId = _jwtHelperService.GetCompanyId();
+            int? userId = _jwtHelperService.GetUserId();
 
             if (companyId == null || userId == null)
                 return null;
@@ -79,11 +79,11 @@ namespace XeniaTokenBackend.Repositories.Auth
                     c.IsCustomCall
                 })
                 .FirstOrDefaultAsync();
-          
+
             var userStatus = await _context.xtm_Users
-                .Where(u => u.UserID == userId)
-                .Select(u => u.Status)
-                .FirstOrDefaultAsync();
+                               .Where(u => u.UserID == userId)
+                               .Select(u => new { u.Status, u.Password })
+                               .FirstOrDefaultAsync();
 
             var rawSubscription = await _context.CompanySubscription
                 .Where(s => s.CompanyId == companyId)
@@ -190,15 +190,16 @@ namespace XeniaTokenBackend.Repositories.Auth
                 {
                     UserID = userId,
                     Username = user.FindFirst("Username")?.Value,
-                    UserType = _jwtHelperService.GetUserType(user),
-                    AdminPassword = _jwtHelperService.GetAdminPassword(user),
+                    UserType = _jwtHelperService.GetUserType(),
+                    Password = userStatus?.Password,
+                    AdminPassword = _jwtHelperService.GetAdminPassword(),
                     CompanyID = companyId,
                     CompanyName = company?.CompanyName,
                     CompanyAddress = company?.Address,
                     isCustomCall = companySettings?.IsCustomCall,
                     isServiceEnable = companySettings?.IsServiceEnable,
-                    TokenResetAllowed = _jwtHelperService.GetAllowReset(user),
-                    Status = userStatus
+                    TokenResetAllowed = _jwtHelperService.GetAllowReset(),
+                    Status = userStatus?.Status
                 },
 
                 IsTrial = isTrial,
