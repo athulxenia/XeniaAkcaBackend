@@ -107,8 +107,8 @@ namespace XeniaTokenBackend.Controllers
         }
 
 
-        [HttpPost("tokenStatusUpdate/{companyId}/{depId}/{depPrefix}/{tokenValue?}")]
-        public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request, bool iscomplete = true)
+        [HttpPost("tokenStatusUpdate/{companyId}")]
+        public async Task<IActionResult> UpdateTokenStatus(int companyId, int depId, string? depPrefix, int tokenValue, [FromBody] UpdateTokenStatusRequest request, bool iscomplete = true)
         {
             var result = await _tokenRepository.UpdateTokenStatusAsync(
                 companyId, depId, depPrefix, tokenValue, iscomplete,

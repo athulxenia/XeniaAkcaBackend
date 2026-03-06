@@ -54,8 +54,7 @@
               "RelativeToolTip": "Repositories\\Company\\ICompanyRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T07:19:06.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T07:19:06.004Z"
             },
             {
               "$type": "Document",
@@ -67,8 +66,7 @@
               "RelativeToolTip": "Repositories\\Company\\CompanyRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAH4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T07:01:17.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T07:01:17.06Z"
             },
             {
               "$type": "Document",
@@ -80,8 +78,7 @@
               "RelativeToolTip": "Controllers\\CompanyController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T07:00:03.152Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T07:00:03.152Z"
             },
             {
               "$type": "Document",
@@ -93,8 +90,7 @@
               "RelativeToolTip": "Controllers\\TokenController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T06:57:42.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T06:57:42.195Z"
             },
             {
               "$type": "Document",
@@ -104,7 +100,7 @@
               "RelativeDocumentMoniker": "Repositories\\Dashboard\\DashboardRepository.cs",
               "ToolTip": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaTokenBackend\\Repositories\\Dashboard\\DashboardRepository.cs",
               "RelativeToolTip": "Repositories\\Dashboard\\DashboardRepository.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB4AAABOAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA6wB4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-23T06:49:47.574Z",
               "EditorCaption": ""
@@ -119,8 +115,7 @@
               "RelativeToolTip": "Repositories\\Dashboard\\IDashboardRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T06:49:21.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T06:49:21.106Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "Controllers\\DashboardController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T06:49:03.603Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T06:49:03.603Z"
             }
           ]
         }

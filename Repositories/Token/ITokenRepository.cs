@@ -13,7 +13,7 @@ namespace XeniaTokenBackend.Repositories.Token
         Task<IEnumerable<TokenOnStatusDto>> GetTokensByStatus(int companyId, int userId, string tokenStatus);
         Task<TokenValuesDto> GetTokenValuesAsync(int companyId, int depId);
         Task<TokenUpdateResponse> GetAndUpdateCounterTokenAsync(TokenUpdateRequest request);
-        Task<(bool Success, string Message)> UpdateTokenStatusAsync(int companyId, int depId, string depPrefix, int tokenValue, bool iscomplete, int userId, int serviceId, int? customerId, int? counterId);
+        Task<(bool Success, string Message)> UpdateTokenStatusAsync(int companyId, int depId, string? depPrefix, int tokenValue, bool iscomplete, int userId, int serviceId, int? customerId, int? counterId);
         Task<int> GetPendingTokenAsync(int companyId, int userId);
         Task<IEnumerable<xtm_TokenRegister>> CheckTokenValueAsync(int companyId, int depId, int tokenValue);
         Task<TokenHistorySummaryDto> GetTokenHistorySummaryAsync(int companyId, DateTime date);

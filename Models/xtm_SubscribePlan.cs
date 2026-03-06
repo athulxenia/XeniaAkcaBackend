@@ -42,5 +42,9 @@ namespace XeniaTokenBackend.Models
 
         [Column("planActive")]
         public bool PlanActive { get; set; }
+
+
+        public virtual ICollection<xtm_SubscribePlanDuration> PlanDurations { get; set; }
+    = new List<xtm_SubscribePlanDuration>();
     }
 }

@@ -34,12 +34,16 @@ namespace XeniaTokenBackend.Models
         [Column("subscriptionDepCount")]
         public int SubscriptionDepCount { get; set; }
 
+        [Column("subscriptionTransRef")]
+        [MaxLength(50)]
+        public string? subscriptionTransRef { get; set; } = string.Empty;
+
         [Column("status")]
         [MaxLength(50)]
         public string Status { get; set; } = string.Empty;
 
         [Column("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [Column("updatedAt")]
         public DateTime? UpdatedAt { get; set; }

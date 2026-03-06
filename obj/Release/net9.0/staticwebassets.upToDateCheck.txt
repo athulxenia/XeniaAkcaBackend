@@ -1,5 +1,5 @@
 wwwroot\index.html
 wwwroot\logo.png
 wwwroot\style.css
-D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\wwwroot\style.css
-D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaTokenBackend\wwwroot\index.html
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaQLaunchBackend\wwwroot\style.css
+D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaQLaunchBackend\wwwroot\index.html

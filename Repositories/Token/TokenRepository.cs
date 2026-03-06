@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Speech.Synthesis;
 using System.Text;
+using System.Text.RegularExpressions;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
 
@@ -407,14 +408,14 @@ namespace XeniaTokenBackend.Repositories.Token
             return response;
         }
 
-        public async Task<(bool Success, string Message)> UpdateTokenStatusAsync( int companyId, int depId,  string depPrefix,  int tokenValue,  bool iscomplete, int userId, int serviceId, int? customerId,  int? counterId)
+        public async Task<(bool Success, string Message)> UpdateTokenStatusAsync( int companyId, int depId,  string? depPrefix,  int tokenValue,  bool iscomplete, int userId, int serviceId, int? customerId,  int? counterId)
         {
             var token = await _context.xtm_TokenRegister
-                .FirstOrDefaultAsync(t =>
-                    t.CompanyID == companyId &&
-                    t.DepID == depId &&
-                    t.DepPrefix == depPrefix &&
-                    t.TokenValue == tokenValue);
+                        .FirstOrDefaultAsync(t =>
+                            t.CompanyID == companyId &&
+                            t.DepID == depId &&
+                            (depPrefix == null || t.DepPrefix == depPrefix) &&
+                            t.TokenValue == tokenValue);
 
             if (token == null)
                 return (false, "Token not found");
@@ -618,7 +619,12 @@ namespace XeniaTokenBackend.Repositories.Token
                     TokenID = th.TokenID,
                     TokenValue = th.TokenValue,
                     CreatedDate = th.StatusCreatedDate,
-                    StatusCreatedTime = th.StatusCreatedDate.ToString("hh:mm tt"),
+                    StatusCreatedTime =
+                    _context.xtm_TokenHistory
+                        .Where(x => x.TokenID == th.TokenID && x.TokenStatus == "Pending")
+                        .OrderBy(x => x.StatusCreatedDate)
+                        .Select(x => x.StatusCreatedDate.ToString("hh:mm tt"))
+                        .FirstOrDefault() ?? "N/A",
                     StatusCreatedUser = th.StatusCreatedUser,
 
                     DepFromPrefix = th.DepPrefix,
@@ -630,7 +636,8 @@ namespace XeniaTokenBackend.Repositories.Token
                     CustomerName = customer != null ? customer.CustomerName : "N/A",
                     CustomerMobileNumber = customer != null ? customer.CustomerMobileNumber : "N/A",
 
-                    OnCallTime = th.TokenStatus == "onCall"
+                    OnCallTime = new[] { "onCall", "onHold", "Transfer", "completed", "Recalled" }
+                                .Contains(th.TokenStatus)
                                     ? th.StatusCreatedDate.ToString("hh:mm tt")
                                     : "N/A",
 
@@ -673,7 +680,6 @@ namespace XeniaTokenBackend.Repositories.Token
         }
 
 
-
         public async Task<bool> ResetTokenAsync(int companyId, int depId)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
@@ -708,6 +714,7 @@ namespace XeniaTokenBackend.Repositories.Token
                 throw;
             }
         }
+
         public async Task<bool> UpdateIsAnnouncedAsync(int companyId, int depId, int tokenValue)
         {
             var token = await _context.xtm_TokenRegister
@@ -781,7 +788,6 @@ namespace XeniaTokenBackend.Repositories.Token
 
                 _context.xtm_TokenHistory.Add(pendingHistory);
 
-                // -------- Save changes --------
                 await _context.SaveChangesAsync();
 
                 return (true, "DepID and token status updated, and history recorded successfully");
@@ -1018,6 +1024,8 @@ namespace XeniaTokenBackend.Repositories.Token
         {
             counterName = Uri.UnescapeDataString(counterName);
 
+            counterName = Regex.Replace(counterName, @"[^a-zA-Z0-9\s]", "");
+
             string text = $"TokenNumber {tokenNumber} on {counterName}";
 
             const string baseUrl = "https://translate.google.com/translate_tts";
@@ -1044,7 +1052,6 @@ namespace XeniaTokenBackend.Repositories.Token
 
             return await response.Content.ReadAsByteArrayAsync();
         }
-
 
     }
 }

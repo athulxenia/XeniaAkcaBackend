@@ -7,10 +7,11 @@
         public string PlanDescription { get; set; } = string.Empty;
         public decimal PlanPrice { get; set; }
         public int PlanDurationDays { get; set; }
-        public int PlanDep { get; set; }
+        public int PlanDeps { get; set; }
         public bool PlanIsAddOn { get; set; }
         public int PlanExpireDays { get; set; }
         public bool PlanActive { get; set; }
+        public List<PlanDurationDto> Durations { get; set; } = new();
     }
 
 

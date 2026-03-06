@@ -26,10 +26,22 @@ namespace XeniaTokenBackend.Repositories.Dashboard
                 .CountAsync(x => x.CompanyID == companyId &&
                                  x.TokenStatus == "Completed");
 
+            var activeDepCount = await _context.xtm_Department
+                .CountAsync(d => d.CompanyID == companyId && d.Status);
+
             var subscription = await _context.CompanySubscription
                 .Where(s => s.CompanyId == companyId && s.Status != "PENDING")
                 .OrderByDescending(s => s.SubscriptionDate)
                 .FirstOrDefaultAsync();
+
+            int baseDepCount = subscription?.SubscriptionDepCount ?? 0;
+
+  
+            int addonDepCount = await _context.CompanySubscriptionAddon
+                .Where(a => a.CompanyId == companyId && a.Status == "ACTIVE")
+                .SumAsync(a => (int?)a.DepCount) ?? 0;
+
+            int totalAllowedDepCount = baseDepCount + addonDepCount;
 
             int remainingDays = 0;
             string? status = null;
@@ -49,6 +61,8 @@ namespace XeniaTokenBackend.Repositories.Dashboard
 
             return new TokenDashboardDto
             {
+                DepCount = activeDepCount,              
+                AllowedDepCount = totalAllowedDepCount,
                 Pending = pending,
                 Completed = completed,
                 SubscriptionStatus = status,

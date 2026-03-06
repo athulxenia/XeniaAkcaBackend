@@ -23,7 +23,7 @@ namespace XeniaTokenBackend.Models
         public DbSet<xtm_UserMap> xtm_UserMap { get; set; }
         public DbSet<xtm_SubscribePlan> SubscribePlan { get; set; }
         public DbSet<xtm_SubscribePlanDuration> SubscribePlanDuration { get; set; }
-      //  public DbSet<xtm_SubscriptionTransaction> SubscriptionTransaction { get; set; }
+        public DbSet<xtm_SubscriptionTransaction> SubscriptionTransaction { get; set; }
         public DbSet<xtm_CompanySubscription> CompanySubscription { get; set; }
         public DbSet<xtm_CompanySubscriptionAddon> CompanySubscriptionAddon { get; set; }
     }

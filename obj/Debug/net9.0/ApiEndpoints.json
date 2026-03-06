@@ -194,7 +194,7 @@
       },
       {
         "Name": "userMaps",
-        "Type": "System.Collections.Generic.List\u00601[[XeniaTokenBackend.Dto.UserMapRequestDto, XeniaTokenBackend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[XeniaTokenBackend.Dto.UserMapRequestDto, XeniaQLaunchBackend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
@@ -598,6 +598,79 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
+    "Method": "GetAddonPlans",
+    "RelativePath": "api/subscription/addonPlans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
+    "Method": "CheckTransactionStatus",
+    "RelativePath": "api/subscription/mswipe/checkStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
+    "Method": "GetPlans",
+    "RelativePath": "api/subscription/plans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
+    "Method": "RenewSubscription",
+    "RelativePath": "api/subscription/renew",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "XeniaQLaunchBackend.Dto.RenewSubscriptionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
+    "Method": "UpdatePaymentStatus",
+    "RelativePath": "api/subscription/renew/update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionRefId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "success",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
     "Method": "GetTokenAudio",
     "RelativePath": "api/Token/{tokenNumber}/{counterName}",
@@ -882,7 +955,7 @@
   {
     "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
     "Method": "UpdateTokenStatus",
-    "RelativePath": "api/Token/tokenStatusUpdate/{companyId}/{depId}/{depPrefix}/{tokenValue}",
+    "RelativePath": "api/Token/tokenStatusUpdate/{companyId}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -895,12 +968,12 @@
       {
         "Name": "depId",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
       },
       {
         "Name": "depPrefix",
         "Type": "System.String",
-        "IsRequired": true
+        "IsRequired": false
       },
       {
         "Name": "tokenValue",

@@ -28,5 +28,8 @@ namespace XeniaTokenBackend.Models
         [Column("modifiedOn")]
         public DateTime? ModifiedOn { get; set; }
 
+        [ForeignKey(nameof(PlanId))]
+        public virtual xtm_SubscribePlan? SubscribePlan { get; set; }
+
     }
 }

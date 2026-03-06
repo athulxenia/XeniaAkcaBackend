@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using XeniaCatalogueApi.Service.Common;
 using XeniaTempleBackend.Dtos;
 using XeniaTokenBackend.Dto;
 using XeniaTokenBackend.Models;
@@ -36,7 +35,6 @@ namespace XeniaTokenBackend.Repositories.Company
             var rowsAffected = await _context.SaveChangesAsync();
             return rowsAffected;
         }
-
 
         public async Task<CompanyTokenDetailDto?> GetCompanyWithSubscriptionAsync(int companyId)
         {
@@ -131,7 +129,7 @@ namespace XeniaTokenBackend.Repositories.Company
                         PlanDescription = p.PlanDescription,
                         PlanPrice = subscriptionEntity.SubscriptionAmount,
                         PlanDurationDays = subscriptionEntity.SubscriptionDays,
-                        PlanDep = p.PlanDep,
+                        PlanDeps = p.PlanDep,
                         PlanActive = p.PlanActive,                     
                     })
                     .FirstOrDefaultAsync();
