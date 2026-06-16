@@ -19,9 +19,15 @@ namespace XeniaTokenBackend.Service
 
         public async Task EmitChangesAsync(int userId, string isCall)
         {
-            var companySettings = await _context.xtm_CompanySettings
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
+            var companySettings = await (
+                   from u in _context.xtm_Users
+                   join cs in _context.xtm_CompanySettings
+                       on u.CompanyID equals cs.CompanyID
+                   where u.UserID == userId
+                   select cs
+               )
+               .AsNoTracking()
+               .FirstOrDefaultAsync();
 
             bool showLastCompletedToken =
                 companySettings?.ShowLastCompletedToken ?? false;
@@ -56,7 +62,6 @@ namespace XeniaTokenBackend.Service
                 }
             ).ToListAsync();
 
-            // Convert active tokens to DTO
             var activeDtos = activeTokens
                 .Select(x => new TokenLiveDto
                 {
