@@ -3539,31 +3539,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\devel\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/macbookair/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaQLaunchBackend\\XeniaQLaunchBackend.csproj",
+      "projectUniqueName": "/Users/macbookair/Documents/XENIA/BACKEND/ASP.NET/XeniaQLaunchBackend/XeniaQLaunchBackend.csproj",
       "projectName": "XeniaQLaunchBackend",
-      "projectPath": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaQLaunchBackend\\XeniaQLaunchBackend.csproj",
-      "packagesPath": "C:\\Users\\devel\\.nuget\\packages\\",
-      "outputPath": "D:\\XENIA\\GITHUB\\WEBAPI\\ASP.NET\\CORE\\XeniaQLaunchBackend\\obj\\",
+      "projectPath": "/Users/macbookair/Documents/XENIA/BACKEND/ASP.NET/XeniaQLaunchBackend/XeniaQLaunchBackend.csproj",
+      "packagesPath": "/Users/macbookair/.nuget/packages/",
+      "outputPath": "/Users/macbookair/Documents/XENIA/BACKEND/ASP.NET/XeniaQLaunchBackend/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\devel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/macbookair/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3582,7 +3575,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -3652,7 +3645,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

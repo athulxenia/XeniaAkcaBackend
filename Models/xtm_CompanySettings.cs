@@ -20,5 +20,6 @@ namespace XeniaTokenBackend.Models
         public bool IsCustomCall { get; set; }
 
         public bool IsServiceEnable { get; set; }
+        public bool ShowLastCompletedToken { get; set; }
     }
 }
