@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -16,7 +16,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "UpdateContribution",
     "RelativePath": "api/contribution/{contributionId}",
     "HttpMethod": "PUT",
@@ -37,7 +37,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ProcessAllContributionPayments",
     "RelativePath": "api/contribution/all/notification",
     "HttpMethod": "POST",
@@ -47,7 +47,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ApproveContribution",
     "RelativePath": "api/contribution/Approve/{contributionId}",
     "HttpMethod": "PUT",
@@ -68,7 +68,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "DetailsOfContribution",
     "RelativePath": "api/contribution/contributionView/{contributionId}",
     "HttpMethod": "GET",
@@ -84,7 +84,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "CreateContribution",
     "RelativePath": "api/contribution/create",
     "HttpMethod": "POST",
@@ -100,7 +100,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "GetContributionDetails",
     "RelativePath": "api/contribution/details/{contributionId}",
     "HttpMethod": "GET",
@@ -116,7 +116,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "GetDistrictContribution",
     "RelativePath": "api/contribution/district/{status}/{districtId}/{contributionId}",
     "HttpMethod": "GET",
@@ -157,7 +157,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ContributionAmountNotification",
     "RelativePath": "api/contribution/notification/{memberId}",
     "HttpMethod": "POST",
@@ -173,7 +173,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "FirebaseNotification",
     "RelativePath": "api/contribution/notificationPush",
     "HttpMethod": "POST",
@@ -189,7 +189,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ConPayedDetails",
     "RelativePath": "api/contribution/payed/memberDtls/{userId}",
     "HttpMethod": "GET",
@@ -205,7 +205,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ConPendingDetails",
     "RelativePath": "api/contribution/pending/memberDtls/{userId}",
     "HttpMethod": "GET",
@@ -221,7 +221,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "GetMember",
     "RelativePath": "api/contribution/searchMember/{partialName}",
     "HttpMethod": "GET",
@@ -237,7 +237,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "GetStateContribution",
     "RelativePath": "api/contribution/state/{status}/{contributionId}",
     "HttpMethod": "GET",
@@ -273,7 +273,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "GetUnitContribution",
     "RelativePath": "api/contribution/unit/{status}/{unitId}/{contributionId}",
     "HttpMethod": "GET",
@@ -314,7 +314,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ContributionUpdation",
     "RelativePath": "api/contribution/updated/{contributionId}",
     "HttpMethod": "PUT",
@@ -335,7 +335,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllDistrictWiseDetailsAndGraph",
     "RelativePath": "api/dashboard/district",
     "HttpMethod": "GET",
@@ -371,7 +371,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllDistrictWiseDetails",
     "RelativePath": "api/dashboard/districtAA",
     "HttpMethod": "GET",
@@ -407,7 +407,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllDistrictWiseGraphDetails",
     "RelativePath": "api/dashboard/graph/districtAA",
     "HttpMethod": "GET",
@@ -443,7 +443,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllStateWiseGraphDetails",
     "RelativePath": "api/dashboard/graph/stateAA",
     "HttpMethod": "GET",
@@ -474,7 +474,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllStateWiseDetailsAndGraph",
     "RelativePath": "api/dashboard/state",
     "HttpMethod": "GET",
@@ -505,7 +505,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllStateWiseDetails",
     "RelativePath": "api/dashboard/stateAA",
     "HttpMethod": "GET",
@@ -536,7 +536,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
     "Method": "GetAllUnitWiseDetails",
     "RelativePath": "api/dashboard/unitAA",
     "HttpMethod": "GET",

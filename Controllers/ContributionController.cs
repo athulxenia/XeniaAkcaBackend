@@ -5,7 +5,7 @@ using XeniaAkcaBackend.Models;
 using XeniaAkcaBackend.Repositories;
 
 
-namespace XeniaTokenBackend.Controllers
+namespace XeniaAkcaBackend.Controllers
 {
     [ApiController]
     [Route("api/contribution")]

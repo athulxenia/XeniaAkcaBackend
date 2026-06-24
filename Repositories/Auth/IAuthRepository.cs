@@ -2,7 +2,7 @@
 using XeniaAkcaBackend.Models;
 using XeniaKhraBackend.Models;
 
-namespace XeniaTokenBackend.Repositories.Auth
+namespace XeniaAkcaBackend.Repositories.Auth
 {
     public interface IAuthRepository
     {

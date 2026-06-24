@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using XeniaAkcaBackend.Models;
 
-using XeniaTokenBackend.Repositories.Dashboard;
+using XeniaAkcaBackend.Repositories.Dashboard;
 
-namespace XeniaTokenBackend.Repositories
+namespace XeniaAkcaBackend.Repositories
 {
     public class DashboardRepository : IDashboardRepository
     {

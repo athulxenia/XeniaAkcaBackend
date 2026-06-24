@@ -16,9 +16,9 @@ using XeniaAkcaBackend.Repositories.Member;
 //using XeniaCatalogueApi.Repository;
 using XeniaCatalogueApi.Service.Common;
 using XeniaKhraBackend.Repositories.Payment;
-using XeniaTokenBackend.Repositories;
-using XeniaTokenBackend.Repositories.Auth;
-using XeniaTokenBackend.Repositories.Dashboard;
+using XeniaAkcaBackend.Repositories;
+using XeniaAkcaBackend.Repositories.Auth;
+using XeniaAkcaBackend.Repositories.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 

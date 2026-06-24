@@ -1,4 +1,4 @@
-﻿namespace XeniaTokenBackend.Dto
+﻿namespace XeniaAkcaBackend.Dto
 {
     public class UpdateServiceRequestDto
     {

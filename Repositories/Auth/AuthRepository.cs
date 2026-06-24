@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using XeniaKhraBackend.Models;           
-using XeniaTokenBackend.Repositories.Auth;
+using XeniaAkcaBackend.Repositories.Auth;
 using XeniaCatalogueApi.Service.Common;
 using XeniaAkcaBackend.Models;
 
-namespace XeniaTokenBackend.Repositories
+namespace XeniaAkcaBackend.Repositories
 {
     public class AuthRepository : IAuthRepository
     {

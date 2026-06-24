@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using XeniaTokenBackend.Repositories.Dashboard;
+using XeniaAkcaBackend.Repositories.Dashboard;
 
-namespace XeniaTokenBackend.Controllers
+namespace XeniaAkcaBackend.Controllers
 {
     [ApiController]
     [Authorize]

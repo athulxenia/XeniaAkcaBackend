@@ -1,7 +1,7 @@
 ﻿using XeniaAkcaBackend.Models;
 
 
-namespace XeniaTokenBackend.Repositories.Dashboard
+namespace XeniaAkcaBackend.Repositories.Dashboard
 {
     public interface IDashboardRepository
     {

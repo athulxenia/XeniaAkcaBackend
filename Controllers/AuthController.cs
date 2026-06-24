@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using XeniaAkcaBackend.Models;
-using XeniaTokenBackend.Repositories.Auth;
+using XeniaAkcaBackend.Repositories.Auth;
 
-namespace XeniaTokenBackend.Controllers
+namespace XeniaAkcaBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
