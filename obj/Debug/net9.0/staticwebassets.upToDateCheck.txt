@@ -1,5 +1,5 @@
-wwwroot\style.css
-wwwroot\logo.png
+D:\Project\github\XeniaAkcaBackend\wwwroot\index.html
+D:\Project\github\XeniaAkcaBackend\wwwroot\style.css
 wwwroot\index.html
-E:\XeniaQLaunchBackend\wwwroot\index.html
-E:\XeniaQLaunchBackend\wwwroot\style.css
+wwwroot\logo.png
+wwwroot\style.css

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using XeniaKhraBackend.Models;
 
-namespace XeniaTokenBackend.Models
+
+namespace XeniaAkcaBackend.Models
 {
     public class ApplicationDbContext : DbContext
     {
@@ -8,23 +10,21 @@ namespace XeniaTokenBackend.Models
             : base(options)
         {
         }
-        public DbSet<xtm_AppSettings> xtm_AppSettings { get; set; }
-        public DbSet<xtm_Advertisement> xtm_Advertisement { get; set; }
-        public DbSet<xtm_Counter> xtm_Counter { get; set; }
-        public DbSet<xtm_Company> xtm_Company { get; set; }
-        public DbSet<xtm_CompanySettings> xtm_CompanySettings { get; set; }
-        public DbSet<xtm_Customer> xtm_Customer { get; set; }
-        public DbSet<xtm_Department> xtm_Department { get; set; }
-        public DbSet<xtm_TokenMaster> xtm_TokenMaster { get; set; }
-        public DbSet<xtm_Service> xtm_Service { get; set; }
-        public DbSet<xtm_TokenRegister> xtm_TokenRegister { get; set; }
-        public DbSet<xtm_TokenHistory> xtm_TokenHistory { get; set; }
-        public DbSet<xtm_Users> xtm_Users { get; set; }
-        public DbSet<xtm_UserMap> xtm_UserMap { get; set; }
-        public DbSet<xtm_SubscribePlan> SubscribePlan { get; set; }
-        public DbSet<xtm_SubscribePlanDuration> SubscribePlanDuration { get; set; }
-        public DbSet<xtm_SubscriptionTransaction> SubscriptionTransaction { get; set; }
-        public DbSet<xtm_CompanySubscription> CompanySubscription { get; set; }
-        public DbSet<xtm_CompanySubscriptionAddon> CompanySubscriptionAddon { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<MemberPayment> MemberPayments { get; set; }
+
+        public DbSet<MemberContribution> MemberContributions { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<MemberWallet> MemberWallet { get; set; }
+        public DbSet<KaruthalMember> KaruthalMembers { get; set; }
+        public DbSet<Contribution> Contributions { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<MemberGroup> MemberGroups { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Nominee> Nominees { get; set; }
+        public DbSet<Information> Informations { get; set; }
+
     }
 }

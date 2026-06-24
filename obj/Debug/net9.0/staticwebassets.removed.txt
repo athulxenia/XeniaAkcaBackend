@@ -1,2 +1,0 @@
-D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaQLaunchBackend\wwwroot\index.html
-D:\XENIA\GITHUB\WEBAPI\ASP.NET\CORE\XeniaQLaunchBackend\wwwroot\style.css

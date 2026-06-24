@@ -1,138 +1,5 @@
 [
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AdvertisementController",
-    "Method": "GetCompanyAdvertisements",
-    "RelativePath": "api/Advertisement/company/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AdvertisementController",
-    "Method": "CreateAdvertisement",
-    "RelativePath": "api/Advertisement/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CreateAdvertisementDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AdvertisementController",
-    "Method": "DeleteAdvertisement",
-    "RelativePath": "api/Advertisement/delete/{advId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "advId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AdvertisementController",
-    "Method": "UpdateAdvertisement",
-    "RelativePath": "api/Advertisement/update/{advId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "advId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateAdvertisementDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AdvertisementController",
-    "Method": "GetAdvertisementsByUser",
-    "RelativePath": "api/Advertisement/user/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "GetAppVersion",
-    "RelativePath": "api/Auth/appversion/{appName}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "appName",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "CreateUser",
-    "RelativePath": "api/Auth/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Models.xtm_Users",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/Auth/delete/{userId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
@@ -142,48 +9,190 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "XeniaTokenBackend.Dto.LoginRequestDto",
+        "Type": "XeniaAkcaBackend.Models.LoginRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "UpdateUser",
-    "RelativePath": "api/Auth/update/{userId}",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "UpdateContribution",
+    "RelativePath": "api/contribution/{contributionId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
+        "Name": "contributionId",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateUserRequestDto",
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateContributionRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "GetUsersByToken",
-    "RelativePath": "api/Auth/user",
-    "HttpMethod": "GET",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ProcessAllContributionPayments",
+    "RelativePath": "api/contribution/all/notification",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "CreateUserMap",
-    "RelativePath": "api/Auth/usermap/{userId}",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ApproveContribution",
+    "RelativePath": "api/contribution/Approve/{contributionId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ApproveContributionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "DetailsOfContribution",
+    "RelativePath": "api/contribution/contributionView/{contributionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "CreateContribution",
+    "RelativePath": "api/contribution/create",
     "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.CreateContributionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "GetContributionDetails",
+    "RelativePath": "api/contribution/details/{contributionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "GetDistrictContribution",
+    "RelativePath": "api/contribution/district/{status}/{districtId}/{contributionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "districtId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "contributionId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ContributionAmountNotification",
+    "RelativePath": "api/contribution/notification/{memberId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "memberId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "FirebaseNotification",
+    "RelativePath": "api/contribution/notificationPush",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contributionMemberId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ConPayedDetails",
+    "RelativePath": "api/contribution/payed/memberDtls/{userId}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -191,179 +200,135 @@
         "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userMaps",
-        "Type": "System.Collections.Generic.List\u00601[[XeniaTokenBackend.Dto.UserMapRequestDto, XeniaQLaunchBackend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.AuthController",
-    "Method": "GetUsers",
-    "RelativePath": "api/Auth/users/{companyId}",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ConPendingDetails",
+    "RelativePath": "api/contribution/pending/memberDtls/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "GetCompanyById",
-    "RelativePath": "api/Company",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "GetAllCompanySettings",
-    "RelativePath": "api/Company/companysettings",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
       {
         "Name": "userId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "GetMember",
+    "RelativePath": "api/contribution/searchMember/{partialName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partialName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "GetStateContribution",
+    "RelativePath": "api/contribution/state/{status}/{contributionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "contributionId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "UpdateCompanySettings",
-    "RelativePath": "api/Company/companysettings/{companySettingId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companySettingId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CompanySettingsUpdateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CompanyController",
-    "Method": "UpdateCompany",
-    "RelativePath": "api/Company/update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateCompanyDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CounterController",
-    "Method": "GetCounters",
-    "RelativePath": "api/Counter/{companyId}",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "GetUnitContribution",
+    "RelativePath": "api/contribution/unit/{status}/{unitId}/{contributionId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "companyId",
-        "Type": "System.Int32",
+        "Name": "status",
+        "Type": "System.String",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CounterController",
-    "Method": "CreateCounter",
-    "RelativePath": "api/Counter/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
+      },
       {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CreateCounterRequestDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CounterController",
-    "Method": "DeleteCounter",
-    "RelativePath": "api/Counter/delete/{counterId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
+        "Name": "unitId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
       {
-        "Name": "counterId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.CounterController",
-    "Method": "GetDepCounters",
-    "RelativePath": "api/Counter/dep/{depId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
+        "Name": "contributionId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
       {
-        "Name": "depId",
+        "Name": "page",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.CounterController",
-    "Method": "UpdateCounter",
-    "RelativePath": "api/Counter/update/{counterId}",
+    "ContainingType": "XeniaTokenBackend.Controllers.ContributionController",
+    "Method": "ContributionUpdation",
+    "RelativePath": "api/contribution/updated/{contributionId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "counterId",
+        "Name": "contributionId",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateCounterRequestDto",
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ContributionUpdationRequest",
         "IsRequired": true
       }
     ],
@@ -371,8 +336,240 @@
   },
   {
     "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
-    "Method": "GetTokenValues",
-    "RelativePath": "api/Dashboard/dashboard",
+    "Method": "GetAllDistrictWiseDetailsAndGraph",
+    "RelativePath": "api/dashboard/district",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllDistrictWiseDetails",
+    "RelativePath": "api/dashboard/districtAA",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllDistrictWiseGraphDetails",
+    "RelativePath": "api/dashboard/graph/districtAA",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllStateWiseGraphDetails",
+    "RelativePath": "api/dashboard/graph/stateAA",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllStateWiseDetailsAndGraph",
+    "RelativePath": "api/dashboard/state",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllStateWiseDetails",
+    "RelativePath": "api/dashboard/stateAA",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaTokenBackend.Controllers.DashboardController",
+    "Method": "GetAllUnitWiseDetails",
+    "RelativePath": "api/dashboard/unitAA",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.DistrictController",
+    "Method": "GetAllDistrict",
+    "RelativePath": "api/district",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -380,719 +577,588 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "GetAllDepartmentsAppByUser",
-    "RelativePath": "api/Department/app/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "GetAllDepartmentsByCompany",
-    "RelativePath": "api/Department/company/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "CreateDepartment",
-    "RelativePath": "api/Department/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CreateDepartmentDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "DeleteDepartment",
-    "RelativePath": "api/Department/delete/{depId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "GetAllDepartments",
-    "RelativePath": "api/Department/departments",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "depNameSearch",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "UpdateDepartment",
-    "RelativePath": "api/Department/update/{depId}",
+    "ContainingType": "XeniaAkcaBackend.Controllers.DistrictController",
+    "Method": "UpdateDistrict",
+    "RelativePath": "api/district/{districtid}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "depId",
+        "Name": "districtid",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateDepartmentRequestDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "GetDepartmentWebById",
-    "RelativePath": "api/Department/web/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.DepartmentController",
-    "Method": "GetDepartmentWebAll",
-    "RelativePath": "api/Department/web/all/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.ServiceController",
-    "Method": "GetAllService",
-    "RelativePath": "api/Service/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.ServiceController",
-    "Method": "CreateService",
-    "RelativePath": "api/Service/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.CreateServiceRequestDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.ServiceController",
-    "Method": "DeleteService",
-    "RelativePath": "api/Service/delete/{serId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "serId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.ServiceController",
-    "Method": "GetServicesByDepartment",
-    "RelativePath": "api/Service/department/{depId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.ServiceController",
-    "Method": "UpdateService",
-    "RelativePath": "api/Service/update/{serId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "serId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "dto",
-        "Type": "XeniaTokenBackend.Dto.UpdateServiceRequestDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
-    "Method": "GetAddonPlans",
-    "RelativePath": "api/subscription/addonPlans",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
-    "Method": "CheckTransactionStatus",
-    "RelativePath": "api/subscription/mswipe/checkStatus",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "transId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
-    "Method": "GetPlans",
-    "RelativePath": "api/subscription/plans",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
-    "Method": "RenewSubscription",
-    "RelativePath": "api/subscription/renew",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "XeniaQLaunchBackend.Dto.RenewSubscriptionDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaQLaunchBackend.Controllers.SubscriptionController",
-    "Method": "UpdatePaymentStatus",
-    "RelativePath": "api/subscription/renew/update",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "transactionRefId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "success",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenAudio",
-    "RelativePath": "api/Token/{tokenNumber}/{counterName}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tokenNumber",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "counterName",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "CheckTokenValues",
-    "RelativePath": "api/Token/checkToken/{companyId}/{depId}/{tokenValue}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokenValue",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "UpdateIsAnnounced",
-    "RelativePath": "api/Token/IsAnnounced/{companyId}/{depId}/{tokenValue}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokenValue",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokensOnCompleted",
-    "RelativePath": "api/Token/onCompleted/{companyId}/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokensOnHold",
-    "RelativePath": "api/Token/onHold",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokensOnHold",
-    "RelativePath": "api/Token/onHold/{companyId}/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokensOnPending",
-    "RelativePath": "api/Token/onPending/{companyId}/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetPendingTokenValues",
-    "RelativePath": "api/Token/pendingToken/{companyId}/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "RecallToken",
-    "RelativePath": "api/Token/recall",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tokenData",
-        "Type": "XeniaTokenBackend.Dto.TokenRecallDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenHistoryReport",
-    "RelativePath": "api/Token/report/tokenDetail/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "startDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "endDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageNumber",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "searchParam",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "ResetToken",
-    "RelativePath": "api/Token/resetToken/{companyId}/{depId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenHistorySummary",
-    "RelativePath": "api/Token/summary/{companyId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "date",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenTimeline",
-    "RelativePath": "api/Token/timeline/{tokenId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tokenId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "UpdateTokenStatus",
-    "RelativePath": "api/Token/tokenStatusUpdate/{companyId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "depPrefix",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "tokenValue",
-        "Type": "System.Int32",
-        "IsRequired": false
       },
       {
         "Name": "request",
-        "Type": "XeniaTokenBackend.Dto.UpdateTokenStatusRequest",
-        "IsRequired": true
-      },
-      {
-        "Name": "iscomplete",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetTokenValues",
-    "RelativePath": "api/Token/tokenValue/{companyId}/{depId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "companyId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depId",
-        "Type": "System.Int32",
+        "Type": "XeniaAkcaBackend.Dto.UpdateDistrictRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "GetNextCustomTokenForCounter",
-    "RelativePath": "api/Token/updateCustomTokenStatus",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tokenData",
-        "Type": "XeniaTokenBackend.Dto.TokenRequestDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "UpdateDepartment",
-    "RelativePath": "api/Token/updateDepartment/{companyId}/{depId}/{depPrefix}/{tokenValue}",
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "UpdateInformation",
+    "RelativePath": "api/information/{informationId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "companyId",
+        "Name": "informationId",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "depId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "depPrefix",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokenValue",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "tokenData",
-        "Type": "XeniaTokenBackend.Dto.TokenUpdateDto",
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateInformationRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "UpdateToken",
-    "RelativePath": "api/Token/updateTokenStatus",
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "ApproveInformation",
+    "RelativePath": "api/information/Approve/{informationId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "informationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ApproveInformationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "CreateInformation",
+    "RelativePath": "api/information/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "XeniaTokenBackend.Dto.TokenUpdateRequest",
+        "Type": "XeniaAkcaBackend.Dto.CreateInformationRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaTokenBackend.Controllers.TokenController",
-    "Method": "UpsertToken",
-    "RelativePath": "api/Token/upsert",
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "GetInformationDetails",
+    "RelativePath": "api/information/details/{districtId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "GetInformation",
+    "RelativePath": "api/information/search/{partialName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "partialName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.InformationController",
+    "Method": "GetStateInformation",
+    "RelativePath": "api/information/state",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "informationId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "UpdateMemberStatus",
+    "RelativePath": "api/member/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateMemberStatusRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetOwnerDetails",
+    "RelativePath": "api/member/checkMember/{membershipNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "membershipNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "ChildMemberApprove",
+    "RelativePath": "api/member/childMembers/approve/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ChildApproveRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetMemberOutstanding",
+    "RelativePath": "api/member/childMembers/outstanding/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetPendingApproveDetails",
+    "RelativePath": "api/member/childMembers/pendingApprove/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetAllDistrictWiseMember",
+    "RelativePath": "api/member/district/{status}/{districtid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetAllDistrictKaruthalMember",
+    "RelativePath": "api/member/karuthalDistrict/{status}/{districtid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetAllStateKaruthalMember",
+    "RelativePath": "api/member/karuthalState/{status}/{pending}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "pending",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "MemberStatusDetails",
+    "RelativePath": "api/member/memberStatus/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetMemberDetails",
+    "RelativePath": "api/member/search/memberDtls/{memberid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "memberid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetAllStateWiseMember",
+    "RelativePath": "api/member/state/{status}/{pending}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "pending",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetAllUnitWiseMember",
+    "RelativePath": "api/member/unit/{status}/{unitid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "GetMember",
+    "RelativePath": "api/member/verify/{membershipNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "membershipNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
+    "Method": "GetNominee",
+    "RelativePath": "api/nominee/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "unitid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
+    "Method": "UpdateNominee",
+    "RelativePath": "api/nominee/{userId}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tokenData",
-        "Type": "XeniaTokenBackend.Dto.TokenUpsertDto",
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateNomineeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
+    "Method": "ApproveNominee",
+    "RelativePath": "api/nominee/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ApproveNomineeRequest",
         "IsRequired": true
       }
     ],

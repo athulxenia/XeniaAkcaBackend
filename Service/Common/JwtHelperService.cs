@@ -2,7 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using XeniaTokenBackend.Models; 
+using XeniaAkcaBackend.Models;
+using XeniaKhraBackend.Models;
 
 namespace XeniaCatalogueApi.Service.Common
 {
@@ -17,20 +18,23 @@ namespace XeniaCatalogueApi.Service.Common
             _config = config;
         }
 
-        public string GenerateJwtToken(xtm_Users user, string adminPassword)
+        public string GenerateJwtToken(User user, string adminPassword = "")
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim("UserId", user.UserID.ToString()),
-                new Claim("CompanyId", user.CompanyID.ToString()),
-                new Claim("UserType", user.UserType ?? string.Empty),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim("CompanyId", user.CompanyId.ToString()),
+                new Claim("UserGroupId", user.UserGroupId?.ToString() ?? string.Empty),
+                new Claim("UserDistrictId", user.UserDistrictId?.ToString() ?? string.Empty),
+                new Claim("UserUnitId", user.UserUnitId?.ToString() ?? string.Empty),
+                new Claim("UserType", user.UserGroupId?.ToString() ?? string.Empty),
                 new Claim("AdminPassword", adminPassword ?? string.Empty),
-                new Claim("Username", user.Username ?? string.Empty),
-                new Claim("TokenResetAllowed", user.TokenResetAllowed.ToString())
+                new Claim("Username", user.UserName ?? string.Empty),
+                new Claim("UserStatus", user.UserStatus.ToString()),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"] ?? string.Empty));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -41,8 +45,11 @@ namespace XeniaCatalogueApi.Service.Common
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // Fixed: Use correct handler name
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
+
         public int GetUserId()
         {
             var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
@@ -55,6 +62,7 @@ namespace XeniaCatalogueApi.Service.Common
 
             return 0;
         }
+
         public int GetCompanyId()
         {
             var companyIdClaim = _httpContextAccessor.HttpContext?.User.Claims
@@ -68,6 +76,55 @@ namespace XeniaCatalogueApi.Service.Common
             return 0;
         }
 
+        public int GetUserGroupId()
+        {
+            var userGroupIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserGroupId");
+
+            if (userGroupIdClaim != null && int.TryParse(userGroupIdClaim.Value, out int userGroupId))
+            {
+                return userGroupId;
+            }
+
+            return 0;
+        }
+
+        public int GetUserDistrictId()
+        {
+            var userDistrictIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserDistrictId");
+
+            if (userDistrictIdClaim != null && int.TryParse(userDistrictIdClaim.Value, out int userDistrictId))
+            {
+                return userDistrictId;
+            }
+
+            return 0;
+        }
+
+        public int GetUserUnitId()
+        {
+            var userUnitIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserUnitId");
+
+            if (userUnitIdClaim != null && int.TryParse(userUnitIdClaim.Value, out int userUnitId))
+            {
+                return userUnitId;
+            }
+
+            return 0;
+        }
+
+        public string GetUsername()
+        {
+            var usernameClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "Username")
+                ?? _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Name);
+
+            return usernameClaim?.Value ?? string.Empty;
+        }
+
         public string GetUserType()
         {
             var userTypeClaim = _httpContextAccessor.HttpContext?.User.Claims
@@ -76,28 +133,17 @@ namespace XeniaCatalogueApi.Service.Common
             return userTypeClaim?.Value ?? string.Empty;
         }
 
-        public string GetAdminPassword()
+        public bool GetUserStatus()
         {
-            var adminPasswordClaim = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(c => c.Type == "AdminPassword");
+            var userStatusClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "UserStatus");
 
-            return adminPasswordClaim?.Value ?? string.Empty;
-        }
-
-        public bool GetAllowReset()
-        {
-            var allowResetClaim = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(c => c.Type == "TokenResetAllowed");
-
-            if (allowResetClaim != null &&
-                bool.TryParse(allowResetClaim.Value, out bool allowReset))
+            if (userStatusClaim != null && bool.TryParse(userStatusClaim.Value, out bool userStatus))
             {
-                return allowReset;
+                return userStatus;
             }
 
             return false;
         }
-
-
     }
 }

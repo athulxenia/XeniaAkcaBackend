@@ -5,24 +5,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
+using XeniaAkcaBackend.Models;
+using XeniaAkcaBackend.Repositories;
+using XeniaAkcaBackend.Repositories.Districts;
+using XeniaAkcaBackend.Repositories.Informations;
+using XeniaAkcaBackend.Repositories.Member;
+
+
+
+//using XeniaCatalogueApi.Repository;
 using XeniaCatalogueApi.Service.Common;
-using XeniaQLaunchBackend.Repositories.Subscription;
-using XeniaQLaunchBackend.Service.Payment;
-using XeniaTempleBackend.Service.Payment;
-using XeniaTokenBackend.Hubs;
-using XeniaTokenBackend.Models;
-using XeniaTokenBackend.Repositories.Advertisement;
+using XeniaKhraBackend.Repositories.Payment;
+using XeniaTokenBackend.Repositories;
 using XeniaTokenBackend.Repositories.Auth;
-using XeniaTokenBackend.Repositories.Company;
-using XeniaTokenBackend.Repositories.Counter;
 using XeniaTokenBackend.Repositories.Dashboard;
-using XeniaTokenBackend.Repositories.Department;
-using XeniaTokenBackend.Repositories.Service;
-using XeniaTokenBackend.Repositories.Token;
-using XeniaTokenBackend.Service;
-using XeniaTokenBackend.Service.Common;
-using XeniaTokenBackend.Service.Token;
-;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,23 +32,30 @@ builder.Services.AddControllers()
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
-
+builder.Services.AddScoped<IContributionRepository, ContributionRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<ICounterRepository, CounterRepository>();
-builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IInformationRepository, InformationRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<INomineeRepository, NomineeRepository>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<JwtHelperService>();
-builder.Services.AddScoped<CommonService>();
-builder.Services.AddScoped<LiveTokenService>();
-builder.Services.AddHostedService<TokenLiveWorker>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
+
+
+var jwtKey = builder.Configuration["JwtSettings:Key"];
+var jwtIssuer = builder.Configuration["JwtSettings:Issuer"];
+var jwtAudience = builder.Configuration["JwtSettings:Audience"];
+
+if (string.IsNullOrWhiteSpace(jwtKey) ||
+    string.IsNullOrWhiteSpace(jwtIssuer) ||
+    string.IsNullOrWhiteSpace(jwtAudience))
+{
+    throw new InvalidOperationException("Missing JWT configuration. Ensure JwtSettings:Key, JwtSettings:Issuer and JwtSettings:Audience are set in configuration.");
+}
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -63,9 +66,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
             RoleClaimType = ClaimTypes.Role
         };
 
@@ -152,9 +155,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseWebSockets();
-
-app.MapHub<TokenHub>("/tokenHub")
-   .RequireCors("AllowSpecificOrigin");
 
 app.MapControllers();
 app.MapFallbackToFile("index.html");
