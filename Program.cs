@@ -40,6 +40,7 @@ builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IInformationRepository, InformationRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<INomineeRepository, NomineeRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 //builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<JwtHelperService>();
 builder.Services.AddHttpClient();

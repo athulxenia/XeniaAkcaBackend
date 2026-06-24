@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using XeniaAkcaBackend.Models;
 using XeniaAkcaBackend.Repositories.Auth;
 
@@ -16,6 +15,7 @@ namespace XeniaAkcaBackend.Controllers
             _authRepository = authRepository;
         }
 
+     
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -23,16 +23,58 @@ namespace XeniaAkcaBackend.Controllers
                 return BadRequest(new LoginResponse { Status = "failed", Message = "Username and password are required" });
 
             var result = await _authRepository.LoginAsync(request);
+            return result.Status == "failed" ? BadRequest(result) : Ok(result);
+        }
 
-            if (result.Status == "failed")
-                return BadRequest(result);
 
-            return Ok(result);
+        //[HttpPost("karuthalRegister")]
+        //public async Task<IActionResult> KaruthalRegister([FromBody] RegisterRequest request)
+        //{
+        //    var result = await _authRepository.RegisterAsync(request);
+        //    return StatusCode(result.StatusCode, result);
+        //}
+
+      
+        [HttpPut("passchange/{userId:int}")]
+        public async Task<IActionResult> ChangePassword(int userId, [FromBody] ChangePasswordRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Password))
+                return BadRequest(new { error = "Password is required" });
+
+            var result = await _authRepository.ChangePasswordAsync(userId, request.Password);
+            var json = System.Text.Json.JsonSerializer.Serialize(result);
+            return json.Contains("\"Status\":\"error\"") ? NotFound(result) : Ok(result);
+        }
+
+      
+        [HttpPut("resetPassword/{userId:int}")]
+        public async Task<IActionResult> PasswordReset(int userId)
+        {
+            var result = await _authRepository.PasswordResetAsync(userId);
+            var json = System.Text.Json.JsonSerializer.Serialize(result);
+            return json.Contains("\"Status\":\"error\"") ? NotFound(result) : Ok(result);
+        }
+
+        [HttpPost("sendSms")]
+        public async Task<IActionResult> CheckAndSendSms([FromBody] CheckSmsRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.MobileNumber))
+                return BadRequest(new { success = false, message = "Mobile number is required." });
+
+            var result = await _authRepository.CheckAndSendSmsAsync(request.MobileNumber);
+            var json = System.Text.Json.JsonSerializer.Serialize(result);
+            return json.Contains("\"Success\":false") ? BadRequest(result) : Ok(result);
+        }
+
+        [HttpPut("forgotPassword")]
+        public async Task<IActionResult> ForgotPasswordUpdate([FromBody] ForgotPasswordRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.MobileNumber) || string.IsNullOrWhiteSpace(request.NewPassword))
+                return BadRequest(new { success = false, message = "Mobile number and new password are required." });
+
+            var result = await _authRepository.ForgotPasswordUpdateAsync(request.MobileNumber, request.NewPassword);
+            var json = System.Text.Json.JsonSerializer.Serialize(result);
+            return json.Contains("\"Status\":\"error\"") ? BadRequest(result) : Ok(result);
         }
     }
-
-
-
-
 }
-

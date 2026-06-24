@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XeniaKhraBackend.Models
 {
-    [Table("KHRA_MemberPayment")]
+    [Table("AKCA_MemberPayment")]
     public class MemberPayment
     {
         [Key]
@@ -11,25 +11,24 @@ namespace XeniaKhraBackend.Models
         public int TransactionId { get; set; }
 
         [Column("memberId")]
-        public int? MemberId { get; set; }
+        public int MemberId { get; set; }  
 
         [Column("paidAmount")]
-        public decimal? PaidAmount { get; set; }
+        public decimal PaidAmount { get; set; }  
 
         [Column("paymentTypeId")]
-        public int? PaymentTypeId { get; set; }
-
+        public int PaymentTypeId { get; set; }   
         [Column("paidDate")]
         public DateTime? PaidDate { get; set; }
 
         [Column("paidBy")]
-        public int? PaidBy { get; set; }
+        public int PaidBy { get; set; }
 
         [Column("paidDistrict")]
-        public int? PaidDistrict { get; set; }
+        public int PaidDistrict { get; set; }
 
         [Column("paidUnit")]
-        public int? PaidUnit { get; set; }
+        public int PaidUnit { get; set; }
 
         [Column("payMode")]
         public string? PayMode { get; set; }
@@ -37,6 +36,12 @@ namespace XeniaKhraBackend.Models
         [Column("paymentStatus")]
         public string? PaymentStatus { get; set; }
 
+        [Column("isCallbackStatus")]
+        public int IsCallbackStatus { get; set; }   
+        [Column("PaymentTxnRefNo")]
+        public string? PaymentTxnRefNo { get; set; }  
+
+       
         [Column("PaymentPaymentId")]
         public string? PaymentPaymentId { get; set; }
 

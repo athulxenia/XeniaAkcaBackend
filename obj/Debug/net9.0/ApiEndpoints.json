@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
+    "Method": "ForgotPasswordUpdate",
+    "RelativePath": "api/Auth/forgotPassword",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Models.ForgotPasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -10,6 +26,59 @@
       {
         "Name": "request",
         "Type": "XeniaAkcaBackend.Models.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Auth/passchange/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Models.ChangePasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
+    "Method": "PasswordReset",
+    "RelativePath": "api/Auth/resetPassword/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
+    "Method": "CheckAndSendSms",
+    "RelativePath": "api/Auth/sendSms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Models.CheckSmsRequest",
         "IsRequired": true
       }
     ],
@@ -336,7 +405,7 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllDistrictWiseDetailsAndGraph",
+    "Method": "GetDistrictDashboard",
     "RelativePath": "api/dashboard/district",
     "HttpMethod": "GET",
     "IsController": true,
@@ -372,8 +441,8 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllDistrictWiseDetails",
-    "RelativePath": "api/dashboard/districtAA",
+    "Method": "GetDistrictGraph",
+    "RelativePath": "api/dashboard/district/graph",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -408,8 +477,8 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllDistrictWiseGraphDetails",
-    "RelativePath": "api/dashboard/graph/districtAA",
+    "Method": "GetDistrictMembership",
+    "RelativePath": "api/dashboard/district/membership",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -444,38 +513,7 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllStateWiseGraphDetails",
-    "RelativePath": "api/dashboard/graph/stateAA",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "districtid",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "dateid",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "fromdate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "todate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllStateWiseDetailsAndGraph",
+    "Method": "GetStateDashboard",
     "RelativePath": "api/dashboard/state",
     "HttpMethod": "GET",
     "IsController": true,
@@ -506,8 +544,8 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllStateWiseDetails",
-    "RelativePath": "api/dashboard/stateAA",
+    "Method": "GetStateGraph",
+    "RelativePath": "api/dashboard/state/graph",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -537,8 +575,39 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
-    "Method": "GetAllUnitWiseDetails",
-    "RelativePath": "api/dashboard/unitAA",
+    "Method": "GetStateMembership",
+    "RelativePath": "api/dashboard/state/membership",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "dateid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fromdate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "todate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.DashboardController",
+    "Method": "GetUnitMembership",
+    "RelativePath": "api/dashboard/unit/membership",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1162,6 +1231,180 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "UpdateMemberAccountDetails",
+    "RelativePath": "api/status/account/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateMemberFullDetailsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetAccStatus",
+    "RelativePath": "api/status/check/{userid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "MemberDeactivation",
+    "RelativePath": "api/status/deactivate/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.DeactivateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetMemberDetails",
+    "RelativePath": "api/status/details/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetFamilyMember",
+    "RelativePath": "api/status/familymember/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "MemberAccountDetails",
+    "RelativePath": "api/status/myProfile",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.AccountInfoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetPrivacyPolicy",
+    "RelativePath": "api/status/PrivacyPolicy/{statusId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "statusId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetReceiptDetails",
+    "RelativePath": "api/status/receipt/{userId}/{tranId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "tranId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "CheckServerStatus",
+    "RelativePath": "api/status/server",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "GetTermsAndConditions",
+    "RelativePath": "api/status/TermsAndConditions/{statusId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "statusId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
+    "Method": "CompanyWhatsappMob",
+    "RelativePath": "api/status/watsappMob",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

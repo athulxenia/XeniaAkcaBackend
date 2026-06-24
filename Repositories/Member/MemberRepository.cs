@@ -368,15 +368,52 @@ namespace XeniaAkcaBackend.Repositories
             return new { status = "success", message = "Member status updated successfully" };
         }
 
+        //public async Task<object?> GetMemberOutstandingAsync(int userId)
+        //{
+        //    var memberId = await _context.KaruthalMembers
+        //        .Where(m => m.MemberUserId == userId)
+        //        .Select(m => m.MemberId)
+        //        .FirstOrDefaultAsync();
+
+        //    if (memberId == 0) throw new Exception("No memberId found for the given userId");
+
+        //    var outstanding = await (
+        //        from parent in _context.KaruthalMembers
+        //        join child in _context.KaruthalMembers on parent.MemberId equals child.MemberParentId
+        //        from c in _context.Contributions
+        //        where parent.MemberId == memberId
+        //        where c.ContributionMemberId != child.MemberId
+        //        where !_context.MemberContributions.Any(mc =>
+        //            mc.ContributionId == c.ContributionId && mc.MemberId == child.MemberId)
+        //        select c.ContributionAmount
+        //    ).SumAsync();
+
+        //    return new { OutstandingAmount = outstanding };
+        //}
         public async Task<object?> GetMemberOutstandingAsync(int userId)
         {
+            // Try KaruthalMembers first
             var memberId = await _context.KaruthalMembers
                 .Where(m => m.MemberUserId == userId)
                 .Select(m => m.MemberId)
                 .FirstOrDefaultAsync();
 
-            if (memberId == 0) throw new Exception("No memberId found for the given userId");
+            // If not found, try Members table
+            if (memberId == 0)
+            {
+                memberId = await _context.Members
+                    .Where(m => m.MemberUserId == userId)
+                    .Select(m => m.MemberId)
+                    .FirstOrDefaultAsync();
+            }
 
+            // If still not found, throw exception with clear message
+            if (memberId == 0)
+            {
+                throw new Exception($"No member found for userId: {userId} in either Members or KaruthalMembers");
+            }
+
+            // Calculate outstanding amount
             var outstanding = await (
                 from parent in _context.KaruthalMembers
                 join child in _context.KaruthalMembers on parent.MemberId equals child.MemberParentId
@@ -390,7 +427,6 @@ namespace XeniaAkcaBackend.Repositories
 
             return new { OutstandingAmount = outstanding };
         }
-
         public async Task<object?> GetPendingApproveDetailsAsync(int userId)
         {
             var memberId = await _context.KaruthalMembers

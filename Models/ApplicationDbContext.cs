@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using XeniaKhraBackend.Models;
+using XeniaTokenBackend.Models;
 
 
 namespace XeniaAkcaBackend.Models
@@ -25,6 +26,8 @@ namespace XeniaAkcaBackend.Models
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Nominee> Nominees { get; set; }
         public DbSet<Information> Informations { get; set; }
-
+        public DbSet<Server> Servers { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<CompanyProfile> CompanyProfiles { get; set; }
     }
 }

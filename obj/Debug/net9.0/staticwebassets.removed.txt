@@ -1,2 +1,0 @@
-D:\Project\github\XeniaAkcaBackend\wwwroot\index.html
-D:\Project\github\XeniaAkcaBackend\wwwroot\style.css
