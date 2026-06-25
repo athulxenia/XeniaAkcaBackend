@@ -223,17 +223,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ContributionAmountNotification",
-    "RelativePath": "api/contribution/notification/{memberId}",
+    "RelativePath": "api/contribution/notification",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "memberId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -255,33 +249,21 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ConPayedDetails",
-    "RelativePath": "api/contribution/payed/memberDtls/{userId}",
+    "RelativePath": "api/contribution/payed/memberDtls",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.ContributionController",
     "Method": "ConPendingDetails",
-    "RelativePath": "api/contribution/pending/memberDtls/{userId}",
+    "RelativePath": "api/contribution/pending/memberDtls",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

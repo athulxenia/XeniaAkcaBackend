@@ -4,7 +4,6 @@ using XeniaAkcaBackend.Dto;
 using XeniaAkcaBackend.Models;
 using XeniaAkcaBackend.Repositories;
 
-
 namespace XeniaAkcaBackend.Controllers
 {
     [ApiController]
@@ -18,7 +17,13 @@ namespace XeniaAkcaBackend.Controllers
             _repo = repo;
         }
 
-        // POST /api/contribution/create
+        // ─── Helper — get userId from JWT token ───────────────────
+        private int GetUserIdFromToken()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            return claim != null && int.TryParse(claim.Value, out var id) ? id : 0;
+        }
+
         [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateContribution([FromBody] CreateContributionRequest request)
@@ -27,7 +32,6 @@ namespace XeniaAkcaBackend.Controllers
             return result.Status == "success" ? Ok(result) : BadRequest(result);
         }
 
-        // GET /api/contribution/searchMember/{partialName}
         [Authorize]
         [HttpGet("searchMember/{partialName}")]
         public async Task<IActionResult> GetMember(string partialName)
@@ -36,8 +40,6 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // PUT /api/contribution/{contributionId}
-        [Authorize]
         [HttpPut("{contributionId:int}")]
         public async Task<IActionResult> UpdateContribution(int contributionId,
             [FromBody] UpdateContributionRequest request)
@@ -46,12 +48,12 @@ namespace XeniaAkcaBackend.Controllers
             return result.Status == "success" ? Ok(result) : BadRequest(result);
         }
 
-        // GET /api/contribution/state/{status}/{contributionId?}
         [Authorize]
         [HttpGet("state/{status}/{contributionId:int?}")]
         public async Task<IActionResult> GetStateContribution(
             string status, int? contributionId,
-            [FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] string? searchText = null)
+            [FromQuery] int page = 1, [FromQuery] int limit = 10,
+            [FromQuery] string? searchText = null)
         {
             if (contributionId.HasValue)
             {
@@ -66,12 +68,12 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // GET /api/contribution/district/{status}/{districtId?}/{contributionId?}
         [Authorize]
         [HttpGet("district/{status}/{districtId:int?}/{contributionId:int?}")]
         public async Task<IActionResult> GetDistrictContribution(
             string status, int? districtId, int? contributionId,
-            [FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] string? searchText = null)
+            [FromQuery] int page = 1, [FromQuery] int limit = 10,
+            [FromQuery] string? searchText = null)
         {
             if (contributionId.HasValue)
             {
@@ -86,12 +88,12 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // GET /api/contribution/unit/{status}/{unitId?}/{contributionId?}
         [Authorize]
         [HttpGet("unit/{status}/{unitId:int?}/{contributionId:int?}")]
         public async Task<IActionResult> GetUnitContribution(
             string status, int? unitId, int? contributionId,
-            [FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] string? searchText = null)
+            [FromQuery] int page = 1, [FromQuery] int limit = 10,
+            [FromQuery] string? searchText = null)
         {
             if (contributionId.HasValue)
             {
@@ -106,25 +108,29 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // GET /api/contribution/pending/memberDtls/{userId}
+        // ─── userId from token ────────────────────────────────────
         [Authorize]
-        [HttpGet("pending/memberDtls/{userId:int}")]
-        public async Task<IActionResult> ConPendingDetails(int userId)
+        [HttpGet("pending/memberDtls")]              // ← removed /{userId} from route
+        public async Task<IActionResult> ConPendingDetails()
         {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.ConPendingDetailsAsync(userId);
             return Ok(result);
         }
 
-        // GET /api/contribution/payed/memberDtls/{userId}
         [Authorize]
-        [HttpGet("payed/memberDtls/{userId:int}")]
-        public async Task<IActionResult> ConPayedDetails(int userId)
+        [HttpGet("payed/memberDtls")]                // ← removed /{userId} from route
+        public async Task<IActionResult> ConPayedDetails()
         {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.ConPayedDetailsAsync(userId);
             return Ok(result);
         }
 
-        // PUT /api/contribution/Approve/{contributionId}
         [Authorize]
         [HttpPut("Approve/{contributionId:int}")]
         public async Task<IActionResult> ApproveContribution(int contributionId,
@@ -134,7 +140,6 @@ namespace XeniaAkcaBackend.Controllers
             return result.Status == "success" ? Ok(result) : BadRequest(result);
         }
 
-        // GET /api/contribution/details/{contributionId?}
         [HttpGet("details/{contributionId:int?}")]
         public async Task<IActionResult> GetContributionDetails(int? contributionId)
         {
@@ -143,15 +148,18 @@ namespace XeniaAkcaBackend.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
-        // POST /api/contribution/notification/{memberId}
-        [HttpPost("notification/{memberId:int}")]
-        public async Task<IActionResult> ContributionAmountNotification(int memberId)
+        // ─── userId from token ────────────────────────────────────
+        [Authorize]
+        [HttpPost("notification")]                   // ← removed /{memberId} from route
+        public async Task<IActionResult> ContributionAmountNotification()
         {
-            var result = await _repo.ContributionAmountNotificationAsync(memberId);
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
+            var result = await _repo.ContributionAmountNotificationAsync(userId);
             return Ok(result);
         }
 
-        // GET /api/contribution/contributionView/{contributionId}
         [HttpGet("contributionView/{contributionId:int}")]
         public async Task<IActionResult> DetailsOfContribution(int contributionId)
         {
@@ -159,7 +167,6 @@ namespace XeniaAkcaBackend.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
-        // POST /api/contribution/all/notification
         [HttpPost("all/notification")]
         public async Task<IActionResult> ProcessAllContributionPayments()
         {
@@ -167,7 +174,6 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // POST /api/contribution/notificationPush
         [HttpPost("notificationPush")]
         public async Task<IActionResult> FirebaseNotification([FromBody] int contributionMemberId)
         {
@@ -175,7 +181,6 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // PUT /api/contribution/updated/{contributionId}
         [HttpPut("updated/{contributionId:int}")]
         public async Task<IActionResult> ContributionUpdation(int contributionId,
             [FromBody] ContributionUpdationRequest request)

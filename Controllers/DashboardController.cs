@@ -11,96 +11,69 @@ namespace XeniaAkcaBackend.Controllers
     {
         private readonly IDashboardRepository _repo;
 
-        public DashboardController(IDashboardRepository repo)
-        {
-            _repo = repo;
-        }
+        public DashboardController(IDashboardRepository repo) => _repo = repo;
 
-        // GET /api/dashboard/stateAA
-        [HttpGet("stateAA")]
-        public async Task<IActionResult> GetAllStateWiseDetails(
-            [FromQuery] int? districtid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllStateWiseDetailsAsync(districtid, dateid, fromdate, todate);
-            return Ok(result);
-        }
-
-        // GET /api/dashboard/districtAA
-        [HttpGet("districtAA")]
-        public async Task<IActionResult> GetAllDistrictWiseDetails(
-            [FromQuery] int? districtid,
-            [FromQuery] int? unitid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllDistrictWiseDetailsAsync(districtid, unitid, dateid, fromdate, todate);
-            return Ok(result);
-        }
-
-        // GET /api/dashboard/unitAA
-        [HttpGet("unitAA")]
-        public async Task<IActionResult> GetAllUnitWiseDetails(
-            [FromQuery] int? unitid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllUnitWiseDetailsAsync(unitid, dateid, fromdate, todate);
-            return Ok(result);
-        }
-
-        // GET /api/dashboard/graph/stateAA
-        [HttpGet("graph/stateAA")]
-        public async Task<IActionResult> GetAllStateWiseGraphDetails(
-            [FromQuery] int? districtid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllStateWiseGraphDetailsAsync(districtid, dateid, fromdate, todate);
-            return Ok(result);
-        }
-
-        // GET /api/dashboard/graph/districtAA
-        [HttpGet("graph/districtAA")]
-        public async Task<IActionResult> GetAllDistrictWiseGraphDetails(
-            [FromQuery] int? districtid,
-            [FromQuery] int? unitid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllDistrictWiseGraphDetailsAsync(districtid, unitid, dateid, fromdate, todate);
-            return Ok(result);
-        }
-
-        // GET /api/dashboard/state  ← main dashboard
+        /// <summary>
+        /// Get state level dashboard with membership stats and payment graph
+        /// </summary>
         [HttpGet("state")]
-        public async Task<IActionResult> GetAllStateWiseDetailsAndGraph(
-            [FromQuery] int? districtid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllStateWiseDetailsAndGraphAsync(districtid, dateid, fromdate, todate);
-            return Ok(result);
-        }
+        public async Task<IActionResult> GetStateDashboard(
+            [FromQuery] int? districtid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("state", districtid, null, dateid, fromdate, todate));
 
-        // GET /api/dashboard/district  ← main dashboard
+        /// <summary>
+        /// Get state level membership statistics only (no graph)
+        /// </summary>
+        [HttpGet("state/membership")]
+        public async Task<IActionResult> GetStateMembership(
+            [FromQuery] int? districtid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("stateAA", districtid, null, dateid, fromdate, todate));
+
+        /// <summary>
+        /// Get state level payment graph only
+        /// </summary>
+        [HttpGet("state/graph")]
+        public async Task<IActionResult> GetStateGraph(
+            [FromQuery] int? districtid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("graph/stateAA", districtid, null, dateid, fromdate, todate));
+
+        /// <summary>
+        /// Get district level dashboard with membership stats and payment graph
+        /// </summary>
         [HttpGet("district")]
-        public async Task<IActionResult> GetAllDistrictWiseDetailsAndGraph(
-            [FromQuery] int? districtid,
-            [FromQuery] int? unitid,
-            [FromQuery] string? dateid,
-            [FromQuery] DateTime? fromdate,
-            [FromQuery] DateTime? todate)
-        {
-            var result = await _repo.GetAllDistrictWiseDetailsAndGraphAsync(districtid, unitid, dateid, fromdate, todate);
-            return Ok(result);
-        }
+        public async Task<IActionResult> GetDistrictDashboard(
+            [FromQuery] int? districtid, [FromQuery] int? unitid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("district", districtid, unitid, dateid, fromdate, todate));
+
+        /// <summary>
+        /// Get district level membership statistics only (no graph)
+        /// </summary>
+        [HttpGet("district/membership")]
+        public async Task<IActionResult> GetDistrictMembership(
+            [FromQuery] int? districtid, [FromQuery] int? unitid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("districtAA", districtid, unitid, dateid, fromdate, todate));
+
+        /// <summary>
+        /// Get district level payment graph only
+        /// </summary>
+        [HttpGet("district/graph")]
+        public async Task<IActionResult> GetDistrictGraph(
+            [FromQuery] int? districtid, [FromQuery] int? unitid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("graph/districtAA", districtid, unitid, dateid, fromdate, todate));
+
+        /// <summary>
+        /// Get unit level membership statistics only
+        /// </summary>
+        [HttpGet("unit/membership")]
+        public async Task<IActionResult> GetUnitMembership(
+            [FromQuery] int? unitid, [FromQuery] string? dateid,
+            [FromQuery] DateTime? fromdate, [FromQuery] DateTime? todate)
+            => Ok(await _repo.GetDashboardAsync("unitAA", null, unitid, dateid, fromdate, todate));
     }
 }

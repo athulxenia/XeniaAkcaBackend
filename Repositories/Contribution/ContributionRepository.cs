@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
 using System.Text.RegularExpressions;
