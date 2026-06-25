@@ -697,5 +697,168 @@ namespace XeniaAkcaBackend.Repositories
 
             return new PaginatedResult<object> { Records = records, Total = total };
         }
+
+
+
+        public async Task<List<object>?> MemberAccountDetailsAsync(int userId)
+        {
+            var result = await (
+                from m in _context.KaruthalMembers
+                join u in _context.Users on m.MemberUserId equals u.UserId
+                join d in _context.Districts on m.MemberDistrictId equals d.DistrictId
+                join unit in _context.Units on m.MemberUnitId equals unit.UnitId
+
+           
+                join g in _context.MemberGroups on m.MemberGroupId equals g.GroupId into memberGroupJoin
+                from g in memberGroupJoin.DefaultIfEmpty()
+
+                join n in _context.Nominees on m.MemberId equals n.NomineeMemberId into nomineeGroup
+                from n in nomineeGroup.DefaultIfEmpty()
+
+                where m.MemberUserId == userId
+                select (object)new 
+                {
+
+                    m.MemberId,
+                    d.DistrictName,
+                    unit.UnitName,
+                    UserType = g != null ? g.GroupLevel : null,
+                    m.MemberName,
+                    m.MemberMobilenumber,
+
+                  
+                    m.MemberEmail,
+
+                    m.MemberStatus,
+                    m.MemberAddress,
+
+             
+                    m.MemberBusinessName,        
+                    m.MemberBusinessAddress,     
+                    m.MemberBusinessDetails,    
+                    m.MemberBusinessFSSAIno,    
+                    m.MemberBusinessCmpyType,    
+
+                    m.MemberAge,
+                    GroupLevel = g != null ? g.GroupLevel : null,
+                    MembershipNumber = m.MembershipNumberPrefix + m.MembershipNumber,
+
+                    NomineeName = n != null ? n.NomineeName : null,
+                    NomineeRelation = n != null ? n.NomineeRelation : null,
+                    NomineeMobilenumber = n != null ? n.NomineeMobilenumber : null,
+                    NomineeEmail = n != null ? n.NomineeEmail : null
+                }
+            ).ToListAsync();
+
+            return result;
+        }
+
+
+
+        public async Task<object?> UpdateMemberFullDetailsAsync(UpdateMemberFullDetailsRequest data)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var member = await _context.KaruthalMembers.FindAsync(data.MemberId);
+                if (member == null)
+                    return new { success = false, message = "Member not found" };
+
+            
+                if (member.MemberMobilenumber != data.MemberMobilenumber)
+                {
+                    var phoneExists = await _context.Users.AnyAsync(u => u.UserId != member.MemberUserId && u.UserName == data.MemberMobilenumber)
+                                    || await _context.KaruthalMembers.AnyAsync(m => m.MemberId != data.MemberId && m.MemberMobilenumber == data.MemberMobilenumber);
+
+                    if (phoneExists)
+                        return new { success = false, message = "Mobile number already exists" };
+                }
+
+ 
+                var user = await _context.Users.FindAsync(member.MemberUserId);
+                if (user != null)
+                {
+                    user.UserName = data.MemberMobilenumber;
+                    user.UserStatus = data.MemberActiveStatus;
+                    user.UserImageUrl = data.UserImageUrl;
+                }
+
+       
+                member.MemberName = data.MemberName ?? "";
+                member.MemberAddress = data.MemberAddress ?? "";
+                member.MemberEmail = data.MemberEmail ?? "";
+                member.MemberMobilenumber = data.MemberMobilenumber ?? "";
+                if (data.MemberDob.HasValue) member.MemberDob = data.MemberDob.Value;
+                member.MemberAge = data.MemberAge;
+                member.MemberIdProof = data.MemberIdProof;
+                member.MemberIdProofNumber = data.MemberIdProofNumber;
+                member.MemberBankName = data.MemberBankName ?? "";
+                member.MemberBankAcName = data.MemberBankAcName ?? "";
+                member.MemberBankAcNumber = data.MemberBankAcNumber ?? "";
+                member.MemberBankBranch = data.MemberBankBranch ?? "";
+                member.MemberIfsc = data.MemberIfsc ?? "";
+                member.MemberIdUrl1 = data.MemberIdUrl1;
+                member.MemberIdUrl2 = data.MemberIdUrl2;
+                member.MemberBusinessName = data.MemberBusinessName ?? "";
+                member.MemberBusinessAddress = data.MemberBusinessAddress ?? "";
+                member.MemberBusinessDetails = data.MemberBusinessDetails;
+                member.MemberBusinessFSSAIno = data.MemberBusinessFSSAIno;
+                member.MemberBusinessCmpyType = data.MemberBusinessCmpyType;
+                member.MemberActiveStatus = data.MemberActiveStatus;
+
+               
+                var nominee = await _context.Nominees.FirstOrDefaultAsync(n => n.NomineeMemberId == data.MemberId);
+                if (nominee != null)
+                {
+                    nominee.NomineeName = data.NomineeName;
+                    nominee.NomineeAddress = data.NomineeAddress;
+                    nominee.NomineeEmail = data.NomineeEmail;
+                    nominee.NomineeMobilenumber = data.NomineeMobilenumber;
+                    nominee.NomineeIdProof = data.NomineeIdProof;
+                    nominee.NomineeIdProofNumber = data.NomineeIdProofNumber;
+                    nominee.NomineeBankName = data.NomineeBankName;
+                    nominee.NomineeBankAcName = data.NomineeBankAcName;
+                    nominee.NomineeBankAcNumber = data.NomineeBankAcNumber;
+                    nominee.NomineeBankBranch = data.NomineeBankBranch;
+                    nominee.NomineeIfsc = data.NomineeIfsc;
+                    nominee.NomineeIdUrl1 = data.NomineeIdUrl1;
+                    nominee.NomineeIdUrl2 = data.NomineeIdUrl2;
+                    nominee.NomineeRelation = data.NomineeRelation;
+                    nominee.NomineeStatus = data.NomineeStatus ?? 0;
+                }
+                else
+                {
+                    _context.Nominees.Add(new Nominee
+                    {
+                        NomineeMemberId = data.MemberId,
+                        NomineeName = data.NomineeName,
+                        NomineeAddress = data.NomineeAddress,
+                        NomineeEmail = data.NomineeEmail,
+                        NomineeMobilenumber = data.NomineeMobilenumber,
+                        NomineeIdProof = data.NomineeIdProof,
+                        NomineeIdProofNumber = data.NomineeIdProofNumber,
+                        NomineeBankName = data.NomineeBankName,
+                        NomineeBankAcName = data.NomineeBankAcName,
+                        NomineeBankAcNumber = data.NomineeBankAcNumber,
+                        NomineeBankBranch = data.NomineeBankBranch,
+                        NomineeIfsc = data.NomineeIfsc,
+                        NomineeIdUrl1 = data.NomineeIdUrl1,
+                        NomineeIdUrl2 = data.NomineeIdUrl2,
+                        NomineeRelation = data.NomineeRelation,
+                        NomineeStatus = data.NomineeStatus ?? 0
+                    });
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return new { success = true, message = "Member account details updated successfully" };
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
     }
 }

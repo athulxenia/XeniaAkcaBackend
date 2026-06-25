@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using XeniaAkcaBackend.Models;
 using XeniaAkcaBackend.Repositories.Auth;
 
@@ -34,19 +35,24 @@ namespace XeniaAkcaBackend.Controllers
         //    return StatusCode(result.StatusCode, result);
         //}
 
-      
-        [HttpPut("passchange/{userId:int}")]
-        public async Task<IActionResult> ChangePassword(int userId, [FromBody] ChangePasswordRequest request)
+
+        [HttpPut("passchange")]
+        [Authorize] 
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Password))
                 return BadRequest(new { error = "Password is required" });
+            var userIdClaim = User.FindFirst("UserId");
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized(new { error = "Invalid token. UserId not found." });
 
             var result = await _authRepository.ChangePasswordAsync(userId, request.Password);
             var json = System.Text.Json.JsonSerializer.Serialize(result);
-            return json.Contains("\"Status\":\"error\"") ? NotFound(result) : Ok(result);
+            return json.Contains("\"Status\":\"error\"") ? BadRequest(result) : Ok(result);
         }
 
-      
+
         [HttpPut("resetPassword/{userId:int}")]
         public async Task<IActionResult> PasswordReset(int userId)
         {

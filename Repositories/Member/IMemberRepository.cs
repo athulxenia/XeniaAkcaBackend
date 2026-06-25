@@ -19,5 +19,9 @@ namespace XeniaAkcaBackend.Repositories.Member
         Task<object?> GetOwnerDetailsAsync(string? prefix, string? number, string? suffix);
         Task<PaginatedResult<object>> GetAllStateKaruthalMemberAsync(int active, string? pending, int page, int limit, string? searchText, int? districtId, int? unitId);
         Task<PaginatedResult<object>> GetAllDistrictKaruthalMemberAsync(int active, int districtId, int page, int limit, string? searchText);
+
+        Task<List<object>?> MemberAccountDetailsAsync(int userId);
+        Task<object?> UpdateMemberFullDetailsAsync(UpdateMemberFullDetailsRequest data);
+
     }
 }

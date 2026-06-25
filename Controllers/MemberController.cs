@@ -18,7 +18,11 @@ namespace XeniaAkcaBackend.Controllers
             _repo = repo;
         }
 
-
+        private int GetUserIdFromToken()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            return claim != null && int.TryParse(claim.Value, out var id) ? id : 0;
+        }
         [HttpGet("verify/{membershipNumber}")]
         public async Task<IActionResult> GetMember(string membershipNumber)
         {
@@ -176,9 +180,7 @@ namespace XeniaAkcaBackend.Controllers
             });
         }
 
-        // ─── Karuthal Routes ─────────────────────────────────────
-
-        // GET /api/member/checkMember/{membershipNumber}
+   
         [HttpGet("checkMember/{membershipNumber}")]
         public async Task<IActionResult> GetOwnerDetails(string membershipNumber)
         {
@@ -208,7 +210,7 @@ namespace XeniaAkcaBackend.Controllers
             return NotFound(new { message = "Member not found" });
         }
 
-        // GET /api/member/karuthalState/{status}/{pending?}
+   
         [HttpGet("karuthalState/{status:int}/{pending?}")]
         public async Task<IActionResult> GetAllStateKaruthalMember(
             int status, string? pending,
@@ -230,7 +232,7 @@ namespace XeniaAkcaBackend.Controllers
             });
         }
 
-        // GET /api/member/karuthalDistrict/{status}/{districtid?}
+       
         [HttpGet("karuthalDistrict/{status:int}/{districtid:int?}")]
         public async Task<IActionResult> GetAllDistrictKaruthalMember(
             int status, int? districtid,
@@ -249,6 +251,36 @@ namespace XeniaAkcaBackend.Controllers
                 totalRecords = result.Total
             });
         }
+
+        [Authorize]
+        [HttpGet("accountInfo")]
+        public async Task<IActionResult> MemberAccountDetails()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
+            var result = await _repo.MemberAccountDetailsAsync(userId);
+
+            if (result != null && result.Count > 0)
+                return Ok(result);
+
+            return NotFound(new { error = "Details not found" });
+        }
+
+        [Authorize]
+        [HttpPut("account/update")]
+        public async Task<IActionResult> UpdateMemberAccountDetails(
+            [FromBody] UpdateMemberFullDetailsRequest request)
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
+            request.MemberId = userId;
+
+            var result = await _repo.UpdateMemberFullDetailsAsync(request);
+            return result != null ? Ok(result) : NotFound(new { error = "Member not found or no changes made" });
+        }
+
     }
 
    

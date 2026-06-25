@@ -17,43 +17,41 @@ namespace XeniaAkcaBackend.Controllers
             _repo = repo;
         }
 
-        // GET /api/nominee/{userId?}
-        // if userId provided → get single nominee
-        // if no userId      → get paginated list
-        [HttpGet("{userId:int?}")]
-        public async Task<IActionResult> GetNominee(
-            int? userId,
-            [FromQuery] int page = 1,
-            [FromQuery] int limit = 10,
-            [FromQuery] string search = "",
-            [FromQuery] int? unitid = null)
+        private int GetUserIdFromToken()
         {
-            if (userId.HasValue)
-            {
-                var nominee = await _repo.GetNomineeAsync(userId.Value);
-                return nominee != null ? Ok(nominee) : NotFound();
-            }
-            else
-            {
-                var result = await _repo.GetAllNomineesAsync(page, limit, search, unitid);
-                return Ok(result);
-            }
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            return claim != null && int.TryParse(claim.Value, out var id) ? id : 0;
         }
 
-        // POST /api/nominee/{userId}
-        [HttpPost("{userId:int}")]
-        public async Task<IActionResult> UpdateNominee(
-            int userId, [FromBody] UpdateNomineeRequest request)
+
+        [HttpGet]
+        public async Task<IActionResult> GetNominee()
         {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
+            var nominee = await _repo.GetNomineeAsync(userId);
+            return nominee != null ? Ok(nominee) : NotFound(new { error = "Nominee not found" });
+        }
+
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateNominee([FromBody] UpdateNomineeRequest request)
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.UpdateNomineeAsync(userId, request);
             return result.Status == "success" ? Ok(result) : NotFound(result);
         }
 
-        // PUT /api/nominee/{userId}
-        [HttpPut("{userId:int}")]
-        public async Task<IActionResult> ApproveNominee(
-            int userId, [FromBody] ApproveNomineeRequest request)
+     
+        [HttpPut("approve")]
+        public async Task<IActionResult> ApproveNominee([FromBody] ApproveNomineeRequest request)
         {
+            var userId = GetUserIdFromToken();
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.ApproveNomineeAsync(userId, request.MemberStatus);
             return result != null ? Ok(result) : NotFound(new { error = "Member not found." });
         }

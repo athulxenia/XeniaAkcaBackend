@@ -34,16 +34,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.AuthController",
     "Method": "ChangePassword",
-    "RelativePath": "api/Auth/passchange/{userId}",
+    "RelativePath": "api/Auth/passchange",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "request",
         "Type": "XeniaAkcaBackend.Models.ChangePasswordRequest",
@@ -825,6 +820,32 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "UpdateMemberAccountDetails",
+    "RelativePath": "api/member/account/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateMemberFullDetailsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "MemberAccountDetails",
+    "RelativePath": "api/member/accountInfo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetOwnerDetails",
     "RelativePath": "api/member/checkMember/{membershipNumber}",
     "HttpMethod": "GET",
@@ -1158,73 +1179,21 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
     "Method": "GetNominee",
-    "RelativePath": "api/nominee/{userId}",
+    "RelativePath": "api/nominee",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "limit",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "search",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "unitid",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
-    "Method": "UpdateNominee",
-    "RelativePath": "api/nominee/{userId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "XeniaAkcaBackend.Dto.UpdateNomineeRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
     "Method": "ApproveNominee",
-    "RelativePath": "api/nominee/{userId}",
+    "RelativePath": "api/nominee/approve",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "request",
         "Type": "XeniaAkcaBackend.Dto.ApproveNomineeRequest",
@@ -1234,16 +1203,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
-    "Method": "UpdateMemberAccountDetails",
-    "RelativePath": "api/status/account/update",
-    "HttpMethod": "PUT",
+    "ContainingType": "XeniaAkcaBackend.Controllers.NomineeController",
+    "Method": "UpdateNominee",
+    "RelativePath": "api/nominee/update",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "XeniaAkcaBackend.Dto.UpdateMemberFullDetailsRequest",
+        "Type": "XeniaAkcaBackend.Dto.UpdateNomineeRequest",
         "IsRequired": true
       }
     ],
@@ -1268,16 +1237,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
     "Method": "MemberDeactivation",
-    "RelativePath": "api/status/deactivate/{userId}",
+    "RelativePath": "api/status/deactivate",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "request",
         "Type": "XeniaAkcaBackend.Dto.DeactivateRequest",
@@ -1289,49 +1253,21 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
     "Method": "GetMemberDetails",
-    "RelativePath": "api/status/details/{userId}",
+    "RelativePath": "api/status/details",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
     "Method": "GetFamilyMember",
-    "RelativePath": "api/status/familymember/{userId}",
+    "RelativePath": "api/status/familymember",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
-    "Method": "MemberAccountDetails",
-    "RelativePath": "api/status/myProfile",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "XeniaAkcaBackend.Dto.AccountInfoRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -1353,16 +1289,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
     "Method": "GetReceiptDetails",
-    "RelativePath": "api/status/receipt/{userId}/{tranId}",
+    "RelativePath": "api/status/receipt/{tranId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "tranId",
         "Type": "System.String",

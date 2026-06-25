@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using XeniaAkcaBackend.Dto;
 using XeniaAkcaBackend.Repositories;
@@ -14,6 +15,13 @@ namespace XeniaAkcaBackend.Controllers
         public StatusController(IStatusRepository repo)
         {
             _repo = repo;
+        }
+
+        // ─── Helper — get userId from JWT token ───────────────────
+        private int GetUserIdFromToken()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            return claim != null && int.TryParse(claim.Value, out var id) ? id : 0;
         }
 
         [HttpGet("server")]
@@ -47,31 +55,45 @@ namespace XeniaAkcaBackend.Controllers
         }
 
         [Authorize]
-        [HttpGet("familymember/{userId:int}")]
-        public async Task<IActionResult> GetFamilyMember(int userId)
+        [HttpGet("familymember")]                            // ← removed /{userId} from route
+        public async Task<IActionResult> GetFamilyMember()
         {
+            var userId = GetUserIdFromToken();               // ← from token
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.GetFamilyMemberAsync(userId);
             return result != null ? Ok(result) : NotFound(new { message = "No family member found" });
         }
 
         [Authorize]
-        [HttpPut("deactivate/{userId:int}")]
-        public async Task<IActionResult> MemberDeactivation(int userId, [FromBody] DeactivateRequest request)
+        [HttpPut("deactivate")]                              // ← removed /{userId} from route
+        public async Task<IActionResult> MemberDeactivation([FromBody] DeactivateRequest request)
         {
+            var userId = GetUserIdFromToken();               // ← from token
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.MemberDeactivationAsync(userId, request.MemberReviseRemarks);
             return result != null ? Ok(result) : NotFound(new { error = "Member not found" });
         }
 
-        [HttpGet("details/{userId:int}")]
-        public async Task<IActionResult> GetMemberDetails(int userId)
+        [Authorize]
+        [HttpGet("details")]                                 // ← removed /{userId} from route
+        public async Task<IActionResult> GetMemberDetails()
         {
+            var userId = GetUserIdFromToken();               // ← from token
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.GetMemberDetailsAsync(userId);
             return result != null ? Ok(result) : NotFound(new { error = "Details not found" });
         }
 
-        [HttpGet("receipt/{userId:int}/{tranId?}")]
-        public async Task<IActionResult> GetReceiptDetails(int userId, string? tranId)
+        [Authorize]
+        [HttpGet("receipt/{tranId?}")]                       // ← removed /{userId} from route
+        public async Task<IActionResult> GetReceiptDetails(string? tranId)
         {
+            var userId = GetUserIdFromToken();               // ← from token
+            if (userId == 0) return Unauthorized();
+
             var result = await _repo.GetReceiptDetailsAsync(userId, tranId);
             return result.Count > 0 ? Ok(result) : NotFound(new { error = "Details not found" });
         }
@@ -83,18 +105,6 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        [HttpPost("accountInfo")]
-        public async Task<IActionResult> MemberAccountDetails([FromBody] AccountInfoRequest request)
-        {
-            var result = await _repo.MemberAccountDetailsAsync(request.UserId);
-            return result != null ? Ok(result) : NotFound(new { error = "Details not found" });
-        }
 
-        [HttpPut("account/update")]
-        public async Task<IActionResult> UpdateMemberAccountDetails([FromBody] UpdateMemberFullDetailsRequest request)
-        {
-            var result = await _repo.UpdateMemberFullDetailsAsync(request);
-            return result != null ? Ok(result) : NotFound(new { error = "Member not found or no changes made" });
-        }
     }
 }

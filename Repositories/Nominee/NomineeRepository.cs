@@ -17,10 +17,19 @@ namespace XeniaAkcaBackend.Repositories
 
         public async Task<object?> GetNomineeAsync(int userId)
         {
+         
             var memberId = await _context.Members
                 .Where(m => m.MemberUserId == userId)
                 .Select(m => m.MemberId)
                 .FirstOrDefaultAsync();
+
+            if (memberId == 0)
+            {
+                memberId = await _context.KaruthalMembers
+                    .Where(m => m.MemberUserId == userId)
+                    .Select(m => m.MemberId)
+                    .FirstOrDefaultAsync();
+            }
 
             if (memberId == 0) return null;
 
@@ -112,6 +121,14 @@ namespace XeniaAkcaBackend.Repositories
                 .Select(m => m.MemberId)
                 .FirstOrDefaultAsync();
 
+
+            if (memberId == 0)
+            {
+                memberId = await _context.KaruthalMembers
+                    .Where(m => m.MemberUserId == userId)
+                    .Select(m => m.MemberId)
+                    .FirstOrDefaultAsync();
+            }
             if (memberId == 0)
                 return new NomineeResponse { Status = "error", Message = "Member not found." };
 
