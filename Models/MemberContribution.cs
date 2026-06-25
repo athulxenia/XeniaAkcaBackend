@@ -20,7 +20,7 @@ namespace XeniaAkcaBackend.Models
         public decimal ContributionAmount { get; set; }
 
         [Column("paidDate")]
-        public string? PaidDate { get; set; }
+        public DateTime? PaidDate { get; set; }
 
         [Column("paidBy")]
         public int? PaidBy { get; set; }

@@ -47,7 +47,23 @@
         public string Status { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
     }
-
+    public class ContributionDetailDto
+    {
+        public int ContributionId { get; set; }
+        public string ContributionText { get; set; }
+        public string ContributionContent { get; set; }
+        public decimal ContributionAmount { get; set; }
+        public string ContributionImgUrl { get; set; }
+        public DateTime? PaidDate { get; set; } // Keep as DateTime
+        public string ContributionDetail { get; set; }
+        public string ContributionPaymentRef { get; set; }
+        public string PayMode { get; set; }
+        public string PaymentStatus { get; set; }
+        public string MemberName { get; set; }
+        public string MemberBusinessName { get; set; }
+        public string DistrictName { get; set; }
+        public string UnitName { get; set; }
+    }
     public class PaginatedResult<T>
     {
         public List<T> Records { get; set; } = new();

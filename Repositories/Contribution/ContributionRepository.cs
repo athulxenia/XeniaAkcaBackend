@@ -420,36 +420,41 @@ namespace XeniaAkcaBackend.Repositories
 
             return grouped;
         }
-
         public async Task<List<object>> ConPayedDetailsAsync(int userId)
         {
             var result = await (
-                from m in _context.Members
+                from u in _context.Users
+                join m in _context.KaruthalMembers on u.UserId equals m.MemberUserId
                 join mc in _context.MemberContributions on m.MemberId equals mc.MemberId
                 join c in _context.Contributions on mc.ContributionId equals c.ContributionId
-                join owner in _context.Members on c.ContributionMemberId equals owner.MemberId into ownerGroup
-                from owner in ownerGroup.DefaultIfEmpty()
+                join m2 in _context.KaruthalMembers on c.ContributionMemberId equals m2.MemberId
+                join d in _context.Districts on mc.PaidDistrict equals d.DistrictId into districtGroup
+                from d in districtGroup.DefaultIfEmpty()
+                join ut in _context.Units on mc.PaidUnit equals ut.UnitId into unitGroup
+                from ut in unitGroup.DefaultIfEmpty()
                 where m.MemberUserId == userId
                 where mc.PaymentStatus == "success"
                 orderby mc.PaidDate descending
-                select (object)new
+                select new
                 {
-                    c.ContributionId,
-                    c.ContributionText,
-                    c.ContributionContent,
-                    c.ContributionAmount,
-                    c.ContributionImgUrl,
-                    mc.PaidDate,
-                    ContributionDetail = c.ContributionText + " (" + (owner != null ? owner.MemberName : "") + ")",
+                    ContributionId = c.ContributionId,
+                    ContributionText = c.ContributionText,
+                    ContributionContent = c.ContributionContent,
+                    ContributionAmount = c.ContributionAmount,
+                    ContributionImgUrl = c.ContributionImgUrl,
+                    PaidDate = mc.PaidDate,
+                    ContributionDetail = c.ContributionText + "(" + m2.MemberName + ")",
                     ContributionPaymentRef = mc.PaymentTxnRefNo,
-                    mc.PayMode,
-                    mc.PaymentStatus,
-                    MemberName = owner != null ? owner.MemberName : null,
-                    MemberBusinessName = owner != null ? owner.MemberBusinessName : null
+                    PayMode = mc.PayMode,
+                    PaymentStatus = mc.PaymentStatus,
+                    MemberName = m2.MemberName,
+                    MemberBusinessName = m2.MemberBusinessName,
+                    DistrictName = d != null ? d.DistrictName : null,
+                    UnitName = ut != null ? ut.UnitName : null
                 }
             ).ToListAsync();
 
-            return result;
+            return result.Cast<object>().ToList();
         }
 
         public async Task<ContributionResponse> ApproveContributionAsync(int contributionId, bool activeStatus)
@@ -553,7 +558,7 @@ namespace XeniaAkcaBackend.Repositories
                         ContributionId = contrib.ContributionId,
                         MemberId = member.MemberId,
                         ContributionAmount = contrib.ContributionAmount,
-                        PaidDate = now,
+                        PaidDate = DateTime.Now,
                         PaidBy = memberUserId,
                         PaidDistrict = member.MemberDistrictId,
                         PaidUnit = member.MemberUnitId ?? 0,
@@ -660,7 +665,7 @@ namespace XeniaAkcaBackend.Repositories
                             ContributionId = contrib.ContributionId,
                             MemberId = member.MemberId,
                             ContributionAmount = contrib.ContributionAmount,
-                            PaidDate = now,
+                            PaidDate = DateTime.Now,
                             PaidBy = member.MemberUserId,
                             PaidDistrict = member.MemberDistrictId,
                             PaidUnit = member.MemberUnitId ?? 0,
