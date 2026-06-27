@@ -715,27 +715,6 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
-    "Method": "UpdateMemberStatus",
-    "RelativePath": "api/member/{userId}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "XeniaAkcaBackend.Dto.UpdateMemberStatusRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "UpdateMemberAccountDetails",
     "RelativePath": "api/member/account/update",
     "HttpMethod": "PUT",
@@ -779,16 +758,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "ChildMemberApprove",
-    "RelativePath": "api/member/childMembers/approve/{userId}",
+    "RelativePath": "api/member/childMembers/approve",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "request",
         "Type": "XeniaAkcaBackend.Dto.ChildApproveRequest",
@@ -800,39 +774,27 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetMemberOutstanding",
-    "RelativePath": "api/member/childMembers/outstanding/{userId}",
+    "RelativePath": "api/member/childMembers/outstanding",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetPendingApproveDetails",
-    "RelativePath": "api/member/childMembers/pendingApprove/{userId}",
+    "RelativePath": "api/member/childMembers/pendingApprove",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetAllDistrictWiseMember",
-    "RelativePath": "api/member/district/{status}/{districtid}",
+    "RelativePath": "api/member/district/{status}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -841,11 +803,6 @@
         "Name": "status",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "districtid",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
       },
       {
         "Name": "page",
@@ -981,17 +938,11 @@
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetMemberDetails",
-    "RelativePath": "api/member/search/memberDtls/{memberid}",
+    "RelativePath": "api/member/search/memberDtls",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "memberid",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -1042,8 +993,24 @@
   },
   {
     "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
+    "Method": "UpdateMemberStatus",
+    "RelativePath": "api/member/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdateMemberStatusRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.MemberController",
     "Method": "GetAllUnitWiseMember",
-    "RelativePath": "api/member/unit/{status}/{unitid}",
+    "RelativePath": "api/member/unit/{status}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1052,11 +1019,6 @@
         "Name": "status",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "unitid",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
       },
       {
         "Name": "page",
@@ -1130,6 +1092,366 @@
         "Name": "request",
         "Type": "XeniaAkcaBackend.Dto.UpdateNomineeRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "GetAllPayment",
+    "RelativePath": "api/Payment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "ContributionPayment",
+    "RelativePath": "api/Payment/contribution",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.ContributionPaymentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "InitiatePayment",
+    "RelativePath": "api/Payment/easebuzz/initiate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.InitiatePaymentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "CheckPaymentStatus",
+    "RelativePath": "api/Payment/easebuzz/status/{txnid}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "txnid",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "RecheckRecentTransactions",
+    "RelativePath": "api/Payment/recheckRecentTransactions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "RegistrationPayment",
+    "RelativePath": "api/Payment/registration",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.RegistrationPaymentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "UpdatePayment",
+    "RelativePath": "api/Payment/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UpdatePaymentSettingsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.PaymentController",
+    "Method": "MemberWalletBalance",
+    "RelativePath": "api/Payment/walletBalance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.ReportController",
+    "Method": "DistrictContribution",
+    "RelativePath": "api/Report/contribution/district/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DistrictId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "FromDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Event",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.ReportController",
+    "Method": "StateContribution",
+    "RelativePath": "api/Report/contribution/state/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DistrictId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "FromDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Event",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.ReportController",
+    "Method": "UnitContribution",
+    "RelativePath": "api/Report/contribution/unit/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DistrictId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "FromDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Event",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.ReportController",
+    "Method": "GetEvent",
+    "RelativePath": "api/Report/event",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.ReportController",
+    "Method": "Payment",
+    "RelativePath": "api/Report/payment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DistrictId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "FromDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ToDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "PayType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1248,6 +1570,146 @@
     "ContainingType": "XeniaAkcaBackend.Controllers.StatusController",
     "Method": "CompanyWhatsappMob",
     "RelativePath": "api/status/watsappMob",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "GetUnitMembers",
+    "RelativePath": "api/Unit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "UpdateUnit",
+    "RelativePath": "api/Unit/{unitId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unitId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UnitRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "DeleteUnit",
+    "RelativePath": "api/Unit/{unitId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unitId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "CreateUnit",
+    "RelativePath": "api/Unit/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "XeniaAkcaBackend.Dto.UnitRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "GetDistrictUnits",
+    "RelativePath": "api/Unit/district",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "GetMyUnit",
+    "RelativePath": "api/Unit/myunit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "GetAllStateUnits",
+    "RelativePath": "api/Unit/state/{districtId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "XeniaAkcaBackend.Controllers.UnitController",
+    "Method": "GetAllUnitDetails",
+    "RelativePath": "api/Unit/unitList",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

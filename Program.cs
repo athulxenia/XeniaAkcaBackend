@@ -17,6 +17,7 @@ using XeniaAkcaBackend.Repositories.Member;
 using XeniaCatalogueApi.Service.Common;
 using XeniaAkcaBackend.Repositories.Auth;
 using XeniaAkcaBackend.Repositories.Advertisements;
+using XeniaAkcaBackend.Repositories.Report;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,13 +34,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IContributionRepository, ContributionRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
-//builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IInformationRepository, InformationRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<INomineeRepository, NomineeRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IUnitRepository, UnitRepository>();
 builder.Services.AddScoped<JwtHelperService>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();

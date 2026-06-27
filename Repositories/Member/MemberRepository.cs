@@ -15,6 +15,17 @@ namespace XeniaAkcaBackend.Repositories
             _context = context;
         }
 
+      
+
+        public async Task<int> GetMemberIdByUserIdAsync(int userId)
+        {
+            var memberId = await _context.KaruthalMembers
+                .Where(m => m.MemberUserId == userId)
+                .Select(m => m.MemberId)
+                .FirstOrDefaultAsync();
+
+            return memberId;
+        }
         public async Task<object?> GetMemberAsync(string membershipNumberPrefix, string membershipNumber)
         {
             var query = from m in _context.KaruthalMembers

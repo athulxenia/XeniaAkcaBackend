@@ -45,5 +45,6 @@ namespace XeniaAkcaBackend.Models
 
         [Column("contributionPaymentRef")]       // ← this was missing
         public string? ContributionPaymentRef { get; set; }
+        public string ContributionOrderId { get; internal set; }
     }
 }
