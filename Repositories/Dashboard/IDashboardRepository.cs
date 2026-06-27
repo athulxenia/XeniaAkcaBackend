@@ -1,10 +1,7 @@
-﻿using XeniaAkcaBackend.Models;
-
-
-namespace XeniaAkcaBackend.Repositories.Dashboard
+﻿namespace XeniaAkcaBackend.Repositories
 {
     public interface IDashboardRepository
     {
-        Task<object> GetDashboardAsync(string type, int? districtId, int? unitId, string? dateId, DateTime? fromDate, DateTime? toDate);
+        Task<object> GetDashboardAsync(int userId, int? districtId, int? unitId, string? dateId, DateTime? fromDate, DateTime? toDate);
     }
 }

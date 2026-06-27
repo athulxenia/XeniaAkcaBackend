@@ -257,12 +257,27 @@ namespace XeniaAkcaBackend.Controllers
         public async Task<IActionResult> MemberAccountDetails()
         {
             var userId = GetUserIdFromToken();
-            if (userId == 0) return Unauthorized();
+            if (userId == 0)
+                return Unauthorized(new { error = "Invalid token" });
 
             var result = await _repo.MemberAccountDetailsAsync(userId);
 
             if (result != null && result.Count > 0)
+            {
+                // Check if it's an error response
+                var firstItem = result.FirstOrDefault();
+                if (firstItem != null)
+                {
+                    var errorProp = firstItem.GetType().GetProperty("error");
+                    if (errorProp != null)
+                    {
+                        var errorValue = errorProp.GetValue(firstItem)?.ToString();
+                        if (!string.IsNullOrEmpty(errorValue))
+                            return NotFound(result);
+                    }
+                }
                 return Ok(result);
+            }
 
             return NotFound(new { error = "Details not found" });
         }

@@ -702,55 +702,66 @@ namespace XeniaAkcaBackend.Repositories
 
         public async Task<List<object>?> MemberAccountDetailsAsync(int userId)
         {
-            var result = await (
-                from m in _context.KaruthalMembers
-                join u in _context.Users on m.MemberUserId equals u.UserId
-                join d in _context.Districts on m.MemberDistrictId equals d.DistrictId
-                join unit in _context.Units on m.MemberUnitId equals unit.UnitId
+            try
+            {
+                var query = from m in _context.KaruthalMembers
+                            join u in _context.Users on m.MemberUserId equals u.UserId
+                            join d in _context.Districts on m.MemberDistrictId equals d.DistrictId into districtGroup
+                            from d in districtGroup.DefaultIfEmpty()
+                            join unit in _context.Units on m.MemberUnitId equals unit.UnitId into unitGroup
+                            from unit in unitGroup.DefaultIfEmpty()
+                            join g in _context.MemberGroups on m.MemberGroupId equals g.GroupId into memberGroupJoin
+                            from g in memberGroupJoin.DefaultIfEmpty()
+                            join n in _context.Nominees on m.MemberId equals n.NomineeMemberId into nomineeGroup
+                            from n in nomineeGroup.DefaultIfEmpty()
+                            where m.MemberUserId == userId
+                            select new
+                            {
+                                m.MemberId,
+                                m.MemberUserId,
+                                DistrictName = d != null ? d.DistrictName : "",
+                                UnitName = unit != null ? unit.UnitName : "",
+                                UserType = g != null ? g.GroupLevel : "",
+                                MemberName = m.MemberName ?? "",
+                                MemberMobilenumber = m.MemberMobilenumber ?? "",
+                                MemberEmail = m.MemberEmail ?? "",
+                                MemberStatus = m.MemberStatus ?? 0,
+                                MemberAddress = m.MemberAddress ?? "",
+                                MemberBusinessName = m.MemberBusinessName ?? "",
+                                MemberBusinessAddress = m.MemberBusinessAddress ?? "",
+                                MemberBusinessDetails = m.MemberBusinessDetails ?? "",
+                                MemberBusinessFSSAIno = m.MemberBusinessFSSAIno ?? "",
+                                MemberBusinessCmpyType = m.MemberBusinessCmpyType ?? "",
+                                MemberAge = m.MemberAge ?? 0,
+                                GroupLevel = g != null ? g.GroupLevel : "",
+                                MembershipNumber = (m.MembershipNumberPrefix ?? "") + (m.MembershipNumber ?? ""),
+                                NomineeName = n != null ? n.NomineeName : "",
+                                NomineeRelation = n != null ? n.NomineeRelation : "",
+                                NomineeMobilenumber = n != null ? n.NomineeMobilenumber : "",
+                                NomineeEmail = n != null ? n.NomineeEmail : "",
+                                MemberKaruthalWallet = m.MemberKaruthalWallet ?? 0,
+                                MemberDistrictWallet = m.MemberDistrictWallet ?? 0,
+                                MemberUnitWallet = m.MemberUnitWallet ?? 0,
+                                MemberStateWallet = m.MemberStateWallet ?? 0
+                            };
 
-           
-                join g in _context.MemberGroups on m.MemberGroupId equals g.GroupId into memberGroupJoin
-                from g in memberGroupJoin.DefaultIfEmpty()
+                var result = await query.FirstOrDefaultAsync();
 
-                join n in _context.Nominees on m.MemberId equals n.NomineeMemberId into nomineeGroup
-                from n in nomineeGroup.DefaultIfEmpty()
-
-                where m.MemberUserId == userId
-                select (object)new 
+                if (result != null)
                 {
-
-                    m.MemberId,
-                    d.DistrictName,
-                    unit.UnitName,
-                    UserType = g != null ? g.GroupLevel : null,
-                    m.MemberName,
-                    m.MemberMobilenumber,
-
-                  
-                    m.MemberEmail,
-
-                    m.MemberStatus,
-                    m.MemberAddress,
-
-             
-                    m.MemberBusinessName,        
-                    m.MemberBusinessAddress,     
-                    m.MemberBusinessDetails,    
-                    m.MemberBusinessFSSAIno,    
-                    m.MemberBusinessCmpyType,    
-
-                    m.MemberAge,
-                    GroupLevel = g != null ? g.GroupLevel : null,
-                    MembershipNumber = m.MembershipNumberPrefix + m.MembershipNumber,
-
-                    NomineeName = n != null ? n.NomineeName : null,
-                    NomineeRelation = n != null ? n.NomineeRelation : null,
-                    NomineeMobilenumber = n != null ? n.NomineeMobilenumber : null,
-                    NomineeEmail = n != null ? n.NomineeEmail : null
+                    return new List<object> { result };
                 }
-            ).ToListAsync();
 
-            return result;
+                return new List<object> {
+            new { error = "Member not found" }
+        };
+            }
+            catch (Exception ex)
+            {
+                return new List<object> {
+            new { error = ex.Message }
+        };
+            }
         }
 
 

@@ -29,5 +29,7 @@ namespace XeniaAkcaBackend.Models
         public DbSet<Server> Servers { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
+        public DbSet<Advertisement> Advertisements { get; set; }
+
     }
 }

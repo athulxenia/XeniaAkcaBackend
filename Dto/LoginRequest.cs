@@ -1,6 +1,6 @@
 ﻿namespace XeniaAkcaBackend.Models
 {
-    // existing
+   
     public class LoginRequest
     {
         public string Username { get; set; } = string.Empty;
@@ -15,7 +15,7 @@
         public string? Message { get; set; }
     }
 
-    // ── new ──────────────────────────────────────────────────────
+
     public class RegisterRequest
     {
         public int RegType { get; set; }

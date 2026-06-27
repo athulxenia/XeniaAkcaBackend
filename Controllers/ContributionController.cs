@@ -17,7 +17,7 @@ namespace XeniaAkcaBackend.Controllers
             _repo = repo;
         }
 
-        // ─── Helper — get userId from JWT token ───────────────────
+    
         private int GetUserIdFromToken()
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
@@ -108,9 +108,9 @@ namespace XeniaAkcaBackend.Controllers
             return Ok(result);
         }
 
-        // ─── userId from token ────────────────────────────────────
+    
         [Authorize]
-        [HttpGet("pending/memberDtls")]              // ← removed /{userId} from route
+        [HttpGet("pending/memberDtls")]           
         public async Task<IActionResult> ConPendingDetails()
         {
             var userId = GetUserIdFromToken();
@@ -121,7 +121,7 @@ namespace XeniaAkcaBackend.Controllers
         }
 
         [Authorize]
-        [HttpGet("payed/memberDtls")]                // ← removed /{userId} from route
+        [HttpGet("payed/memberDtls")]          
         public async Task<IActionResult> ConPayedDetails()
         {
             var userId = GetUserIdFromToken();
@@ -148,9 +148,8 @@ namespace XeniaAkcaBackend.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
-        // ─── userId from token ────────────────────────────────────
         [Authorize]
-        [HttpPost("notification")]                   // ← removed /{memberId} from route
+        [HttpPost("notification")]               
         public async Task<IActionResult> ContributionAmountNotification()
         {
             var userId = GetUserIdFromToken();

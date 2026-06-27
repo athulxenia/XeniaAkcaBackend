@@ -15,10 +15,8 @@ using XeniaAkcaBackend.Repositories.Member;
 
 //using XeniaCatalogueApi.Repository;
 using XeniaCatalogueApi.Service.Common;
-using XeniaKhraBackend.Repositories.Payment;
-using XeniaAkcaBackend.Repositories;
 using XeniaAkcaBackend.Repositories.Auth;
-using XeniaAkcaBackend.Repositories.Dashboard;
+using XeniaAkcaBackend.Repositories.Advertisements;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +32,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IContributionRepository, ContributionRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
 //builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
